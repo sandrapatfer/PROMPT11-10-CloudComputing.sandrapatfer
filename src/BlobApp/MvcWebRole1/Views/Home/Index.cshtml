@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = "My Cloudy Album";
+}
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <input type="file" name="fileBase" />
+    <input type="submit" value="Submit" />
+}

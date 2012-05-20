@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "InterRoleApp", "InterRoleApp\InterRoleApp.ccproj", "{C59F0936-E25C-4B95-AA43-A38DBAB9AE12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcWebRole1", "MvcWebRole1\MvcWebRole1.csproj", "{1E7A9A5F-DE43-406D-B6A7-502B8396F468}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRole1", "WorkerRole1\WorkerRole1.csproj", "{C44E8D84-A7DE-432E-BD7B-B8B1C75EA162}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C59F0936-E25C-4B95-AA43-A38DBAB9AE12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C59F0936-E25C-4B95-AA43-A38DBAB9AE12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C59F0936-E25C-4B95-AA43-A38DBAB9AE12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C59F0936-E25C-4B95-AA43-A38DBAB9AE12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E7A9A5F-DE43-406D-B6A7-502B8396F468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E7A9A5F-DE43-406D-B6A7-502B8396F468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E7A9A5F-DE43-406D-B6A7-502B8396F468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E7A9A5F-DE43-406D-B6A7-502B8396F468}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C44E8D84-A7DE-432E-BD7B-B8B1C75EA162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C44E8D84-A7DE-432E-BD7B-B8B1C75EA162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C44E8D84-A7DE-432E-BD7B-B8B1C75EA162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C44E8D84-A7DE-432E-BD7B-B8B1C75EA162}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

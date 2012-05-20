@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="WindowsAzureProject1" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="1" osVersion="*">
+  <Role name="MvcWebRole1">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=storagespf;AccountKey=0FsVToOeZ1tDGhxuESR8oZr+BUNtYxk7Uvffmd9U2g24hsJ9e5qj95WyT/OmIb7AXdfjrlSvPv7PUDYXgiVdHA==" />
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>

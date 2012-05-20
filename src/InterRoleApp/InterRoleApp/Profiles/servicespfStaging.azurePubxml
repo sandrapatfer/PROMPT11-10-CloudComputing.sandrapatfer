@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <AzureCredentials>Azdem179Q25302E</AzureCredentials>
+    <AzureHostedServiceName>servicespf</AzureHostedServiceName>
+    <AzureHostedServiceLabel>servicespf</AzureHostedServiceLabel>
+    <AzureSlot>Staging</AzureSlot>
+    <AzureEnableIntelliTrace>False</AzureEnableIntelliTrace>
+    <AzureEnableProfiling>False</AzureEnableProfiling>
+    <AzureEnableWebDeploy>False</AzureEnableWebDeploy>
+    <AzureStorageAccountName>storagespf</AzureStorageAccountName>
+    <AzureStorageAccountLabel>storagespf</AzureStorageAccountLabel>
+    <AzureDeploymentLabel>InterRoleApp</AzureDeploymentLabel>
+    <AzureSolutionConfiguration>Debug</AzureSolutionConfiguration>
+    <AzureServiceConfiguration>Cloud</AzureServiceConfiguration>
+    <AzureAppendTimestampToDeploymentLabel>True</AzureAppendTimestampToDeploymentLabel>
+    <AzureAllowUpgrade>True</AzureAllowUpgrade>
+    <AzureEnableRemoteDesktop>False</AzureEnableRemoteDesktop>
+  </PropertyGroup>
+</Project>
