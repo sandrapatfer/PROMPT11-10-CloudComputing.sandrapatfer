@@ -20,7 +20,6 @@ namespace BusinessLayer.Managers
             _noticationMgr = notify;
         }
 
-
         #region INoteManager Members
 
         public Note CreateNote(int userId, int listId, Note noteData)
@@ -40,6 +39,11 @@ namespace BusinessLayer.Managers
         public IEnumerable<Note> GetAllNotes(int userId, int listId)
         {
             return _repository.GetAll(userId, listId);
+        }
+
+        public IEnumerable<Note> GetAllNotes(int userId)
+        {
+            return _repository.GetAll(userId);
         }
 
         public Note GetNote(int list, int id)

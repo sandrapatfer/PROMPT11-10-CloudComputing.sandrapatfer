@@ -1,0 +1,56 @@
+package prompt.cloudnotes.stores;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
+
+import android.net.Uri;
+
+import prompt.cloudnotes.model.TaskList;
+import prompt.cloudnotes.providers.TaskListProviderContract;
+
+public class TaskListStore implements Iterable<TaskList> {
+
+	private AtomicReference<ConcurrentHashMap<Long, TaskList>> _store;
+
+	public TaskListStore() {
+		_store = new AtomicReference<ConcurrentHashMap<Long, TaskList>>();
+		_store.set(new ConcurrentHashMap<Long, TaskList>());
+	}
+	
+	public Iterator<TaskList> iterator() {
+		return _store.get().values().iterator();
+	}
+
+	public TaskList get(long id) {
+		return _store.get().get(id);
+	}
+	
+	public void add(List<TaskList> list) {		
+		// just replace the whole list
+		ConcurrentHashMap<Long, TaskList> newStore = new ConcurrentHashMap<Long, TaskList>();
+		for (TaskList l : list) {
+			newStore.put((long) l.getId(), l);
+		}
+		_store.set(newStore);
+	}	
+
+	public void fillTestValue() {
+	
+		List<TaskList> list = new ArrayList<TaskList>();
+		TaskList tl = new TaskList();
+		tl.setId(1);
+		tl.setName("first list");
+		list.add(tl);
+		tl = new TaskList();
+		tl.setId(2);
+		tl.setName("second list");
+		list.add(tl);
+		add(list);
+		
+		getContentResolver().notifyChange(Uri.parse(TaskListProviderContract.URI), null);
+	}
+
+}

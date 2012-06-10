@@ -1,0 +1,3 @@
+INDEX VERSION 1.126+C:\SPF\prompt11\uc10\PROMPT11-10-CloudComputing.sandrapatfer\src\FinalWork\AndroidCloudNotes\.metadata\.plugins\org.eclipse.jdt.core
+2114262229.index
+2239131249.index

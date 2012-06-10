@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, AndroidCloudNotesActivity!</string>
+    <string name="app_name">Prompt Cloud Notes for Android</string>
+    <string name="tasklistitem_label">"List: "</string>
+    <string name="tasklists_title">Lists of Notes</string>
+    <string name="tasklist_title">List of Notes</string>
+    <string name="tasklist_createnew_label">Add List</string>
+    <string name="name_label">Name:</string>
+    <string name="description_label">Description:</string>
+
+</resources>

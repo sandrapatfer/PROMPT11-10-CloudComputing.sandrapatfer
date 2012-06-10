@@ -1,0 +1,23 @@
+package prompt.cloudnotes.stores;
+
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
+
+import prompt.cloudnotes.model.TaskList;
+
+public class TaskListStore implements Iterable<TaskList> {
+
+	private AtomicReference<ConcurrentHashMap<Long, TaskList>> _store;
+
+	public TaskListStore() {
+		_store = new AtomicReference<ConcurrentHashMap<Long, TaskList>>();
+		_store.set(new ConcurrentHashMap<Long, TaskList>());
+	}
+	
+	public Iterator<TaskList> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

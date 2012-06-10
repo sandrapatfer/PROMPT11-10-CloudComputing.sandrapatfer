@@ -22,15 +22,15 @@ namespace Server.WebApiControllers
             _manager = ObjectFactory.GetInstance<INoteManager>();
         }
 
-        // GET /api/lists/{lid}/notes
-        public IEnumerable<WebApiModel.Note> Get(int lid)
+        // GET /api/notes
+        public IEnumerable<WebApiModel.Note> Get()
         {
             // TODO get user info
             int userId = 1;
-            return _manager.GetAllNotes(userId, lid).Select(n => new WebApiModel.Note() { title = n.Name, id = n.Id });
+            return _manager.GetAllNotes(userId).Select(n => new WebApiModel.Note() { title = n.Name, id = n.Id });
         }
 
-        // GET /api/lists/{lid}/notes/{nid}
+        // GET /api/notes/{nid}
         public WebApiModel.Note Get(int lid, int nid)
         {
             var note = _manager.GetNote(lid, nid);

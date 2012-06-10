@@ -1,0 +1,7 @@
+package prompt.cloudnotes.stores;
+
+import TStore;
+
+public class NoteStore extends TStore<Note> {
+
+}

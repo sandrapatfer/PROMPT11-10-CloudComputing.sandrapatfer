@@ -1,0 +1,5 @@
+package prompt.cloudnotes.model;
+
+public class Note {
+
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="android.widget.ListView"/>
+<fullyQualifiedTypeName name="android.widget.AdapterView.OnItemClickListener"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.adapters.TaskListAdapter"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.activities.AndroidCloudNotesActivity"/>
+<fullyQualifiedTypeName name="android.R"/>
+<fullyQualifiedTypeName name="android.R.layout"/>
+<fullyQualifiedTypeName name="android.content.UriMatcher"/>
+<fullyQualifiedTypeName name="android.database.MatrixCursor"/>
+<fullyQualifiedTypeName name="java.util.concurrent.atomic.AtomicReference"/>
+<fullyQualifiedTypeName name="java.util.concurrent.ConcurrentHashMap"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.stores.TaskListStore"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.AbstractList"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.model.TaskList"/>
+<fullyQualifiedTypeName name="android.database.MatrixCursor.RowBuilder"/>
+<fullyQualifiedTypeName name="android.content.ContentUris"/>
+<fullyQualifiedTypeName name="android.content.Intent"/>
+<fullyQualifiedTypeName name="android.net.Uri"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.R"/>
+<fullyQualifiedTypeName name="android.widget.TextView"/>
+<fullyQualifiedTypeName name="android.database.Cursor"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.providers.TaskListProviderContract"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.R.id"/>
+<fullyQualifiedTypeName name="android.widget.Button"/>
+<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.stores.NoteStore"/>
+<fullyQualifiedTypeName name="java.util.regex.Pattern"/>
+<fullyQualifiedTypeName name="java.util.regex.Matcher"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.providers.NoteProviderContract"/>
+<fullyQualifiedTypeName name="android.app.IntentService"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.CloudNotesApp"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.services.SaveChangesService"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="android.os.Bundle"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.model.Note"/>
+<fullyQualifiedTypeName name="java.io.Serializable"/>
+</qualifiedTypeNameHistroy>

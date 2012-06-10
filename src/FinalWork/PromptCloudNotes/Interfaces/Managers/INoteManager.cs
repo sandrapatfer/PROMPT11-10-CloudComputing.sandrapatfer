@@ -10,6 +10,7 @@ namespace PromptCloudNotes.Interfaces
     {
         Note CreateNote(int userId, int listId, Note noteData);
 
+        IEnumerable<Note> GetAllNotes(int userId);
         IEnumerable<Note> GetAllNotes(int userId, int listId);
 
         Note GetNote(int listId, int noteId);

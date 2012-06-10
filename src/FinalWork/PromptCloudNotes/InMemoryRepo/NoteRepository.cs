@@ -27,6 +27,13 @@ namespace InMemoryRepo
             return list.Tasks.Where(t => (t.Creator.Id == userId || t.Users.Any(u => u.Id == userId)) && t is Note).Cast<Note>();
         }
 
+        public IEnumerable<Note> GetAll(int userId)
+        {
+            var lists = _listRepository.GetAll(userId);
+            return lists.Select(l => l.Tasks).Aggregate((l1, l2) => l1.Concat(l2).ToList()).
+                Where(t => (t.Creator.Id == userId || t.Users.Any(u => u.Id == userId)) && t is Note).Cast<Note>();
+        }
+
         public Note Create(int userId, int listId, Note noteData)
         {
             var parentList = _listRepository.Get(listId);

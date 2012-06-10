@@ -1,0 +1,7 @@
+package prompt.cloudnotes.services;
+
+import IntentService;
+
+public class GetInfoService extends IntentService {
+
+}

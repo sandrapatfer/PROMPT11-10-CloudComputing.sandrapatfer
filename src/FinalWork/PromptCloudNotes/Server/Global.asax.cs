@@ -25,10 +25,6 @@ namespace Server
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            GlobalConfiguration.Configuration.Routes.MapHttpRoute("Api Notes Route",
-                "api/lists/{lid}/{controller}/{nid}",
-                new { nid = RouteParameter.Optional });
-
             GlobalConfiguration.Configuration.Routes.MapHttpRoute("Api Default Route",
                 "api/{controller}/{id}",
                 new { id = RouteParameter.Optional });

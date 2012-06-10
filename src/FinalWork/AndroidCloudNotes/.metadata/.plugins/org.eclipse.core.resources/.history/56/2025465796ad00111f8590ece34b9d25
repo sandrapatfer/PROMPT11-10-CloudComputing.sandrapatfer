@@ -1,0 +1,63 @@
+package prompt.cloudnotes.providers;
+
+import prompt.cloudnotes.CloudNotesApp;
+import android.content.ContentProvider;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
+import android.util.Log;
+
+public class TaskListProvider extends ContentProvider {
+	
+	@Override
+	public boolean onCreate() {
+		Log.d(CloudNotesApp.TAG, "TaskListProvider.onCreate");
+		return false;
+	}
+
+
+	@Override
+	public int delete(Uri arg0, String arg1, String[] arg2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getType(Uri uri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Uri insert(Uri uri, ContentValues values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Cursor query(Uri uri, String[] projection, String selection,
+			String[] selectionArgs, String sortOrder) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int update(Uri uri, ContentValues values, String selection,
+			String[] selectionArgs) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+}
+
+public class TaskListProviderContract {
+	
+	public static final String AUTHORITY = "androidcloudnotes.lists";
+	
+	public static final String URI = "content://androidcloudnotes.lists";	
+	
+	public static final String COL_ID = "_ID";
+	public static final String COL_USER = "User_Name";
+	public static final String COL_TEXT = "Text";
+
+}
+

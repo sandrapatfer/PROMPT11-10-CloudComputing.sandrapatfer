@@ -1,0 +1,11 @@
+package prompt.cloudnotes.model;
+
+public class TaskList {
+	public int Id;
+	public String Name;
+	public String Description;
+	
+	public int getId() {
+		return Id;
+	}
+}

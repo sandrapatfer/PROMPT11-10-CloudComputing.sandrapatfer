@@ -1,0 +1,5 @@
+package prompt.cloudnotes.stores;
+
+public class TaskListStore implements Iterable<TaskList> {
+
+}

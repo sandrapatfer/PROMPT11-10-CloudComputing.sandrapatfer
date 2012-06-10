@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+logcat.view.colsize.Application=143
+logcat.view.colsize.Level=29
+logcat.view.colsize.PID=50
+logcat.view.colsize.Tag=165
+logcat.view.colsize.Text=543
+logcat.view.colsize.Time=164
+logcat.view.filters.list=name\: 'CLOUD_NOTES', tag\: 'CLOUD_NOTES', text\: '', pid\: '', app\: '', level\: 'verbose', 

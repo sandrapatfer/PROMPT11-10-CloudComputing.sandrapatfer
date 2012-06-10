@@ -1,0 +1,8 @@
+1338739701894	Move type 'TaskListProviderContract' to new file
+1338753213168	Extracts string 'null' into R.string.tasklist_title
+1338754166803	Rename resource 'tasklist_view.xml'
+1338754191197	Rename resource 'tasklist_view_item.xml'
+1338754438557	Extracts string 'null' into R.string.name_label
+1338754567640	Extracts string 'null' into R.string.description_label
+1338755459039	Rename resource 'tasklist_item_view.xml'
+1338761814283	Rename compilation unit 'AndroidCloudNotesActivity.java'
