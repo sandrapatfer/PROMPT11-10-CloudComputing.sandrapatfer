@@ -10424,3 +10424,235 @@ Command-line arguments:  -os win32 -ws win32 -arch x86
 
 !ENTRY org.eclipse.ui 4 4 2012-06-10 01:06:59.555
 !MESSAGE Invalid preference page path: XML Syntax
+!SESSION 2012-06-12 01:11:50.352 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_04
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-06-12 01:12:27.891
+!MESSAGE projectOpenedWithWorkspace: failed to find manifest package for project AndroidCloudNotes
+
+!ENTRY com.android.ide.eclipse.ddms 4 0 2012-06-12 01:12:29.640
+!MESSAGE DDMS files not found: C:\Program Files\Android\android-sdk\platform-tools\adb.exe C:\Program Files\Android\android-sdk\tools\hprof-conv.exe C:\Program Files\Android\android-sdk\tools\traceview.bat 
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:12:59.255
+!MESSAGE Changed legacy editor ID com.android.ide.eclipse.editors.resources.ResourcesEditor for /AndroidCloudNotes/res/values/strings.xml
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:12:59.720
+!MESSAGE Closed legacy editor ID com.android.ide.eclipse.editors.resources.ResourcesEditor for /AndroidCloudNotes/res/values/strings.xml: Success
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:00.108
+!MESSAGE Changed legacy editor ID com.android.ide.eclipse.editors.layout.LayoutEditor for /AndroidCloudNotes/res/layout/tasklist_list_view.xml
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:00.385
+!MESSAGE Closed legacy editor ID com.android.ide.eclipse.editors.layout.LayoutEditor for /AndroidCloudNotes/res/layout/tasklist_list_view.xml: Success
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:00.521
+!MESSAGE Changed legacy editor ID com.android.ide.eclipse.editors.layout.LayoutEditor for /AndroidCloudNotes/res/layout/tasklist_list_view_item.xml
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:00.648
+!MESSAGE Closed legacy editor ID com.android.ide.eclipse.editors.layout.LayoutEditor for /AndroidCloudNotes/res/layout/tasklist_list_view_item.xml: Success
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:00.806
+!MESSAGE Changed legacy editor ID com.android.ide.eclipse.editors.layout.LayoutEditor for /AndroidCloudNotes/res/layout/tasklist_view.xml
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:00.930
+!MESSAGE Closed legacy editor ID com.android.ide.eclipse.editors.layout.LayoutEditor for /AndroidCloudNotes/res/layout/tasklist_view.xml: Success
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:01.150
+!MESSAGE Changed legacy editor ID com.android.ide.eclipse.editors.drawable.DrawableEditor for /AndroidCloudNotes/res/drawable/listitem_border.xml
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:01.220
+!MESSAGE Closed legacy editor ID com.android.ide.eclipse.editors.drawable.DrawableEditor for /AndroidCloudNotes/res/drawable/listitem_border.xml: Success
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:01.404
+!MESSAGE Changed legacy editor ID com.android.ide.eclipse.editors.layout.LayoutEditor for /AndroidCloudNotes/res/layout/notes_list_view.xml
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:01.552
+!MESSAGE Closed legacy editor ID com.android.ide.eclipse.editors.layout.LayoutEditor for /AndroidCloudNotes/res/layout/notes_list_view.xml: Success
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:01.975
+!MESSAGE Changed legacy editor ID com.android.ide.eclipse.editors.layout.LayoutEditor for /AndroidCloudNotes/res/layout/notes_list_view_item.xml
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:02.082
+!MESSAGE Closed legacy editor ID com.android.ide.eclipse.editors.layout.LayoutEditor for /AndroidCloudNotes/res/layout/notes_list_view_item.xml: Success
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-06-12 01:13:02.211
+!MESSAGE Could not read Manifest data
+!STACK 0
+com.android.io.StreamException: org.eclipse.core.internal.resources.ResourceException: Resource is out of sync with the file system: '/AndroidCloudNotes/AndroidManifest.xml'.
+	at com.android.ide.eclipse.adt.io.IFileWrapper.getContents(IFileWrapper.java:51)
+	at com.android.ide.eclipse.adt.internal.editors.manifest.ManifestInfo.sync(ManifestInfo.java:189)
+	at com.android.ide.eclipse.adt.internal.editors.manifest.ManifestInfo.getDefaultTheme(ManifestInfo.java:309)
+	at com.android.ide.eclipse.adt.internal.editors.layout.configuration.ConfigurationComposite.updateThemes(ConfigurationComposite.java:1498)
+	at com.android.ide.eclipse.adt.internal.editors.layout.configuration.ConfigurationComposite.onXmlModelLoaded(ConfigurationComposite.java:742)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.GraphicalEditorPart.onTargetChange(GraphicalEditorPart.java:1014)
+	at com.android.ide.eclipse.adt.internal.editors.layout.LayoutEditorDelegate.onDescriptorsChanged(LayoutEditorDelegate.java:652)
+	at com.android.ide.eclipse.adt.internal.editors.layout.LayoutEditorDelegate.delegateInitUiRootNode(LayoutEditorDelegate.java:574)
+	at com.android.ide.eclipse.adt.internal.editors.layout.LayoutEditorDelegate.delegateXmlModelChanged(LayoutEditorDelegate.java:347)
+	at com.android.ide.eclipse.adt.internal.editors.common.CommonXmlEditor.xmlModelChanged(CommonXmlEditor.java:327)
+	at com.android.ide.eclipse.adt.internal.editors.AndroidXmlEditor$XmlModelStateListener.modelChanged(AndroidXmlEditor.java:1569)
+	at com.android.ide.eclipse.adt.internal.editors.AndroidXmlEditor.createTextEditor(AndroidXmlEditor.java:781)
+	at com.android.ide.eclipse.adt.internal.editors.AndroidXmlEditor.createAndroidPages(AndroidXmlEditor.java:294)
+	at com.android.ide.eclipse.adt.internal.editors.AndroidXmlEditor.addPages(AndroidXmlEditor.java:284)
+	at com.android.ide.eclipse.adt.internal.editors.common.CommonXmlEditor.addPages(CommonXmlEditor.java:283)
+	at org.eclipse.ui.forms.editor.FormEditor.createPages(FormEditor.java:138)
+	at org.eclipse.ui.part.MultiPageEditorPart.createPartControl(MultiPageEditorPart.java:348)
+	at org.eclipse.ui.internal.EditorReference.createPartHelper(EditorReference.java:670)
+	at org.eclipse.ui.internal.EditorReference.createPart(EditorReference.java:465)
+	at org.eclipse.ui.internal.WorkbenchPartReference.getPart(WorkbenchPartReference.java:595)
+	at org.eclipse.ui.internal.EditorReference.getEditor(EditorReference.java:289)
+	at org.eclipse.ui.internal.WorkbenchPage.busyOpenEditorBatched(WorkbenchPage.java:2945)
+	at org.eclipse.ui.internal.WorkbenchPage.busyOpenEditor(WorkbenchPage.java:2850)
+	at org.eclipse.ui.internal.WorkbenchPage.access$11(WorkbenchPage.java:2842)
+	at org.eclipse.ui.internal.WorkbenchPage$10.run(WorkbenchPage.java:2793)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:70)
+	at org.eclipse.ui.internal.WorkbenchPage.openEditor(WorkbenchPage.java:2789)
+	at org.eclipse.ui.internal.WorkbenchPage.openEditor(WorkbenchPage.java:2773)
+	at org.eclipse.ui.internal.WorkbenchPage.openEditor(WorkbenchPage.java:2756)
+	at com.android.ide.eclipse.adt.internal.sdk.Sdk$7.fixEditor(Sdk.java:1427)
+	at com.android.ide.eclipse.adt.internal.sdk.Sdk$7.run(Sdk.java:1392)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:135)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4140)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3757)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2701)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2665)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2499)
+	at org.eclipse.ui.internal.Workbench$7.run(Workbench.java:679)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:668)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:123)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:344)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:622)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:577)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1410)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1386)
+Caused by: org.eclipse.core.internal.resources.ResourceException: Resource is out of sync with the file system: '/AndroidCloudNotes/AndroidManifest.xml'.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:793)
+	at org.eclipse.core.internal.resources.File.getContents(File.java:289)
+	at org.eclipse.core.internal.resources.File.getContents(File.java:278)
+	at com.android.ide.eclipse.adt.io.IFileWrapper.getContents(IFileWrapper.java:49)
+	... 55 more
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-06-12 01:13:02.726
+!MESSAGE Failed to call IFileListener.fileChanged
+!STACK 0
+java.lang.NullPointerException
+	at com.android.ide.eclipse.adt.internal.editors.manifest.ManifestEditor.processMarkerChanges(ManifestEditor.java:300)
+	at com.android.ide.eclipse.adt.internal.editors.manifest.ManifestEditor.access$0(ManifestEditor.java:295)
+	at com.android.ide.eclipse.adt.internal.editors.manifest.ManifestEditor$1.fileChanged(ManifestEditor.java:250)
+	at com.android.ide.eclipse.adt.internal.resources.manager.GlobalProjectMonitor$DeltaVisitor.visit(GlobalProjectMonitor.java:220)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:69)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:80)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:80)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:49)
+	at com.android.ide.eclipse.adt.internal.resources.manager.GlobalProjectMonitor$1.resourceChanged(GlobalProjectMonitor.java:501)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:291)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:285)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:149)
+	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:395)
+	at org.eclipse.core.internal.resources.Workspace.aboutToBuild(Workspace.java:318)
+	at org.eclipse.core.internal.resources.Project$1.run(Project.java:608)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2344)
+	at org.eclipse.core.internal.resources.Project.internalBuild(Project.java:597)
+	at org.eclipse.core.internal.resources.Project.build(Project.java:114)
+	at com.android.ide.eclipse.adt.internal.build.builders.ResourceManagerBuilder$2.run(ResourceManagerBuilder.java:261)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:06.365
+!MESSAGE Changed legacy editor ID com.android.ide.eclipse.editors.layout.LayoutEditor for /AndroidCloudNotes/res/layout/note_view.xml
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2012-06-12 01:13:06.858
+!MESSAGE note_view.xml: Couldn't resolve resource @string/app_name
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2012-06-12 01:13:06.870
+!MESSAGE note_view.xml: Couldn't resolve resource @string/note_title
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2012-06-12 01:13:06.876
+!MESSAGE note_view.xml: Couldn't resolve resource @string/name_label
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2012-06-12 01:13:06.906
+!MESSAGE note_view.xml: Couldn't resolve resource @string/description_label
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2012-06-12 01:13:06.926
+!MESSAGE note_view.xml: Couldn't resolve resource @string/save_label
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2012-06-12 01:13:06.936
+!MESSAGE note_view.xml: Couldn't resolve resource @string/notes_label
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-06-12 01:13:07.516
+!MESSAGE Closed legacy editor ID com.android.ide.eclipse.editors.layout.LayoutEditor for /AndroidCloudNotes/res/layout/note_view.xml: Success
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2012-06-12 01:13:07.749
+!MESSAGE note_view.xml: Couldn't resolve resource @string/app_name
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2012-06-12 01:13:07.758
+!MESSAGE note_view.xml: Couldn't resolve resource @string/note_title
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2012-06-12 01:13:07.763
+!MESSAGE note_view.xml: Couldn't resolve resource @string/name_label
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2012-06-12 01:13:07.782
+!MESSAGE note_view.xml: Couldn't resolve resource @string/description_label
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2012-06-12 01:13:07.810
+!MESSAGE note_view.xml: Couldn't resolve resource @string/save_label
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2012-06-12 01:13:07.823
+!MESSAGE note_view.xml: Couldn't resolve resource @string/notes_label
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-06-12 01:13:09.027
+!MESSAGE Failed to update a TargetChangeListener.
+!STACK 0
+org.eclipse.swt.SWTException: Widget is disposed
+	at org.eclipse.swt.SWT.error(SWT.java:4282)
+	at org.eclipse.swt.SWT.error(SWT.java:4197)
+	at org.eclipse.swt.SWT.error(SWT.java:4168)
+	at org.eclipse.swt.widgets.Widget.error(Widget.java:468)
+	at org.eclipse.swt.widgets.Widget.checkWidget(Widget.java:340)
+	at org.eclipse.swt.widgets.Combo.getSelectionIndex(Combo.java:864)
+	at com.android.ide.eclipse.adt.internal.editors.layout.configuration.ConfigurationComposite.getRenderingTarget(ConfigurationComposite.java:1810)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.GraphicalEditorPart.getRenderingTarget(GraphicalEditorPart.java:1299)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.GraphicalEditorPart$TargetListener.onTargetLoaded(GraphicalEditorPart.java:791)
+	at com.android.ide.eclipse.adt.AdtPlugin$10.run(AdtPlugin.java:1668)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:135)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4140)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3757)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2701)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2665)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2499)
+	at org.eclipse.ui.internal.Workbench$7.run(Workbench.java:679)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:668)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:123)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:344)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:622)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:577)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1410)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1386)
+
+!ENTRY org.eclipse.ui 4 4 2012-06-12 01:20:18.570
+!MESSAGE Invalid preference page path: XML Syntax

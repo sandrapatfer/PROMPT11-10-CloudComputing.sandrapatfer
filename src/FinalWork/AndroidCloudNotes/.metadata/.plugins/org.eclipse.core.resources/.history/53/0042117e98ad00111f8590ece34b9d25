@@ -1,7 +1,0 @@
-package prompt.cloudnotes.model;
-
-public class TaskList {
-	public int Id;
-	public string Name;
-	public string Description;
-}

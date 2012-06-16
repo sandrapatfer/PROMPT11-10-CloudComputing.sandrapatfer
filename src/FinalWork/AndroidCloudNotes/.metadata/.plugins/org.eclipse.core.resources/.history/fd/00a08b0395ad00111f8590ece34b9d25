@@ -1,7 +1,0 @@
-package prompt.cloudnotes.providers;
-
-import ContentProvider;
-
-public class TaskListProvider extends ContentProvider {
-
-}

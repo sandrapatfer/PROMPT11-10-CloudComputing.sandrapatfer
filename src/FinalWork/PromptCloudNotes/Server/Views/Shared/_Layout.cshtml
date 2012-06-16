@@ -9,6 +9,20 @@
 </head>
 
 <body>
-    @RenderBody()
+    <div class="page">
+        <header>
+            <div id="title">
+                <h1>Prompt Cloud Notes</h1>
+            </div>
+            <div id="logindisplay">
+                @Html.Partial("_LogOnPartial")
+            </div>
+        </header>
+        <section id="main">
+            @RenderBody()
+        </section>
+        <footer>
+        </footer>
+    </div>
 </body>
 </html>

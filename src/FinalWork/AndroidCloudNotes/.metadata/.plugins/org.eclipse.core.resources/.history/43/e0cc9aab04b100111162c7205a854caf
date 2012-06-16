@@ -1,7 +1,0 @@
-package prompt.cloudnotes.activities;
-
-import android.app.Activity;
-
-public class NotesActivity extends Activity {
-
-}

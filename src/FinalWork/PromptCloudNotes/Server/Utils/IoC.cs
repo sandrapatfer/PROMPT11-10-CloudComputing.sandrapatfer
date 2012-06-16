@@ -6,8 +6,9 @@ using StructureMap;
 using PromptCloudNotes.Interfaces;
 using InMemoryRepo;
 using BusinessLayer.Managers;
+using System.Web.Mvc;
 
-namespace Server
+namespace Server.Utils
 {
     internal class IoC
     {
@@ -34,6 +35,8 @@ namespace Server
                 ex.For<ITaskManager>().Use<TaskManager>();
                 ex.For<INotificationManager>().Use<NotificationManager>();
             });
+
+            DependencyResolver.SetResolver(new SmDependencyResolver(ObjectFactory.Container));
         }
     }
 }

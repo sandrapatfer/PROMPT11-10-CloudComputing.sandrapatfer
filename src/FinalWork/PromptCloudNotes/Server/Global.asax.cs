@@ -8,6 +8,7 @@ using System.Web.Http;
 using PromptCloudNotes.Interfaces;
 using StructureMap;
 using PromptCloudNotes.Model;
+using Server.Utils;
 
 namespace Server
 {
@@ -18,6 +19,7 @@ namespace Server
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
+            filters.Add(new DefaultAuthorizeAttribute());
             filters.Add(new HandleErrorAttribute());
         }
 
