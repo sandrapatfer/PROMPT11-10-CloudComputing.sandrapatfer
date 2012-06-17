@@ -10,9 +10,11 @@ namespace Server.Controllers
     public class TaskListsController : Controller
     {
         private ITaskListManager _manager;
+        private IUserManager _userManager;
 
-        public TaskListsController(ITaskListManager manager)
+        public TaskListsController(IUserManager userManager, ITaskListManager manager)
         {
+            _userManager = userManager;
             _manager = manager;
         }
 
@@ -21,7 +23,8 @@ namespace Server.Controllers
 
         public ActionResult Index()
         {
-            return View(_manager.GetAllLists(1).Select(l => new MvcModel.TaskList() { id = l.Id, name = l.Name, description = l.Description }));
+            var user = _userManager.GetUser(User.Identity.Name);
+            return View(_manager.GetAllLists(user.Id).Select(l => new MvcModel.TaskList() { id = l.Id, name = l.Name, description = l.Description }));
         }
 
         //

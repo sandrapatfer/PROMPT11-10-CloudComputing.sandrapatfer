@@ -8,6 +8,7 @@ namespace PromptCloudNotes.Interfaces
 {
     public interface IUserManager
     {
+        User GetUser(string name);
         User CreateUser(User userData);
     }
 }

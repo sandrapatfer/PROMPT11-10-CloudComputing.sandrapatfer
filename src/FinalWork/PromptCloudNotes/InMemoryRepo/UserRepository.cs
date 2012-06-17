@@ -31,6 +31,11 @@ namespace InMemoryRepo
             return _users.First(u => u.Id == userId);
         }
 
+        public User Get(string name)
+        {
+            return _users.FirstOrDefault(u => u.UserName == name);
+        }
+
         #endregion
     }
 }

@@ -18,6 +18,11 @@ namespace BusinessLayer.Managers
 
         #region IUserManager Members
 
+        public User GetUser(string name)
+        {
+            return _repository.Get(name);
+        }
+
         public User CreateUser(User userData)
         {
             // validate user, example, check if the username is used, or the email address

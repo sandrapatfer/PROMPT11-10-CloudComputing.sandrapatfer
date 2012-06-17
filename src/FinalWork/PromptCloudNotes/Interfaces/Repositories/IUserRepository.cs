@@ -12,5 +12,6 @@ namespace PromptCloudNotes.Interfaces
 
         User Create(User user);
         User Get(int userId);
+        User Get(string name);
     }
 }

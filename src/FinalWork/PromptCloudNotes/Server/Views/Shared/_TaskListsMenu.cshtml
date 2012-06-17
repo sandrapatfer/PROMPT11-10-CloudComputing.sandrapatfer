@@ -13,7 +13,10 @@
     </tr>
 
 @{
-    var lists = DependencyResolver.Current.GetService<PromptCloudNotes.Interfaces.ITaskListManager>().GetAllLists(1).Select(l => new Server.MvcModel.TaskList() { id = l.Id, name = l.Name, description = l.Description });
+    var userManager = DependencyResolver.Current.GetService<PromptCloudNotes.Interfaces.IUserManager>();
+    var user = userManager.GetUser(User.Identity.Name);
+    var tlManager = DependencyResolver.Current.GetService<PromptCloudNotes.Interfaces.ITaskListManager>();
+    var lists = tlManager.GetAllLists(user.Id).Select(l => new Server.MvcModel.TaskList() { id = l.Id, name = l.Name, description = l.Description });
     foreach (var item in lists) {
     <tr>
         <td>
