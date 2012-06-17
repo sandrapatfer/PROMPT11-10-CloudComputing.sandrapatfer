@@ -1,16 +1,9 @@
-﻿@model IEnumerable<Server.MvcModel.TaskList>
-
-@{
-    ViewBag.Title = "Index";
-}
-
-<p>
+﻿<p>
     @Html.ActionLink("Create New", "Create")
 </p>
 
 <table>
     <tr>
-<!--        <th></th>-->
         <th>
             name
         </th>
@@ -19,13 +12,10 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
+@{
+    var lists = DependencyResolver.Current.GetService<PromptCloudNotes.Interfaces.ITaskListManager>().GetAllLists(1).Select(l => new Server.MvcModel.TaskList() { id = l.Id, name = l.Name, description = l.Description });
+    foreach (var item in lists) {
     <tr>
-<!--        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>-->
         <td>
             @item.name
         </td>
@@ -36,7 +26,7 @@
             @Html.ActionLink("Notes", "Index", "Notes", new { listId=item.id }, null)
         </td>
     </tr>
+    }
 }
 
 </table>
-
