@@ -6,49 +6,54 @@ using System.Web.Mvc;
 using Microsoft.IdentityModel.Web;
 using Server.Utils;
 using Microsoft.IdentityModel.Protocols.WSFederation;
+using PromptCloudNotes.Interfaces;
 
 namespace Server.Controllers
 {
     public class AccountController : Controller
     {
+        private IUserManager _userManager;
+
+        public AccountController(IUserManager userManager)
+        {
+            _userManager = userManager;
+        }
+
         //
         // GET: /Account/LogOn
-<<<<<<< HEAD
         [AllowAnonymous]
-=======
         [HttpGet]
->>>>>>> ac835aad08ac980f22ca59552eaf5dcc0b215f1a
         public ActionResult LogOn()
         {
-            var signin = FederatedAuthentication.WSFederationAuthenticationModule.CreateSignInRequest("1",
-                Request.Url.AbsoluteUri, false);
-            return Redirect(signin.WriteQueryString());
+            if (!Request.IsAuthenticated)
+            {
+                var signin = FederatedAuthentication.WSFederationAuthenticationModule.CreateSignInRequest("1",
+                    Request.Url.AbsoluteUri, false);
+                return Redirect(signin.WriteQueryString());
+            }
+            else
+            {
+                ValidateUser();
+                return RedirectToAction("Index", "TaskLists");
+            }
         }
 
-<<<<<<< HEAD
-        // POST: /Account/LogOn
+        // POST: /Account/LogOnToken
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult LogOn(FormCollection forms)
-        {
-            // We use return url as context
-            WSFederationMessage message = WSFederationMessage.CreateFromNameValueCollection(Request.Url, forms);
-            if (message != null)
-            {
-                string returnUrl = message.Context;
-            }
+        public ActionResult LogOnToken()
 
-            return null;
-        }
- 
-=======
-        [HttpPost, ActionName("LogOn")]
-        public ActionResult PostLogOn()
+            // TODO - ver porque é q o POST nao é chamado e é redireccionado para o GET!!!! Este é o return URL no ACS :(
         {
             return RedirectToAction("Index", "TaskLists");
         }
+ 
+/*        [HttpPost, ActionName("LogOn")]
+        public ActionResult PostLogOn()
+        {
+            return RedirectToAction("Index", "TaskLists");
+        }*/
 
->>>>>>> ac835aad08ac980f22ca59552eaf5dcc0b215f1a
         //
         // GET: /Account/LogOff
         public ActionResult LogOff()
@@ -58,6 +63,17 @@ namespace Server.Controllers
 
             // Return to home after LogOff
             return RedirectToAction("Index", "Home");
+        }
+
+        private bool ValidateUser()
+        {
+            var user = _userManager.GetUser(User.Identity.Name);
+            if (user == null)
+            {
+                _userManager.CreateUser(new PromptCloudNotes.Model.User() { UserName = User.Identity.Name });
+            }
+
+            return true;
         }
     }
 }
