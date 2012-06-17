@@ -13,7 +13,11 @@ namespace Server.Controllers
     {
         //
         // GET: /Account/LogOn
+<<<<<<< HEAD
         [AllowAnonymous]
+=======
+        [HttpGet]
+>>>>>>> ac835aad08ac980f22ca59552eaf5dcc0b215f1a
         public ActionResult LogOn()
         {
             var signin = FederatedAuthentication.WSFederationAuthenticationModule.CreateSignInRequest("1",
@@ -21,6 +25,7 @@ namespace Server.Controllers
             return Redirect(signin.WriteQueryString());
         }
 
+<<<<<<< HEAD
         // POST: /Account/LogOn
         [HttpPost]
         [ValidateInput(false)]
@@ -36,6 +41,14 @@ namespace Server.Controllers
             return null;
         }
  
+=======
+        [HttpPost, ActionName("LogOn")]
+        public ActionResult PostLogOn()
+        {
+            return RedirectToAction("Index", "TaskLists");
+        }
+
+>>>>>>> ac835aad08ac980f22ca59552eaf5dcc0b215f1a
         //
         // GET: /Account/LogOff
         public ActionResult LogOff()
