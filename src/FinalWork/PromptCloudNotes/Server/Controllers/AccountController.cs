@@ -11,14 +11,20 @@ namespace Server.Controllers
     {
         //
         // GET: /Account/LogOn
-
+        [HttpGet]
         public ActionResult LogOn()
         {
             var signin = FederatedAuthentication.WSFederationAuthenticationModule.CreateSignInRequest("1",
                 Request.Url.AbsoluteUri, false);
             return Redirect(signin.WriteQueryString());
         }
- 
+
+        [HttpPost, ActionName("LogOn")]
+        public ActionResult PostLogOn()
+        {
+            return RedirectToAction("Index", "TaskLists");
+        }
+
         //
         // GET: /Account/LogOff
         [HttpGet]
