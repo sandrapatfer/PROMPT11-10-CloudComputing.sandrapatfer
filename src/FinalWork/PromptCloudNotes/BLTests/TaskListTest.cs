@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PromptCloudNotes.Model;
 using PromptCloudNotes.Interfaces;
 using StructureMap;
+using Exceptions;
 
 namespace BLTests
 {
@@ -44,7 +45,7 @@ namespace BLTests
         public void GetListTest()
         {
             var tl = CreateTaskList();
-            var tl2 = _taskListManager.GetTaskList(tl.Id);
+            var tl2 = _taskListManager.GetTaskList(_user.Id, tl.Id);
             Assert.IsNotNull(tl2);
             Assert.AreEqual(tl.Id, tl2.Id);
         }
@@ -54,18 +55,18 @@ namespace BLTests
         {
             var tl = CreateTaskList();
             tl.Name = "New name";
-            _taskListManager.UpdateTaskList(tl.Id, tl);
-            var tl2 = _taskListManager.GetTaskList(tl.Id);
+            _taskListManager.UpdateTaskList(_user.Id, tl.Id, tl);
+            var tl2 = _taskListManager.GetTaskList(_user.Id, tl.Id);
             Assert.AreEqual(tl.Name, tl2.Name);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ObjectNotFoundException))]
         public void DeleteListTest()
         {
             var tl = CreateTaskList();
-            _taskListManager.DeleteTaskList(tl.Id);
-            var tl2 = _taskListManager.GetTaskList(tl.Id);
-            Assert.IsNull(tl2);
+            _taskListManager.DeleteTaskList(_user.Id, tl.Id);
+            var tl2 = _taskListManager.GetTaskList(_user.Id, tl.Id);
         }
 
         [TestMethod]
@@ -77,10 +78,13 @@ namespace BLTests
             IUserManager um = ObjectFactory.GetInstance<IUserManager>();
             um.CreateUser(user);
 
-            _taskListManager.ShareTaskList(tl.Id, user.Id);
+            _taskListManager.ShareTaskList(_user.Id, tl.Id, user.Id);
 
-            var tl2 = _taskListManager.GetTaskList(tl.Id);
+            var tl2 = _taskListManager.GetTaskList(_user.Id, tl.Id);
             Assert.IsTrue(tl2.Users.Contains(user));
+
+            var tl3 = _taskListManager.GetTaskList(user.Id, tl.Id);
+            Assert.IsNotNull(tl3);
         }
     }
 }

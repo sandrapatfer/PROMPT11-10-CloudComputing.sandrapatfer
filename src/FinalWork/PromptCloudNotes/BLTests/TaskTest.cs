@@ -70,7 +70,7 @@ namespace BLTests
 
             try
             {
-                var n3 = _noteManager.GetNote(originalList, originalId);
+                var n3 = _noteManager.GetNote(_user.Id, originalList, originalId);
                 Assert.Fail();
             }
             catch (InvalidOperationException) // TODO set the correct exception

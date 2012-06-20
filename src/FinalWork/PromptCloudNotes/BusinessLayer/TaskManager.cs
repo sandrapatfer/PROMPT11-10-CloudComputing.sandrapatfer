@@ -27,7 +27,7 @@ namespace BusinessLayer.Managers
 
         public Note MoveNote(int userId, int destListId, int sourceListId, Note noteData)
         {
-            _noteManager.DeleteNote(sourceListId, noteData.Id);
+            _noteManager.DeleteNote(userId, sourceListId, noteData.Id);
             Note newNote = _noteManager.CreateNote(userId, destListId, noteData);
             return newNote;
         }

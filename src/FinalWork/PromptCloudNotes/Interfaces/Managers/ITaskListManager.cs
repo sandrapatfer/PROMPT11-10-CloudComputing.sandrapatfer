@@ -12,12 +12,12 @@ namespace PromptCloudNotes.Interfaces
 
         TaskList CreateTaskList(int userId, TaskList listData);
 
-        TaskList GetTaskList(int listId);
+        TaskList GetTaskList(int userId, int listId);
 
-        void UpdateTaskList(int listId, TaskList listData);
+        void UpdateTaskList(int userId, int listId, TaskList listData);
 
-        void DeleteTaskList(int listId);
+        void DeleteTaskList(int userId, int listId);
 
-        void ShareTaskList(int listId, int userId);
+        void ShareTaskList(int userId, int listId, int shareUserId);
     }
 }

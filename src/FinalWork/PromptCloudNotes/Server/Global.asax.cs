@@ -55,6 +55,7 @@ namespace Server
         private void GenerateDummyData()
         {
             var user = new User();
+            user.UserName = "Sandra Fernandes";
             var um = ObjectFactory.GetInstance<IUserManager>();
             user = um.CreateUser(user);
 

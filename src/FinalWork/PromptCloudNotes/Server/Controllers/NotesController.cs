@@ -10,10 +10,12 @@ namespace Server.Controllers
     public class NotesController : Controller
     {
         private INoteManager _notesManager;
+        private IUserManager _userManager;
 
-        public NotesController(INoteManager manager)
+        public NotesController(IUserManager userManager, INoteManager manager)
         {
             _notesManager = manager;
+            _userManager = userManager;
         }
 
         //
@@ -21,7 +23,8 @@ namespace Server.Controllers
 
         public ActionResult Index(int listId)
         {
-            var notes = _notesManager.GetAllNotes(1, listId).Select(n => new Server.MvcModel.Note() { id = n.Id, listId = n.ParentList.Id, name = n.Name, description = n.Description });
+            var user = _userManager.GetUser(User.Identity.Name);
+            var notes = _notesManager.GetAllNotes(user.Id, listId).Select(n => new Server.MvcModel.Note() { id = n.Id, listId = n.ParentList.Id, name = n.Name, description = n.Description });
             return View(notes);
         }
 

@@ -1,35 +1,59 @@
-﻿<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
-<table>
-    <tr>
-        <th>
-            name
-        </th>
-        <th>
-            description
-        </th>
-    </tr>
+﻿@model int
 
 @{
     var userManager = DependencyResolver.Current.GetService<PromptCloudNotes.Interfaces.IUserManager>();
     var user = userManager.GetUser(User.Identity.Name);
     var tlManager = DependencyResolver.Current.GetService<PromptCloudNotes.Interfaces.ITaskListManager>();
-    var lists = tlManager.GetAllLists(user.Id).Select(l => new Server.MvcModel.TaskList() { id = l.Id, name = l.Name, description = l.Description });
-    foreach (var item in lists) {
-    <tr>
-        <td>
-            @item.name
-        </td>
-        <td>
-            @item.description
-        </td>
-        <td>
-            @Html.ActionLink("Notes", "Index", "Notes", new { listId=item.id }, null)
-        </td>
-    </tr>
-    }
+    var lists = tlManager.GetAllLists(user.Id).Select(l => new Server.MvcModel.TaskList() { id = l.Id, name = l.Name });   
 }
 
-</table>
+<ul class="nav nav-pills nav-stacked">
+    <li class="nav-header">
+        Lists
+    </li>
+    @foreach (var item in lists) {
+        <li
+            @if(item.id == Model) { @:class="active"
+        } >
+            @Html.ActionLink(item.name, "Index", "Notes", new { listId=item.id }, null)
+        </li>
+    }
+    <li class="nav-header">
+        Operations
+    </li>
+    <li>
+        <!--@Html.ActionLink("Create New", "Create")-->
+        <a data-toggle="modal" href="#createListModal">Create New</a>
+    </li>
+</ul>
+
+<div class="modal hide fade" id="createListModal">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <div class="modal-body">
+        @using (Html.BeginForm("Create", "TaskLists", FormMethod.Post, new { @class = "form-horizontal"} )) {
+            <fieldset>
+                <legend>Note List</legend>
+                <div class="control-group">
+                    <label class="control-label" for="name">Name</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="name" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="description">Description</label>
+                    <div class="controls">
+                        <textarea class="input-xlarge" id="description" rows="3"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        }
+    </div>
+    <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+    <a href="#" class="btn btn-primary">Save</a>
+  </div>
+</div>
+
+<script type="text/javascript">
+    function TaskList
+</script>

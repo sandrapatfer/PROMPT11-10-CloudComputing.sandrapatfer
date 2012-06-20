@@ -4,29 +4,28 @@
     ViewBag.Title = "Index";
 }
 
-@Html.Partial("_TaskListsMenu")
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+            <!--Sidebar content-->
+            @Html.Partial("_TaskListsMenu", Model.Count() > 0? Model.First().listId : -1)
+        </div>
 
-<table>
-    <tr>
-        <th>
-            name
-        </th>
-        <th>
-            description
-        </th>
-    </tr>
+        <div class="span10">
+            <ul class="thumbnails">
+                @foreach (var item in Model) {
+                    <li class="span3">
+                        <div class="thumbnail">
+                            <h5>@item.name</h5>
+                            <p>@item.description</p>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @item.name
-        </td>
-        <td>
-            @item.description
-        </td>
-    </tr>
-}
+    </div>
+</div>
 
-</table>
 
 

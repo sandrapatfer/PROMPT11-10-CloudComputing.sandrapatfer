@@ -13,14 +13,14 @@ namespace PromptCloudNotes.Interfaces
         IEnumerable<Note> GetAllNotes(int userId);
         IEnumerable<Note> GetAllNotes(int userId, int listId);
 
-        Note GetNote(int listId, int noteId);
+        Note GetNote(int userId, int listId, int noteId);
 
-        void UpdateNote(int listId, int noteId, Note noteData);
+        void UpdateNote(int userId, int listId, int noteId, Note noteData);
 
-        void DeleteNote(int listId, int noteId);
+        void DeleteNote(int userId, int listId, int noteId);
 
-        void ShareNote(int listId, int noteId, int userId);
+        void ShareNote(int userId, int listId, int noteId, int shareUserId);
 
-        void ChangeOrder(int listId, int noteId, int order);
+        void ChangeOrder(int userId, int listId, int noteId, int order);
     }
 }

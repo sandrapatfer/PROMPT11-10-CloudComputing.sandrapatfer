@@ -17,24 +17,26 @@ namespace Server.WebApiControllers
     public class ListsController : ApiController
     {
         private ITaskListManager _manager;
+        private IUserManager _userManager;
 
         public ListsController()
         {
             _manager = ObjectFactory.GetInstance<ITaskListManager>();
+            _userManager = ObjectFactory.GetInstance<IUserManager>();
         }
 
         // GET /api/lists
         public IEnumerable<WebApiModel.TaskList> Get()
         {
-            // TODO get user info
-            int userId = 1;
-            return _manager.GetAllLists(userId).Select(l => new WebApiModel.TaskList() { id = l.Id, name = l.Name });
+            var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+            return _manager.GetAllLists(user.Id).Select(l => new WebApiModel.TaskList() { id = l.Id, name = l.Name });
         }
 
         // GET /api/lists/{id}
         public WebApiModel.TaskList Get(int id)
         {
-            var list = _manager.GetTaskList(id);
+            var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+            var list = _manager.GetTaskList(user.Id, id);
             if (list == null) // TODO is it null or exception?
             {
                 // TODO create a better response
@@ -47,11 +49,10 @@ namespace Server.WebApiControllers
         // POST /api/lists
         public HttpResponseMessage Post(WebApiModel.TaskList list)
         {
-            // TODO get user info
-            int userId = 1;
+            var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
 
             var listData = new TaskList() { Name = list.name };
-            listData = _manager.CreateTaskList(userId, listData);
+            listData = _manager.CreateTaskList(user.Id, listData);
             list.id = listData.Id;
 
             var response = new HttpResponseMessage<WebApiModel.TaskList>(list)
@@ -69,8 +70,9 @@ namespace Server.WebApiControllers
         {
             try
             {
+                var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
                 var listData = new TaskList() { Name = list.name };
-                _manager.UpdateTaskList(id, listData);
+                _manager.UpdateTaskList(user.Id, id, listData);
             }
             catch (ObjectNotFoundException)
             {
@@ -83,7 +85,8 @@ namespace Server.WebApiControllers
         {
             try
             {
-                _manager.DeleteTaskList(id);
+                var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+                _manager.DeleteTaskList(user.Id, id);
             }
             catch (ObjectNotFoundException)
             {

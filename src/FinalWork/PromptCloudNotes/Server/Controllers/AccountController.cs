@@ -34,7 +34,16 @@ namespace Server.Controllers
             else
             {
                 ValidateUser();
-                return RedirectToAction("Index", "TaskLists");
+                var listMgr = DependencyResolver.Current.GetService<ITaskListManager>();
+                var lists = listMgr.GetAllLists(_userManager.GetUser(User.Identity.Name).Id);
+                if (lists.Count() > 0)
+                {
+                    return RedirectToAction("Index", "Notes", new { listId = lists.First().Id });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "TaskLists");
+                }
             }
         }
 
@@ -70,6 +79,7 @@ namespace Server.Controllers
             var user = _userManager.GetUser(User.Identity.Name);
             if (user == null)
             {
+                // TODO create a sign up action?
                 _userManager.CreateUser(new PromptCloudNotes.Model.User() { UserName = User.Identity.Name });
             }
 

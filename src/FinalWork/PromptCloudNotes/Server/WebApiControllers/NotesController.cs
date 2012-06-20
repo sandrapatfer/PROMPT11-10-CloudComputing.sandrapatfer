@@ -15,11 +15,13 @@ namespace Server.WebApiControllers
 {
     public class NotesController : ApiController
     {
+        private IUserManager _userManager;
         private INoteManager _manager;
 
-        public NotesController()
+        public NotesController(IUserManager userManager, INoteManager manager)
         {
-            _manager = ObjectFactory.GetInstance<INoteManager>();
+            _userManager = userManager;
+            _manager = manager;
         }
 
         // GET /api/notes
@@ -33,7 +35,8 @@ namespace Server.WebApiControllers
         // GET /api/notes/{nid}
         public WebApiModel.Note Get(int lid, int nid)
         {
-            var note = _manager.GetNote(lid, nid);
+            var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+            var note = _manager.GetNote(user.Id, lid, nid);
             if (note == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -66,8 +69,9 @@ namespace Server.WebApiControllers
         {
             try
             {
+                var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
                 var noteData = new Note() { Name = note.title };
-                _manager.UpdateNote(lid, nid, noteData);
+                _manager.UpdateNote(user.Id, lid, nid, noteData);
             }
             catch (ObjectNotFoundException)
             {
@@ -80,7 +84,8 @@ namespace Server.WebApiControllers
         {
             try
             {
-                _manager.DeleteNote(lid, nid);
+                var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+                _manager.DeleteNote(user.Id, lid, nid);
             }
             catch (ObjectNotFoundException)
             {

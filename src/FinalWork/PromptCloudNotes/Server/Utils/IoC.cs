@@ -29,11 +29,11 @@ namespace Server.Utils
                 ex.For<INoteRepository>().Singleton().Use<NoteRepository>();
                 ex.For<INotificationRepository>().Singleton().Use<NotificationRepository>();
 
-                ex.For<IUserManager>().Use<UserManager>();
-                ex.For<ITaskListManager>().Use<TaskListManager>();
-                ex.For<INoteManager>().Use<NoteManager>();
-                ex.For<ITaskManager>().Use<TaskManager>();
-                ex.For<INotificationManager>().Use<NotificationManager>();
+                ex.For<IUserManager>().HttpContextScoped().Use<UserManager>();
+                ex.For<ITaskListManager>().HttpContextScoped().Use<TaskListManager>();
+                ex.For<INoteManager>().HttpContextScoped().Use<NoteManager>();
+                ex.For<ITaskManager>().HttpContextScoped().Use<TaskManager>();
+                ex.For<INotificationManager>().HttpContextScoped().Use<NotificationManager>();
             });
 
             DependencyResolver.SetResolver(new SmDependencyResolver(ObjectFactory.Container));

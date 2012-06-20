@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using PromptCloudNotes.Interfaces;
 using PromptCloudNotes.Model;
+using Exceptions;
 
 namespace BusinessLayer.Managers
 {
@@ -26,7 +27,7 @@ namespace BusinessLayer.Managers
         {
             Note newNote = _repository.Create(userId, listId, noteData);
 
-            var taskList = _taskListManager.GetTaskList(listId);
+            var taskList = _taskListManager.GetTaskList(userId, listId);
             foreach (var user in taskList.Users)
             {
                 var notif = new Notification() { Task = newNote, User = user, Type = Notification.NotificationType.Insert };
@@ -46,15 +47,35 @@ namespace BusinessLayer.Managers
             return _repository.GetAll(userId);
         }
 
-        public Note GetNote(int list, int id)
+        public Note GetNote(int userId, int list, int id)
         {
-            return _repository.Get(list, id);
+            var note = _repository.Get(list, id);
+            if (note == null)
+            {
+                throw new ObjectNotFoundException();
+            }
+            if (!note.Users.Any(u => u.Id == userId))
+            {
+                //TODO throw permission exception?
+                return null;
+            }
+            return note;
         }
 
-        public void UpdateNote(int listId, int noteId, Note noteData)
+        public void UpdateNote(int userId, int listId, int noteId, Note noteData)
         {
-            _repository.Update(listId, noteId, noteData);
             var note = _repository.Get(listId, noteId);
+            if (note == null)
+            {
+                throw new ObjectNotFoundException();
+            }
+            if (!note.Users.Any(u => u.Id == userId))
+            {
+                //TODO throw permission exception?
+                return;
+            }
+
+            _repository.Update(listId, noteId, noteData);
             foreach (var user in note.Users)
             {
                 var notif = new Notification() { Task = note, User = user, Type = Notification.NotificationType.Update };
@@ -62,10 +83,27 @@ namespace BusinessLayer.Managers
             }
         }
 
-        public void DeleteNote(int listId, int noteId)
+        public void DeleteNote(int userId, int listId, int noteId)
         {
-            var note = _repository.Get(listId, noteId); // TODO GetShares ??
+            var note = _repository.Get(listId, noteId);
+            if (note == null)
+            {
+                throw new ObjectNotFoundException();
+            }
             var users = note.Users;
+            if (!users.Any(u => u.Id == userId))
+            {
+                // TODO throw permission exception?
+                return;
+            }
+            var taskList = _taskListManager.GetTaskList(userId, listId);
+            if (taskList == null)
+            {
+                // the user must have permission over the list to remove the note
+                // TODO throw permission exception or object not found?
+                return;
+            }
+
             _repository.Delete(listId, noteId);
 
             foreach (var user in users)
@@ -74,24 +112,50 @@ namespace BusinessLayer.Managers
                 _noticationMgr.CreateNoteNotification(user.Id, listId, noteId, notif);
             }
 
-            var taskList = _taskListManager.GetTaskList(listId);
             foreach (var user in taskList.Users)
             {
-                var notif = new Notification() { User = user, Task = taskList, Type = Notification.NotificationType.Update };
-                _noticationMgr.CreateTaskListNotification(user.Id, listId, notif);
+                if (!users.Contains(user))
+                {
+                    var notif = new Notification() { User = user, Task = taskList, Type = Notification.NotificationType.Update };
+                    _noticationMgr.CreateTaskListNotification(user.Id, listId, notif);
+                }
             }
         }
 
-        public void ShareNote(int listId, int noteId, int userId)
+        public void ShareNote(int userId, int listId, int noteId, int shareUserId)
         {
-            _repository.ShareNote(listId, noteId, userId);
+            var note = _repository.Get(listId, noteId);
+            if (note == null)
+            {
+                throw new ObjectNotFoundException();
+            }
+            var users = note.Users;
+            if (!users.Any(u => u.Id == userId))
+            {
+                // TODO throw permission exception?
+                return;
+            }
+
+            _repository.ShareNote(listId, noteId, shareUserId);
 
             var notif = new Notification() { Type = Notification.NotificationType.Share };
-            _noticationMgr.CreateNoteNotification(userId, listId, noteId, notif);
+            _noticationMgr.CreateNoteNotification(shareUserId, listId, noteId, notif);
         }
 
-        public void ChangeOrder(int listId, int noteId, int order)
+        public void ChangeOrder(int userId, int listId, int noteId, int order)
         {
+            var note = _repository.Get(listId, noteId);
+            if (note == null)
+            {
+                throw new ObjectNotFoundException();
+            }
+            var users = note.Users;
+            if (!users.Any(u => u.Id == userId))
+            {
+                // TODO throw permission exception?
+                return;
+            }
+
             _repository.ChangeOrder(listId, noteId, order);
         }
 
