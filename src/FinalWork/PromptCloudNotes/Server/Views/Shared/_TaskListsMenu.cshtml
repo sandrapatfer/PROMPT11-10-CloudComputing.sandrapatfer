@@ -1,5 +1,4 @@
-﻿@model int
-
+﻿
 @{
     var userManager = DependencyResolver.Current.GetService<PromptCloudNotes.Interfaces.IUserManager>();
     var user = userManager.GetUser(User.Identity.Name);
@@ -13,7 +12,7 @@
     </li>
     @foreach (var item in lists) {
         <li
-            @if(item.id == Model) { @:class="active"
+            @if(item.id == ViewBag.SelectedList) { @:class="active"
         } >
             @Html.ActionLink(item.name, "Index", "Notes", new { listId=item.id }, null)
         </li>
@@ -22,7 +21,6 @@
         Operations
     </li>
     <li>
-        <!--@Html.ActionLink("Create New", "Create")-->
         <a data-toggle="modal" href="#createListModal">Create New</a>
     </li>
 </ul>
@@ -30,19 +28,19 @@
 <div class="modal hide fade" id="createListModal">
     <button type="button" class="close" data-dismiss="modal">×</button>
     <div class="modal-body">
-        @using (Html.BeginForm("Create", "TaskLists", FormMethod.Post, new { @class = "form-horizontal"} )) {
+        @using (Html.BeginForm("Create", "TaskLists", FormMethod.Post, new { @class = "form-horizontal", @id ="addTaskList" } )) {
             <fieldset>
                 <legend>Note List</legend>
                 <div class="control-group">
                     <label class="control-label" for="name">Name</label>
                     <div class="controls">
-                        <input type="text" class="input-xlarge" id="name" />
+                        <input type="text" class="input-xlarge" id="name" data-bind="value: name" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="description">Description</label>
                     <div class="controls">
-                        <textarea class="input-xlarge" id="description" rows="3"></textarea>
+                        <textarea class="input-xlarge" id="description" data-bind="value: description" rows="3"></textarea>
                     </div>
                 </div>
             </fieldset>
@@ -50,10 +48,6 @@
     </div>
     <div class="modal-footer">
     <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-    <a href="#" class="btn btn-primary">Save</a>
+    <a href="#" class="btn btn-primary" data-bind="click: addTaskList">Save</a>
   </div>
 </div>
-
-<script type="text/javascript">
-    function TaskList
-</script>

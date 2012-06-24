@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Model;
+using Server.Utils;
 
 namespace Server.Controllers
 {
@@ -36,28 +38,21 @@ namespace Server.Controllers
         }
 
         //
-        // GET: /TaskLists/Create
-
-        public ActionResult Create()
-        {
-            return View();
-        } 
-
-        //
         // POST: /TaskLists/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public JsonResult Create(MvcModel.TaskList list)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                var user = _userManager.GetUser(User.Identity.Name);
+                var newList = _manager.CreateTaskList(user.Id, new TaskList() { Name = list.name, Description = list.name, Creator = user });
+                return new RedirectJsonResult("Index", "Notes", newList.Id);
+//                return new RedirectJsonResult("Index", "Notes", new { listId = newList.Id });
             }
             catch
             {
-                return View();
+                throw new HttpException(500, "Error creating TaskList");
             }
         }
         

@@ -4,28 +4,74 @@
     ViewBag.Title = "Index";
 }
 
+@section Javascript
+{
+    <script src="@Url.Content("~/Scripts/Model/TaskList.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Model/Note.js")" type="text/javascript"></script>
+}
+
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span2">
             <!--Sidebar content-->
-            @Html.Partial("_TaskListsMenu", Model.Count() > 0? Model.First().listId : -1)
+            @Html.Partial("_TaskListsMenu")
         </div>
 
         <div class="span10">
-            <ul class="thumbnails">
-                @foreach (var item in Model) {
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <h5>@item.name</h5>
-                            <p>@item.description</p>
-                        </div>
-                    </li>
-                }
-            </ul>
+            <div class="well">
+                <div>
+                    <ul class="nav nav-pills">
+                        <li>
+                            <a data-toggle="modal" href="#createNoteModal">Create New Note</a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="thumbnails">
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <li class="span3">
+                                <div class="thumbnail">
+                                    <h5>@item.name</h5>
+                                    <p>@item.description</p>
+                                    <ul class="nav nav-pills">
+                                        <li><a href="#">Edit</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
         </div>
-
     </div>
 </div>
 
-
+<div class="modal hide fade" id="createNoteModal">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <div class="modal-body">
+        @using (Html.BeginForm("Create", "Notes", FormMethod.Post, new { @class = "form-horizontal", @id = "addNote" })) {
+            <fieldset>
+                <legend>Note</legend>
+                <div class="control-group">
+                    <label class="control-label" for="name">Name</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="name" data-bind="value: name" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="description">Description</label>
+                    <div class="controls">
+                        <textarea class="input-xlarge" id="description" data-bind="value: description" rows="3"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        }
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" class="btn btn-primary" data-bind="click: function(data, event) { addNote(@ViewBag.SelectedList, data, event); }">Save</a>
+    </div>
+</div>
 
