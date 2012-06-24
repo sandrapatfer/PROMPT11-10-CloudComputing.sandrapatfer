@@ -58,33 +58,41 @@ namespace Server.Controllers
         
         //
         // GET: /TaskLists/Edit/5
- 
-        public ActionResult Edit(int id)
+        public PartialViewResult Edit(int id)
         {
-            return View();
+            var user = _userManager.GetUser(User.Identity.Name);
+            var list = _manager.GetTaskList(user.Id, id);
+            if (list == null)
+            {
+                throw new HttpException(404, "TaskList not found");
+            }
+            return PartialView("_ModalEdit", new MvcModel.TaskList() { id = list.Id, name = list.Name, description = list.Description });
         }
 
         //
         // POST: /TaskLists/Edit/5
-
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, MvcModel.TaskList listData)
         {
+            var user = _userManager.GetUser(User.Identity.Name);
+            var list = _manager.GetTaskList(user.Id, id);
+            if (list == null)
+            {
+                throw new HttpException(404, "TaskList not found");
+            }
             try
             {
-                // TODO: Add update logic here
- 
-                return RedirectToAction("Index");
+                _manager.UpdateTaskList(user.Id, id, new TaskList() { Name = listData.name, Description = listData.description });
+                return new RedirectJsonResult("Index", "Notes", id);
             }
             catch
             {
-                return View();
+                throw new HttpException(500, "Error editing TaskList");
             }
         }
 
         //
         // GET: /TaskLists/Delete/5
- 
         public ActionResult Delete(int id)
         {
             return View();
@@ -92,7 +100,6 @@ namespace Server.Controllers
 
         //
         // POST: /TaskLists/Delete/5
-
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
@@ -105,6 +112,35 @@ namespace Server.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        //
+        // GET: /TaskLists/Share/5
+        public PartialViewResult Share(int id)
+        {
+            return PartialView("_Share", id);
+        }
+
+        //
+        // POST: /TaskLists/Share/5
+        [HttpPost]
+        public ActionResult Share(int id, int userId)
+        {
+            var user = _userManager.GetUser(User.Identity.Name);
+            var list = _manager.GetTaskList(user.Id, id);
+            if (list == null)
+            {
+                throw new HttpException(404, "TaskList not found");
+            }
+            try
+            {
+                _manager.ShareTaskList(user.Id, id, userId);
+                return new RedirectJsonResult("Index", "Notes", id);
+            }
+            catch
+            {
+                throw new HttpException(500, "Error sharing TaskList");
             }
         }
     }

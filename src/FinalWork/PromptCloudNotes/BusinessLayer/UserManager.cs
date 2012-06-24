@@ -18,6 +18,11 @@ namespace BusinessLayer.Managers
 
         #region IUserManager Members
 
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _repository.GetAll();
+        }
+
         public User GetUser(string name)
         {
             return _repository.Get(name);

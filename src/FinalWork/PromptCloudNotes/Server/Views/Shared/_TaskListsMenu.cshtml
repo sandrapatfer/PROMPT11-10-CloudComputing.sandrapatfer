@@ -12,9 +12,19 @@
     </li>
     @foreach (var item in lists) {
         <li
-            @if(item.id == ViewBag.SelectedList) { @:class="active"
-        } >
-            @Html.ActionLink(item.name, "Index", "Notes", new { listId=item.id }, null)
+            @if(item.id == ViewBag.SelectedList) { @:class="active dropdown"
+            } else { @:class="dropdown"
+            } >
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                @item.name
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                @*<li><i class="icon-book"></i> @Html.ActionLink("Notes", "Index", "Notes", new { listId=item.id }, null)</li>*@
+                <li><a href="/Notes?listId=@item.id"><i class="icon-book"></i> Notes</a></li>
+                <li><a class="link-edit-tasklist" href="/TaskLists/Edit/@item.id"><i class="icon-pencil"></i> Edit List</a></li>
+                <li><a class="link-share-tasklist" href="/TaskLists/Share/@item.id"><i class="icon-user"></i> Share List</a></li>
+            </ul>
         </li>
     }
     <li class="nav-header">
@@ -28,7 +38,7 @@
 <div class="modal hide fade" id="createListModal">
     <button type="button" class="close" data-dismiss="modal">×</button>
     <div class="modal-body">
-        @using (Html.BeginForm("Create", "TaskLists", FormMethod.Post, new { @class = "form-horizontal", @id ="addTaskList" } )) {
+        @using (Html.BeginForm("Create", "TaskLists", FormMethod.Post, new { @class = "form-horizontal", @id ="formTaskList" } )) {
             <fieldset>
                 <legend>Note List</legend>
                 <div class="control-group">
@@ -47,7 +57,10 @@
         }
     </div>
     <div class="modal-footer">
-    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-    <a href="#" class="btn btn-primary" data-bind="click: addTaskList">Save</a>
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" class="btn btn-primary" data-bind="click: doActionTaskList">Save</a>
   </div>
 </div>
+
+<div id="modalContainer"></div>
+    

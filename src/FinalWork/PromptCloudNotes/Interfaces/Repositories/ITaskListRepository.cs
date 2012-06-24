@@ -12,7 +12,7 @@ namespace PromptCloudNotes.Interfaces
 
         TaskList Create(int userId, TaskList listData);
         TaskList Get(int listId);
-        TaskList Update(int listId, TaskList listData);
+        void Update(int listId, TaskList listData);
         void Delete(int listId);
 
         void Share(int listId, int userId);

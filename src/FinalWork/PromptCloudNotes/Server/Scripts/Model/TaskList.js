@@ -10,10 +10,12 @@ function TaskListViewModel() {
     self.name = ko.observable("write");
     self.description = ko.observable("");
 
-    self.addTaskList = function (data, event) {
+    self.doActionTaskList = function (data, event) {
         var name = self.name();
         var descr = self.description();
-        var action = $(addTaskList).attr("action");
+        var modal = $(event.target).parents(".modal");
+        var form = modal.find("form");
+        var action = form.attr("action");
         jsUtils.Action("POST", action, { name: name, description: descr });
     }
 }
@@ -22,4 +24,51 @@ $(function () {
     // Activates knockout.js
     var form = $("#createListModal");
     ko.applyBindings(new TaskListViewModel(), form[0]);
+
+    // events
+    $(".link-edit-tasklist").click(function (event) {
+        event.preventDefault();
+        var target = $(event.target).attr("href");
+        $.get(target, function (data) {
+            $("#modalContainer").html(data);
+            $("#editListModal").modal('show');
+        });
+    });
+
+    $(".link-share-tasklist").click(function (event) {
+        event.preventDefault();
+        var target = $(event.target).attr("href");
+        $.get(target, function (data) {
+            $("#modalContainer").html(data);
+            $("#shareListModal").modal('show');
+        });
+    });
+
 });
+
+function ShareTaskListModel() {
+    var self = this;
+
+    self.users = ko.observableArray([]);
+    self.selectedUser = ko.observable();
+
+    self.doActionTaskList = function (data, event) {
+        var user = self.selectedUser();
+        // TODO error message instead of not closing the dialog...
+        if (user) {
+            var modal = $(event.target).parents(".modal");
+            var form = modal.find("form");
+            var action = form.attr("action");
+            jsUtils.Action("POST", action, { userId: user.id() });
+        }
+    }
+
+    $.getJSON("/users?exclude=1", function (data) {
+        $.each(data, function (i, item) {
+            self.users.push({
+                id: ko.observable(item.id),
+                name: ko.observable(item.name)
+            });
+        });
+    });
+}

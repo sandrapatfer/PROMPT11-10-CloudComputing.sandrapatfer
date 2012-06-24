@@ -41,9 +41,11 @@ namespace InMemoryRepo
             return _lists.FirstOrDefault(l => l.Id == id);
         }
 
-        public TaskList Update(int listId, TaskList listData)
+        public void Update(int listId, TaskList listData)
         {
-            return listData;
+            var list = _lists.First(l => l.Id == listId);
+            list.Name = listData.Name;
+            list.Description = listData.Description;
         }
 
         public void Delete(int listId)
