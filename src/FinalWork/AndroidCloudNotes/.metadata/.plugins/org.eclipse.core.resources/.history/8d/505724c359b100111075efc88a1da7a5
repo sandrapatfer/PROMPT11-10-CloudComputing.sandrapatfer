@@ -1,5 +1,0 @@
-package prompt.cloudnotes.stores;
-
-public class TStore<T> extends Iterable<T> {
-
-}

@@ -50,6 +50,8 @@ namespace Server
             RegisterGlobalFilters(GlobalFilters.Filters);
            
             RegisterRoutes(RouteTable.Routes);
+
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new AuthenticationHandler());
         }
 
         private void GenerateDummyData()

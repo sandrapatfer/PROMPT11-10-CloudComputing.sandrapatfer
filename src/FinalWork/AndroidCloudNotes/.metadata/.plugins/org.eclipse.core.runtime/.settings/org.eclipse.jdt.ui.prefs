@@ -1,4 +1,4 @@
-content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"/>
+content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="java.lang.Appendable"><rhs name\="java.lang.StringBuilder"/></lhs><lhs name\="java.lang.CharSequence"><rhs name\="java.lang.StringBuilder"/></lhs><lhs name\="java.lang.AbstractStringBuilder"><rhs name\="java.lang.StringBuilder"/></lhs><lhs name\="org.json.JSONObject"><rhs name\="org.json.JSONObject"/></lhs><lhs name\="org.json.JSONArray"><rhs name\="org.json.JSONArray"/></lhs><lhs name\="android.webkit.WebChromeClient"><rhs name\="android.webkit.WebChromeClient"/></lhs><lhs name\="org.apache.http.NameValuePair"><rhs name\="org.apache.http.message.BasicNameValuePair"/></lhs><lhs name\="org.apache.http.HttpEntity"><rhs name\="org.apache.http.client.entity.UrlEncodedFormEntity"/></lhs></history>
 content_assist_number_of_computers=13
 content_assist_proposals_background=255,255,255
 content_assist_proposals_foreground=0,0,0

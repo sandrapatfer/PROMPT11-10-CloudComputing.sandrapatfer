@@ -32,6 +32,5 @@ namespace Server.Controllers
             }
             return View();
         }
-
     }
 }

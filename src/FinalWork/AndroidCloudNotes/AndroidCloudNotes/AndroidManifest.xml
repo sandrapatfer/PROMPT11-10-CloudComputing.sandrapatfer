@@ -13,12 +13,15 @@
         android:label="@string/app_name"
         android:name="prompt.cloudnotes.CloudNotesApp">
         <activity
-            android:name=".activities.TaskListsActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.TaskListsActivity">
         </activity>
         <activity
             android:name=".activities.TaskListActivity">
@@ -28,6 +31,9 @@
         </activity>
         <activity
             android:name=".activities.NoteActivity">
+        </activity>
+        <activity
+            android:name=".activities.AuthActivity">
         </activity>
         
         <provider
@@ -40,6 +46,10 @@
             android:multiprocess="false"
             android:authorities="androidcloudnotes.notes">
         </provider>
+        
+        <service
+            android:name=".services.GetInfoService" >
+        </service>
         
     </application>
 

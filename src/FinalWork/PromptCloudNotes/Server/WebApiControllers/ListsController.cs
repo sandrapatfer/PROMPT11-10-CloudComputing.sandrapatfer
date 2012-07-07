@@ -28,7 +28,8 @@ namespace Server.WebApiControllers
         // GET /api/lists
         public IEnumerable<WebApiModel.TaskList> Get()
         {
-            var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+            //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+            var user = _userManager.GetUser("Sandra Fernandes");
             return _manager.GetAllLists(user.Id).Select(l => new WebApiModel.TaskList() { id = l.Id, name = l.Name });
         }
 

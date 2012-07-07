@@ -4,6 +4,7 @@ import prompt.cloudnotes.CloudNotesApp;
 import prompt.cloudnotes.R;
 import prompt.cloudnotes.providers.NoteProviderContract;
 import prompt.cloudnotes.providers.TaskListProviderContract;
+import prompt.cloudnotes.services.GetInfoService;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;

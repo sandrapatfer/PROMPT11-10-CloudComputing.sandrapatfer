@@ -1,0 +1,26 @@
+package prompt.cloudnotes.activities;
+
+import prompt.cloudnotes.CloudNotesApp;
+import prompt.cloudnotes.R;
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.webkit.WebView;
+
+
+public class AuthActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+        Log.d(CloudNotesApp.TAG, "AuthActivity.onCreate");
+
+        setContentView(R.layout.web_view);
+
+        WebView webView = (WebView) findViewById(R.id.webview);
+        webView.loadUrl("http://www.google.com");
+        
+	}
+
+}
