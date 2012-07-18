@@ -8,8 +8,8 @@
     <ProjectGuid>{07DB809F-BF4B-47A3-A0B3-1C5C9F6E7460}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BusinessLayer</RootNamespace>
-    <AssemblyName>BusinessLayer</AssemblyName>
+    <RootNamespace>PromptCloudNotes.BusinessLayer</RootNamespace>
+    <AssemblyName>PromptCloudNotes.BusinessLayer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

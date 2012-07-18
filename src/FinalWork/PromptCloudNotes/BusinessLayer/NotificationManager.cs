@@ -5,7 +5,7 @@ using System.Text;
 using PromptCloudNotes.Interfaces;
 using PromptCloudNotes.Model;
 
-namespace BusinessLayer.Managers
+namespace PromptCloudNotes.BusinessLayer.Managers
 {
     public class NotificationManager : INotificationManager
     {

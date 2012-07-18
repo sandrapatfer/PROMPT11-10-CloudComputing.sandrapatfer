@@ -1,7 +1,0 @@
-package prompt.cloudnotes.activities;
-
-import Activity;
-
-public class AuthActivity extends Activity {
-
-}

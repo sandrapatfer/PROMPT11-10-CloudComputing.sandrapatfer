@@ -13,6 +13,7 @@ using Exceptions;
 
 namespace Server.WebApiControllers
 {
+    [Authorize]
     public class NotesController : ApiController
     {
         private IUserManager _userManager;

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using StructureMap;
 using PromptCloudNotes.Interfaces;
-using InMemoryRepo;
-using BusinessLayer.Managers;
+using PromptCloudNotes.InMemoryRepo;
+using PromptCloudNotes.BusinessLayer.Managers;
 
 namespace BLTests
 {

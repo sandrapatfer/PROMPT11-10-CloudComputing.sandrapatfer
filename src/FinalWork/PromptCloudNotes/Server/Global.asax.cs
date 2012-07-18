@@ -7,7 +7,6 @@ using System.Web.Routing;
 using System.Web.Http;
 using PromptCloudNotes.Interfaces;
 using StructureMap;
-using PromptCloudNotes.Model;
 using Server.Utils;
 
 namespace Server
@@ -43,31 +42,15 @@ namespace Server
         {
             IoC.Configure();
 
-            GenerateDummyData();
-
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
            
             RegisterRoutes(RouteTable.Routes);
 
+            // web api auth configuration through a message handler
             GlobalConfiguration.Configuration.MessageHandlers.Add(new AuthenticationHandler());
         }
 
-        private void GenerateDummyData()
-        {
-            var user = new User();
-            user.UserName = "Sandra Fernandes";
-            var um = ObjectFactory.GetInstance<IUserManager>();
-            user = um.CreateUser(user);
-
-            var list = new TaskList() { Name = "Dummy list", Description = "Dummy description" };
-            var tlm = ObjectFactory.GetInstance<ITaskListManager>();
-            list = tlm.CreateTaskList(user.Id, list);
-
-            var note = new Note() { Name = "note name", Description = "note description" };
-            var nm = ObjectFactory.GetInstance<INoteManager>();
-            note = nm.CreateNote(user.Id, list.Id, note);
-        }
     }
 }

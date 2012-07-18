@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="20" version="2.0">
+<workbench progressCount="22" version="2.0">
 <workbenchAdvisor/>
 <window height="1095" width="1183" x="2" y="10">
 <fastViewData fastViewLocation="1024"/>
@@ -159,7 +159,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AuthActivity.java" partName="AuthActivity.java" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/src/prompt/cloudnotes/activities/AuthActivity.java" title="AuthActivity.java" tooltip="AndroidCloudNotes/src/prompt/cloudnotes/activities/AuthActivity.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/src/prompt/cloudnotes/activities/AuthActivity.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2246" selectionTopPixel="495"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2437" selectionTopPixel="495"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="LoginActivity.java" partName="LoginActivity.java" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/src/prompt/cloudnotes/activities/LoginActivity.java" title="LoginActivity.java" tooltip="AndroidCloudNotes/src/prompt/cloudnotes/activities/LoginActivity.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/src/prompt/cloudnotes/activities/LoginActivity.java"/>
@@ -185,6 +185,9 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
+<expanded>
+<category IMemento.internal.id="Warnings (9 items)"/>
+</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -342,7 +345,7 @@
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.25" ratioLeft="250" ratioRight="750" relationship="2" relative="left"/>
 <info folder="true" part="bottom" ratio="0.67287236" ratioLeft="506" ratioRight="246" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="com.android.ide.eclipse.ddms.views.LogCatView" appearance="2" expanded="2">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.jdt.ui.JavadocView" label="Javadoc"/>
 <page content="org.eclipse.jdt.ui.SourceView" label="Declaration"/>

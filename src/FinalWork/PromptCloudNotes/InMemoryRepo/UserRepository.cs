@@ -5,7 +5,7 @@ using System.Text;
 using PromptCloudNotes.Interfaces;
 using PromptCloudNotes.Model;
 
-namespace InMemoryRepo
+namespace PromptCloudNotes.InMemoryRepo
 {
     public class UserRepository : IUserRepository
     {

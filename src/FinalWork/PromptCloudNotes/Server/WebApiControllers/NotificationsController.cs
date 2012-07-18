@@ -10,6 +10,7 @@ using Exceptions;
 
 namespace Server.WebApiControllers
 {
+    [Authorize]
     public class NotificationsController : ApiController
     {
         private INotificationManager _manager;

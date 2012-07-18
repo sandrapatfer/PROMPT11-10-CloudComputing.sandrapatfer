@@ -6,7 +6,7 @@ using PromptCloudNotes.Interfaces;
 using PromptCloudNotes.Model;
 using Exceptions;
 
-namespace BusinessLayer.Managers
+namespace PromptCloudNotes.BusinessLayer.Managers
 {
     public class NoteManager : INoteManager
     {
