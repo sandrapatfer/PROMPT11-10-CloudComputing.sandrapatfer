@@ -6,14 +6,12 @@ using Microsoft.WindowsAzure.StorageClient;
 
 namespace PromptCloudNotes.AzureRepo.Model
 {
-    class TaskListEntity : TableServiceEntity
+    class NoteEntity : TableServiceEntity
     {
-        public TaskListEntity() { }
+        public NoteEntity() { }
 
-        // Use the id as partition key and row key, is heavier to insert, but faster to read
-
-        public TaskListEntity(int userId, int listId)
-            : base(userId.ToString(), listId.ToString())
+        public NoteEntity(int listId, int noteId)
+            : base(listId.ToString(), noteId.ToString())
         {}
 
         public string Name { get; set; }

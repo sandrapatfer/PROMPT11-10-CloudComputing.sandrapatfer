@@ -5,19 +5,21 @@ using System.Text;
 using PromptCloudNotes.Interfaces;
 using PromptCloudNotes.Model;
 using Microsoft.WindowsAzure;
-using AzureRepo.Model;
 
-namespace AzureRepo
+namespace PromptCloudNotes.AzureRepo
 {
+    using Model;
+
     public class TaskListRepository : ITaskListRepository
     {
         private const string TABLE_NAME = "TaskListTable";
         private AzureUtils.Table _tableUtils;
 
-        public TaskListRepository(AzureUtils.Table utils)
+        public TaskListRepository()
         {
-            //_tableUtils = new AzureUtils.Table(CloudStorageAccount.FromConfigurationSetting("DataConnectionString"));
-            _tableUtils = utils;
+            //var connectionString = CloudStorageAccount.FromConfigurationSetting("DataConnectionString");
+            var connectionString = "DefaultEndpointsProtocol=http;AccountName=spfcloudnotes;AccountKey=Gdi0M+gd1mO7a183WgRP8zxag5Fh2t0NNnh8Qvmz47V4vVDBe7JIXjdQS3wH0aLqRlpqNUqfzfuSC3TCgjVkLg==";
+            _tableUtils = new AzureUtils.Table(connectionString);
 
             // ensure the table is created
             _tableUtils.CreateTable(TABLE_NAME);

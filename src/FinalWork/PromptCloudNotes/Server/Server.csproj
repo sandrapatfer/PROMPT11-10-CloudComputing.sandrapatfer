@@ -210,6 +210,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AzureRepo\AzureRepo.csproj">
+      <Project>{1EAF32F1-F6B9-4E18-B98A-020B59D85F8C}</Project>
+      <Name>AzureRepo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj">
       <Project>{07DB809F-BF4B-47A3-A0B3-1C5C9F6E7460}</Project>
       <Name>BusinessLayer</Name>

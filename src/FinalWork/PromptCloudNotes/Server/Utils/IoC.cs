@@ -24,10 +24,10 @@ namespace Server.Utils
 
                 ex.For<INotificationProcessor>().Use<DummyNotificationProcessor>();
 
-                ex.For<IUserRepository>().Singleton().Use<UserRepository>();
-                ex.For<ITaskListRepository>().Singleton().Use<TaskListRepository>();
-                ex.For<INoteRepository>().Singleton().Use<NoteRepository>();
-                ex.For<INotificationRepository>().Singleton().Use<NotificationRepository>();
+                ex.For<IUserRepository>().Use<PromptCloudNotes.AzureRepo.UserRepository>();
+                ex.For<ITaskListRepository>().Use<PromptCloudNotes.AzureRepo.TaskListRepository>();
+                ex.For<INoteRepository>().Use<PromptCloudNotes.AzureRepo.NoteRepository>();
+                ex.For<INotificationRepository>().Use<PromptCloudNotes.AzureRepo.NotificationRepository>();
 
                 ex.For<IUserManager>().HttpContextScoped().Use<UserManager>();
                 ex.For<ITaskListManager>().HttpContextScoped().Use<TaskListManager>();
