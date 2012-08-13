@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\NotificationEntity.cs" />
+    <Compile Include="Model\ShareEntity.cs" />
     <Compile Include="Model\UserEntity.cs" />
     <Compile Include="NoteRepository.cs" />
     <Compile Include="Model\NoteEntity.cs" />

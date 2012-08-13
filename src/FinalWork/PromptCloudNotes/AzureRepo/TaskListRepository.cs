@@ -13,6 +13,7 @@ namespace PromptCloudNotes.AzureRepo
     public class TaskListRepository : ITaskListRepository
     {
         private const string TABLE_NAME = "TaskListTable";
+        private const string SHARE_TABLE_NAME = "ShareTable";
         private AzureUtils.Table _tableUtils;
 
         public TaskListRepository()
@@ -56,7 +57,11 @@ namespace PromptCloudNotes.AzureRepo
             var entity = _tableUtils.GetEntitiesInRow<TaskListEntity>(TABLE_NAME, listId.ToString()).FirstOrDefault();
             if (entity != null)
             {
-                return new TaskList() { Id = listId, Name = entity.Name, Description = entity.Description };
+                var user = new User() { Id = Convert.ToInt32(entity.PartitionKey) };
+                return new TaskList() { Id = listId, Name = entity.Name, Description = entity.Description,
+                    Users = new List<User>() { user },
+                    Creator = user
+                };
             }
 
             return null;
@@ -80,7 +85,12 @@ namespace PromptCloudNotes.AzureRepo
 
         public void Share(int listId, int userId)
         {
-            throw new NotImplementedException();
+            var newEntity = new ShareEntity(listId, true, userId);
+            if (!_tableUtils.Insert(SHARE_TABLE_NAME, newEntity))
+            {
+                // TODO excepcao nova
+                throw new InvalidOperationException();
+            }
         }
     }
 }
