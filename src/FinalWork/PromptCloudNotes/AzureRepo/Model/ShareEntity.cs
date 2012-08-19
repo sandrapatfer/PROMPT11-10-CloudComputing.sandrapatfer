@@ -6,14 +6,12 @@ using Microsoft.WindowsAzure.StorageClient;
 
 namespace PromptCloudNotes.AzureRepo.Model
 {
-    class ShareEntity : TableServiceEntity
+    class ShareTaskListEntity : TableServiceEntity
     {
-        private const string _idFormat = "{0}_{1}";
+        public ShareTaskListEntity() { }
 
-        public ShareEntity() { }
-
-        public ShareEntity(int id, bool list, int userId)
-            : base(string.Format(_idFormat, id, list? 1: 0), userId.ToString())
+        public ShareTaskListEntity(int id, int userId)
+            : base(id.ToString(), userId.ToString())
         {
         }
 
@@ -21,16 +19,7 @@ namespace PromptCloudNotes.AzureRepo.Model
         {
             get
             {
-                var parts = PartitionKey.Split(new char[] { '_' });
-                return Convert.ToInt32(parts[0]);
-            }
-        }
-        public bool IsList
-        {
-            get
-            {
-                var parts = PartitionKey.Split(new char[] { '_' });
-                return Convert.ToInt32(parts[1]) == 1;
+                return Convert.ToInt32(PartitionKey);
             }
         }
         public int UserId
@@ -41,5 +30,6 @@ namespace PromptCloudNotes.AzureRepo.Model
             }
         }
 
+        public string UserName { get; set; }
     }
 }

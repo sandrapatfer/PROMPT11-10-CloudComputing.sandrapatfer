@@ -10,10 +10,12 @@ namespace Server.Controllers
     public class UsersController : Controller
     {
         private IUserManager _manager;
+        private ITaskListManager _listManager;
 
-        public UsersController(IUserManager manager)
+        public UsersController(IUserManager manager, ITaskListManager listManager)
         {
             _manager = manager;
+            _listManager = listManager;
         }
 
 
@@ -33,5 +35,18 @@ namespace Server.Controllers
             };
         }
 
+        
+        //
+        // GET: /Users/TaskListNotShared?listId
+        public JsonResult TaskListNotShared(int listId)
+        {
+            var user = _manager.GetUser(User.Identity.Name);
+            var allUsers = _manager.GetAllUsers();
+            var list = _listManager.GetTaskList(user.Id, listId);
+            return new JsonResult() { 
+                Data = allUsers.Except(list.Users).Select(u => new MvcModel.User() { id = u.Id, name = u.UserName }),
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
     }
 }

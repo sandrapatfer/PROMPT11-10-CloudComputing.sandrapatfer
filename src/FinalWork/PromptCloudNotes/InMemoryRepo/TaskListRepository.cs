@@ -25,10 +25,9 @@ namespace PromptCloudNotes.InMemoryRepo
             return _lists.Where(t => (t.Creator.Id == userId || t.Users.Any(u => u.Id == userId)));
         }
 
-        public TaskList Create(int userId, TaskList list)
+        public TaskList Create(User user, TaskList list)
         {
             list.Id = ++_listId;
-            var user = _userRepository.Get(userId);
             list.Users = new List<User>();
             list.Users.Add(user);
             list.Creator = user;
@@ -37,6 +36,11 @@ namespace PromptCloudNotes.InMemoryRepo
         }
 
         public TaskList Get(int id)
+        {
+            return _lists.FirstOrDefault(l => l.Id == id);
+        }
+
+        public TaskList GetWithUsers(int id)
         {
             return _lists.FirstOrDefault(l => l.Id == id);
         }
@@ -54,9 +58,8 @@ namespace PromptCloudNotes.InMemoryRepo
             _lists.Remove(list);
         }
 
-        public void Share(int listId, int userId)
+        public void Share(int listId, User user)
         {
-            var user = _userRepository.Get(userId);
             var list = _lists.First(l => l.Id == listId);
             list.Users.Add(user);
         }

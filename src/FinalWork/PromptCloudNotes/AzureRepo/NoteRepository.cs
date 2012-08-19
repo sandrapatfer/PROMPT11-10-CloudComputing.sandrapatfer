@@ -30,8 +30,9 @@ namespace PromptCloudNotes.AzureRepo
         {
             // TODO validate the list for the user (remember it is used in next function passing -1)
 
+            var list = new TaskList() { Id = listId };
             return _tableUtils.GetEntitiesInPartition<NoteEntity>(TABLE_NAME, listId.ToString()).
-                Select(e => new Note() { Id = Convert.ToInt32(e.RowKey), Name = e.Name, Description = e.Description });
+                Select(e => new Note() { Id = Convert.ToInt32(e.RowKey), Name = e.Name, Description = e.Description, ParentList = list });
         }
 
         IEnumerable<Note> INoteRepository.GetAll(int userId)

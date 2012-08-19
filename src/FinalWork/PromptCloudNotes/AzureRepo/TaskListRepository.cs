@@ -13,7 +13,7 @@ namespace PromptCloudNotes.AzureRepo
     public class TaskListRepository : ITaskListRepository
     {
         private const string TABLE_NAME = "TaskListTable";
-        private const string SHARE_TABLE_NAME = "ShareTable";
+        private const string SHARE_TABLE_NAME = "ShareTaskListTable";
         private AzureUtils.Table _tableUtils;
 
         public TaskListRepository()
@@ -22,8 +22,9 @@ namespace PromptCloudNotes.AzureRepo
             var connectionString = "DefaultEndpointsProtocol=http;AccountName=spfcloudnotes;AccountKey=Gdi0M+gd1mO7a183WgRP8zxag5Fh2t0NNnh8Qvmz47V4vVDBe7JIXjdQS3wH0aLqRlpqNUqfzfuSC3TCgjVkLg==";
             _tableUtils = new AzureUtils.Table(connectionString);
 
-            // ensure the table is created
+            // ensure the tables are created
             _tableUtils.CreateTable(TABLE_NAME);
+            _tableUtils.CreateTable(SHARE_TABLE_NAME);
         }
 
         public IEnumerable<TaskList> GetAll(int userId)
@@ -34,7 +35,7 @@ namespace PromptCloudNotes.AzureRepo
                 Select(e => new TaskList() { Id = Convert.ToInt32(e.RowKey), Name = e.Name, Description = e.Description });
         }
 
-        public TaskList Create(int userId, TaskList listData)
+        public TaskList Create(User user, TaskList listData)
         {
             var allLists = _tableUtils.GetAllEntities<TaskListEntity>(TABLE_NAME);
             int max = -1;
@@ -42,12 +43,19 @@ namespace PromptCloudNotes.AzureRepo
             {
                 max = allLists.Max(e => Convert.ToInt32(e.RowKey));
             }
-            var newEntity = new TaskListEntity(userId, ++max) { Name = listData.Name, Description = listData.Description };
+            var newEntity = new TaskListEntity(user.Id, ++max) { Name = listData.Name, Description = listData.Description };
             if (_tableUtils.Insert(TABLE_NAME, newEntity))
             {
                 listData.Id = Convert.ToInt32(newEntity.RowKey);
-                return listData;
+
+                var newShareEntity = new ShareTaskListEntity(listData.Id, user.Id);
+                newShareEntity.UserName = user.UserName;
+                if (_tableUtils.Insert(SHARE_TABLE_NAME, newShareEntity))
+                {
+                    return listData;
+                }
             }
+
             // TODO excepcao nova
             throw new InvalidOperationException();
         }
@@ -57,10 +65,29 @@ namespace PromptCloudNotes.AzureRepo
             var entity = _tableUtils.GetEntitiesInRow<TaskListEntity>(TABLE_NAME, listId.ToString()).FirstOrDefault();
             if (entity != null)
             {
-                var user = new User() { Id = Convert.ToInt32(entity.PartitionKey) };
+                return new TaskList()
+                {
+                    Id = listId,
+                    Name = entity.Name,
+                    Description = entity.Description
+                    /*,
+                    Creator = user*/
+                };
+            }
+
+            return null;
+        }
+
+        public TaskList GetWithUsers(int listId)
+        {
+            var entity = _tableUtils.GetEntitiesInRow<TaskListEntity>(TABLE_NAME, listId.ToString()).FirstOrDefault();
+            if (entity != null)
+            {
+                var users = _tableUtils.GetEntitiesInPartition<ShareTaskListEntity>(SHARE_TABLE_NAME, listId.ToString());
                 return new TaskList() { Id = listId, Name = entity.Name, Description = entity.Description,
-                    Users = new List<User>() { user },
-                    Creator = user
+                    Users = users.Select( u => new User() { Id = u.Id, UserName = u.UserName }).ToList()
+                    /*,
+                    Creator = user*/
                 };
             }
 
@@ -83,9 +110,10 @@ namespace PromptCloudNotes.AzureRepo
             throw new NotImplementedException();
         }
 
-        public void Share(int listId, int userId)
+        public void Share(int listId, User user)
         {
-            var newEntity = new ShareEntity(listId, true, userId);
+            var newEntity = new ShareTaskListEntity(listId, user.Id);
+            newEntity.UserName = user.UserName;
             if (!_tableUtils.Insert(SHARE_TABLE_NAME, newEntity))
             {
                 // TODO excepcao nova

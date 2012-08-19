@@ -73,7 +73,7 @@ namespace Server.Utils
 
             var list = new TaskList() { Name = "Dummy list", Description = "Dummy description" };
             var tlm = ObjectFactory.GetInstance<ITaskListManager>();
-            list = tlm.CreateTaskList(user.Id, list);
+            list = tlm.CreateTaskList(user, list);
 
             var note = new Note() { Name = "note name", Description = "note description" };
             var nm = ObjectFactory.GetInstance<INoteManager>();

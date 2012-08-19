@@ -53,7 +53,7 @@ namespace Server.WebApiControllers
             var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
 
             var listData = new TaskList() { Name = list.name };
-            listData = _manager.CreateTaskList(user.Id, listData);
+            listData = _manager.CreateTaskList(user, listData);
             list.id = listData.Id;
 
             var response = new HttpResponseMessage<WebApiModel.TaskList>(list)

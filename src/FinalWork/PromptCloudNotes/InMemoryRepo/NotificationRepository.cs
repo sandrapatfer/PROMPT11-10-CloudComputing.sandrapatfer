@@ -39,7 +39,7 @@ namespace PromptCloudNotes.InMemoryRepo
             {
                 // this can not be always done, because in delete notifications,
                 // at this moment the repository does not have the list anymore
-                notificationData.Task = _listRepository.Get(listId);
+                notificationData.Task = _listRepository.GetWithUsers(listId);
             }
         }
 

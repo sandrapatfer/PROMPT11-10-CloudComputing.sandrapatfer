@@ -10,11 +10,12 @@ namespace PromptCloudNotes.Interfaces
     {
         IEnumerable<TaskList> GetAll(int userId);
 
-        TaskList Create(int userId, TaskList listData);
+        TaskList Create(User user, TaskList listData);
         TaskList Get(int listId);
+        TaskList GetWithUsers(int listId);
         void Update(int listId, TaskList listData);
         void Delete(int listId);
 
-        void Share(int listId, int userId);
+        void Share(int listId, User userId);
     }
 }

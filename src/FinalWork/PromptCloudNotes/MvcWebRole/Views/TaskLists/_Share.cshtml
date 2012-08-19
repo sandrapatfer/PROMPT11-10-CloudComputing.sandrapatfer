@@ -29,6 +29,7 @@
     $(function () {
         // Activates knockout.js
         var form = $("#shareListModal");
-        ko.applyBindings(new ShareTaskListModel(), form[0]);
+        var model = new ShareTaskListModel(@Model);
+        ko.applyBindings(model, form[0]);
     });
 </script>

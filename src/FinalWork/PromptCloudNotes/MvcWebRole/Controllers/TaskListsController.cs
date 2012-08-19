@@ -54,7 +54,7 @@ namespace Server.Controllers
             try
             {
                 var user = _userManager.GetUser(User.Identity.Name);
-                var newList = _manager.CreateTaskList(user.Id, new TaskList() { Name = list.name, Description = list.name, Creator = user });
+                var newList = _manager.CreateTaskList(user, new TaskList() { Name = list.name, Description = list.name, Creator = user });
                 return new RedirectJsonResult("Index", "Notes", newList.Id);
 //                return new RedirectJsonResult("Index", "Notes", new { listId = newList.Id });
             }

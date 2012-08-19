@@ -30,7 +30,7 @@ namespace Server.Controllers
             var listNotes = _notesManager.GetAllNotes(user.Id, listId);
             if (listNotes != null)
             {
-                var notes = listNotes.Select(n => new Server.MvcModel.Note() { id = n.Id, listId = n.ParentList.Id, name = n.Name, description = n.Description });
+                var notes = listNotes.Select(n => new Server.MvcModel.Note() { id = n.Id, listId = listId, name = n.Name, description = n.Description });
                 return View(notes);
             }
             else

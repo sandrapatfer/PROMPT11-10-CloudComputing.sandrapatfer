@@ -46,8 +46,9 @@ $(function () {
 
 });
 
-function ShareTaskListModel() {
+function ShareTaskListModel(listId) {
     var self = this;
+    self.listId = listId;
 
     self.users = ko.observableArray([]);
     self.selectedUser = ko.observable();
@@ -63,7 +64,7 @@ function ShareTaskListModel() {
         }
     }
 
-    $.getJSON("/users?exclude=1", function (data) {
+    $.getJSON("/users/TaskListNotShared?listId=" + self.listId, function (data) {
         $.each(data, function (i, item) {
             self.users.push({
                 id: ko.observable(item.id),

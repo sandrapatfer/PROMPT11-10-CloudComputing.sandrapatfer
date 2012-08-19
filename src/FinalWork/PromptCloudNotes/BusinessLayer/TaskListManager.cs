@@ -11,11 +11,13 @@ namespace PromptCloudNotes.BusinessLayer.Managers
     public class TaskListManager : ITaskListManager
     {
         private ITaskListRepository _repository;
+        private IUserRepository _userRepository;
         private INotificationManager _noticationMgr;
 
-        public TaskListManager(ITaskListRepository repo, INotificationManager notify)
+        public TaskListManager(ITaskListRepository repo, IUserRepository userRepo, INotificationManager notify)
         {
             _repository = repo;
+            _userRepository = userRepo;
             _noticationMgr = notify;
         }
 
@@ -26,19 +28,19 @@ namespace PromptCloudNotes.BusinessLayer.Managers
             return _repository.GetAll(userId);
         }
 
-        public TaskList CreateTaskList(int userId, TaskList listData)
+        public TaskList CreateTaskList(User user, TaskList listData)
         {
-            return _repository.Create(userId, listData);
+            return _repository.Create(user, listData);
         }
 
         public TaskList GetTaskList(int userId, int listId)
         {
-            var list = _repository.Get(listId);
+            var list = _repository.GetWithUsers(listId);
             if (list == null)
             {
                 throw new ObjectNotFoundException();
             }
-            if (list.Users.Any(u => u.Id == userId)) // TODO lazy load?
+            if (list.Users.Any(u => u.Id == userId))
             {
                 return list;
             }
@@ -48,12 +50,12 @@ namespace PromptCloudNotes.BusinessLayer.Managers
 
         public void UpdateTaskList(int userId, int listId, TaskList listData)
         {
-            var list = _repository.Get(listId); // TODO just get list shares?
+            var list = _repository.GetWithUsers(listId);
             if (list == null)
             {
                 throw new ObjectNotFoundException();
             }
-            if (list.Users.Any(u => u.Id == userId)) // TODO lazy load?
+            if (list.Users.Any(u => u.Id == userId))
             {
                 _repository.Update(listId, listData);
 
@@ -88,14 +90,21 @@ namespace PromptCloudNotes.BusinessLayer.Managers
 
         public void ShareTaskList(int userId, int listId, int shareUserId)
         {
-            var list = _repository.Get(listId);
+            var list = _repository.GetWithUsers(listId);
             if (list == null)
             {
                 throw new ObjectNotFoundException();
             }
-            if (list.Users.Any(u => u.Id == userId)) // TODO lazy load?
+            if (list.Users.Any(u => u.Id == userId))
             {
-                _repository.Share(listId, shareUserId);
+                var user = _userRepository.Get(shareUserId);
+                if (user == null)
+                {
+                    // TODO throw new exception
+                    throw new InvalidOperationException();
+                }
+
+                _repository.Share(listId, user);
 
                 var notif = new Notification() { Type = Notification.NotificationType.Share };
                 _noticationMgr.CreateTaskListNotification(shareUserId, listId, notif);
