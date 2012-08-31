@@ -34,7 +34,7 @@ namespace BLTests
 
         private TaskList CreateTaskList()
         {
-            TaskList tl = new TaskList() { Name = "new list" };
+            TaskList tl = new TaskList() { Name = "new list", Users = new List<User>() { _creationUser } };
             _taskListManager.CreateTaskList(_creationUser, tl);
             return tl;
         }
@@ -65,7 +65,7 @@ namespace BLTests
             user2.Notifications.Clear();
 
             list.Name = "Changed name";
-            _taskListManager.UpdateTaskList(user2.UniqueId, list.Id, _creationUser.UniqueId, list);
+            _taskListManager.UpdateTaskList(_creationUser.UniqueId, list.Id, _creationUser.UniqueId, list);
 
             Assert.AreEqual(1, _creationUser.Notifications.Count);
 
@@ -94,7 +94,7 @@ namespace BLTests
 
         private Note CreateNote()
         {
-            TaskList tl = new TaskList() { Name = "new list" };
+            TaskList tl = new TaskList() { Name = "new list", Users = new List<User>() { _creationUser } };
             _taskListManager.CreateTaskList(_creationUser, tl);
 
             Note n = new Note() { Name = "new note" };

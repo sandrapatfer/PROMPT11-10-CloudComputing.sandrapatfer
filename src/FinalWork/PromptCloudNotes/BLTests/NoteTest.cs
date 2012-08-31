@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PromptCloudNotes.Model;
-using PromptCloudNotes.Interfaces;
 using StructureMap;
+using PromptCloudNotes.Interfaces.Managers;
 
 namespace BLTests
 {
@@ -25,7 +25,7 @@ namespace BLTests
             IUserManager um = ObjectFactory.GetInstance<IUserManager>();
             um.CreateUser(_user);
 
-            _taskList = new TaskList() { Name = "new list", Creator = _user };
+            _taskList = new TaskList() { Name = "new list", Creator = _user, Users = new List<User>() { _user } };
             _taskListManager = ObjectFactory.GetInstance<ITaskListManager>();
             _taskListManager.CreateTaskList(_user, _taskList);
 
@@ -36,14 +36,15 @@ namespace BLTests
         public void CreateNoteTest()
         {
             Note n = new Note() { Name = "new note" };
-            var n2 = _noteManager.CreateNote(_user.UniqueId, _taskList.Id, n);
-            Assert.IsNotNull(n2.Id);
+            _noteManager.CreateNote(_user, _taskList.Id, _user.UniqueId, n);
+            Assert.IsNotNull(n.Id);
         }
 
         Note CreateNote()
         {
             Note n = new Note() { Name = "new note", Creator = _user };
-            return _noteManager.CreateNote(_user.UniqueId, _taskList.Id, n);
+            _noteManager.CreateNote(_user, _taskList.Id, _user.UniqueId, n);
+            return n;
         }
 
         [TestMethod]
@@ -69,7 +70,7 @@ namespace BLTests
         public void DeleteNoteTest()
         {
             var n = CreateNote();
-            _noteManager.DeleteNote(_user.UniqueId, n.ParentList.Id, n.Id);
+            _noteManager.DeleteNote(_user.UniqueId, n.ParentList.Id, _user.UniqueId, n.Id);
             var n2 = _noteManager.GetNote(_user.UniqueId, _taskList.Id, n.Id);
         }
 
@@ -109,7 +110,7 @@ namespace BLTests
             var n2 = CreateNote();
             var n3 = CreateNote();
 
-            _noteManager.DeleteNote(_user.UniqueId, n1.ParentList.Id, n2.Id);
+            _noteManager.DeleteNote(_user.UniqueId, n1.ParentList.Id, _user.UniqueId, n2.Id);
 
             Assert.AreEqual(n1.ListOrder, 0);
             Assert.AreEqual(n3.ListOrder, 1);

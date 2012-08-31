@@ -54,7 +54,7 @@ namespace PromptCloudNotes.InMemoryRepo
             noteData.Users = new List<User>();
             noteData.Users.Add(noteData.Creator);
 
-            noteData.ParentList = _listRepository.Get(noteData.ParentList.Id, noteData.ParentList.Creator.UniqueId);
+            noteData.ParentList = _listRepository.Get(noteData.ParentList.Creator.UniqueId, noteData.ParentList.Id);
             if (noteData.ParentList.Tasks == null)
             {
                 noteData.ParentList.Tasks = new List<Task>();

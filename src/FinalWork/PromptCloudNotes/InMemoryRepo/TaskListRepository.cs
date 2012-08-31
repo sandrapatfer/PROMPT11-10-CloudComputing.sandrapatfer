@@ -31,6 +31,10 @@ namespace PromptCloudNotes.InMemoryRepo
         public void Create(TaskList list)
         {
             list.Id = (++_listId).ToString();
+            if (!list.Users.Contains(list.Creator))
+            {
+                list.Users.Add(list.Creator);
+            }
             _lists.Add(list);
         }
 

@@ -35,10 +35,11 @@ namespace BLTests
 
         Note CreateNote()
         {
-            var taskList = new TaskList() { Name = "new list" };
+            var taskList = new TaskList() { Name = "new list", Creator = _user, Users = new List<User>() { _user } };
             _taskListManager.CreateTaskList(_user, taskList);
             Note n = new Note() { Name = "new note" };
-            return _noteManager.CreateNote(_user.UniqueId, taskList.Id, n);
+            _noteManager.CreateNote(_user, taskList.Id, _user.UniqueId, n);
+            return n;
         }
 
         [TestMethod]
@@ -46,10 +47,10 @@ namespace BLTests
         {
             var n1 = CreateNote();
 
-            var tl2 = new TaskList() { Name = "second list" };
+            var tl2 = new TaskList() { Name = "second list", Creator = _user, Users = new List<User>() { _user } };
             _taskListManager.CreateTaskList(_user, tl2);
 
-            var n2 = _taskManager.CopyNote(_user.UniqueId, tl2.Id, n1);
+            var n2 = _taskManager.CopyNote(_user, tl2.Id, _user.UniqueId, n1);
 
             Assert.AreEqual(tl2.Id, n2.ParentList.Id);
         }
@@ -61,12 +62,12 @@ namespace BLTests
             string originalId = n1.Id;
             string originalList = n1.ParentList.Id;
 
-            var tl2 = new TaskList() { Name = "second list" };
+            var tl2 = new TaskList() { Name = "second list", Creator = _user, Users = new List<User>() { _user } };
             _taskListManager.CreateTaskList(_user, tl2);
 
-            var n2 = _taskManager.MoveNote(_user.UniqueId, tl2.Id, n1.ParentList.Id, n1);
+            _taskManager.MoveNote(_user, tl2.Id, _user.UniqueId, n1.ParentList.Id, _user.UniqueId, n1);
 
-            Assert.AreEqual(tl2.Id, n2.ParentList.Id);
+            Assert.AreEqual(tl2.Id, n1.ParentList.Id);
 
             try
             {

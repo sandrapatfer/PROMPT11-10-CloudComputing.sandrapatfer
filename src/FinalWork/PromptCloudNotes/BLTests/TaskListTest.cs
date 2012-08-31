@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PromptCloudNotes.Model;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Managers;
 using StructureMap;
 using Exceptions;
 
@@ -30,22 +30,23 @@ namespace BLTests
         [TestMethod]
         public void CreateListTest()
         {
-            TaskList tl = new TaskList() { Name = "new list" };
-            var tl2 = _taskListManager.CreateTaskList(_user, tl);
-            Assert.IsNotNull(tl2.Id);
+            TaskList tl = new TaskList() { Name = "new list", Users = new List<User>() { _user } };
+            _taskListManager.CreateTaskList(_user, tl);
+            Assert.IsNotNull(tl.Id);
         }
 
         TaskList CreateTaskList()
         {
-            TaskList tl = new TaskList() { Name = "new list" };
-            return _taskListManager.CreateTaskList(_user, tl);
+            TaskList tl = new TaskList() { Name = "new list", Users = new List<User>() { _user } };
+            _taskListManager.CreateTaskList(_user, tl);
+            return tl;
         }
 
         [TestMethod]
         public void GetListTest()
         {
             var tl = CreateTaskList();
-            var tl2 = _taskListManager.GetTaskList(_user.UniqueId, tl.Id);
+            var tl2 = _taskListManager.GetTaskList(_user.UniqueId, tl.Id, _user.UniqueId);
             Assert.IsNotNull(tl2);
             Assert.AreEqual(tl.Id, tl2.Id);
         }
@@ -55,8 +56,8 @@ namespace BLTests
         {
             var tl = CreateTaskList();
             tl.Name = "New name";
-            _taskListManager.UpdateTaskList(_user.UniqueId, tl.Id, tl);
-            var tl2 = _taskListManager.GetTaskList(_user.UniqueId, tl.Id);
+            _taskListManager.UpdateTaskList(_user.UniqueId, tl.Id, _user.UniqueId, tl);
+            var tl2 = _taskListManager.GetTaskList(_user.UniqueId, tl.Id, _user.UniqueId);
             Assert.AreEqual(tl.Name, tl2.Name);
         }
 
@@ -65,8 +66,8 @@ namespace BLTests
         public void DeleteListTest()
         {
             var tl = CreateTaskList();
-            _taskListManager.DeleteTaskList(_user.UniqueId, tl.Id);
-            var tl2 = _taskListManager.GetTaskList(_user.UniqueId, tl.Id);
+            _taskListManager.DeleteTaskList(_user.UniqueId, tl.Id, _user.UniqueId);
+            var tl2 = _taskListManager.GetTaskList(_user.UniqueId, tl.Id, _user.UniqueId);
         }
 
         [TestMethod]
@@ -78,12 +79,12 @@ namespace BLTests
             IUserManager um = ObjectFactory.GetInstance<IUserManager>();
             um.CreateUser(user);
 
-            _taskListManager.ShareTaskList(_user.UniqueId, tl.Id, user.UniqueId);
+            _taskListManager.ShareTaskList(_user.UniqueId, tl.Id, _user.UniqueId, user.UniqueId);
 
-            var tl2 = _taskListManager.GetTaskList(_user.UniqueId, tl.Id);
+            var tl2 = _taskListManager.GetTaskList(_user.UniqueId, tl.Id, _user.UniqueId);
             Assert.IsTrue(tl2.Users.Contains(user));
 
-            var tl3 = _taskListManager.GetTaskList(user.UniqueId, tl.Id);
+            var tl3 = _taskListManager.GetTaskList(user.UniqueId, tl.Id, _user.UniqueId);
             Assert.IsNotNull(tl3);
         }
     }

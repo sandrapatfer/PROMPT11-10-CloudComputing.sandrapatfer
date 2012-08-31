@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Managers\INoteManager.cs" />
     <Compile Include="Managers\INotificationManager.cs" />
     <Compile Include="Managers\ITaskListManager.cs" />

@@ -8,5 +8,9 @@ namespace BLTests
 {
     class DummyNotificationProcessor : INotificationProcessor
     {
+        public bool Send(PromptCloudNotes.Model.Notification notification)
+        {
+            return false;
+        }
     }
 }

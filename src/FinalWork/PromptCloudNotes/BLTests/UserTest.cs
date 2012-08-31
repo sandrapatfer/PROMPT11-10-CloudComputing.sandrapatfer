@@ -65,9 +65,8 @@ namespace BLTests
         {
             IUserManager m = ObjectFactory.GetInstance<IUserManager>();
             User user1 = new User();
-            User user2 = m.CreateUser(user1);
-            Assert.AreEqual(user1, user2);
-            Assert.IsNotNull(user2.UniqueId);
+            m.CreateUser(user1);
+            Assert.IsNotNull(user1.UniqueId);
         }
 
     }
