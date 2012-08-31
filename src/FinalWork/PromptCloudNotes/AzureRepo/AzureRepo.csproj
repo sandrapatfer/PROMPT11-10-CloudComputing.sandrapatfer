@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AzureRepository.cs" />
+    <Compile Include="AzureQueue.cs" />
+    <Compile Include="AzureTableRepository.cs" />
+    <Compile Include="NotificationRepository.cs" />
     <Compile Include="Model\OAuthTokenEntity.cs" />
     <Compile Include="OAuthTokenRepository.cs" />
     <Compile Include="ListUsersRepository.cs" />
@@ -58,7 +60,7 @@
     <Compile Include="NoteRepository.cs" />
     <Compile Include="Model\NoteEntity.cs" />
     <Compile Include="Model\TaskListEntity.cs" />
-    <Compile Include="NotificationRepository.cs" />
+    <Compile Include="NotificationQueue.cs" />
     <Compile Include="Model\OAuthCodeEntity.cs" />
     <Compile Include="OAuthCodeRepository.cs" />
     <Compile Include="TaskListRepository.cs" />

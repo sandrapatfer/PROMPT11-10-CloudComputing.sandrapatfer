@@ -6,7 +6,7 @@ using PromptCloudNotes.Interfaces.Repositories;
 
 namespace PromptCloudNotes.AzureRepo
 {
-    public class OAuthCodeRepository : AzureRepository<PromptCloudNotes.Model.OAuthCode, PromptCloudNotes.AzureRepo.Model.OAuthCodeEntity>, IOAuthCodeRepository
+    public class OAuthCodeRepository : AzureTable<PromptCloudNotes.Model.OAuthCode, PromptCloudNotes.AzureRepo.Model.OAuthCodeEntity>, IOAuthCodeRepository
     {
         private const string TABLE_NAME = "OAuthCodeTable";
 

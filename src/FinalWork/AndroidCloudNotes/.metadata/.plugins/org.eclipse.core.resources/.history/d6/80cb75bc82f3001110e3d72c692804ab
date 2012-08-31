@@ -1,0 +1,21 @@
+package prompt.cloudnotes.stores;
+
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
+import prompt.cloudnotes.model.Note;
+
+public class NoteStore extends TStore<Note> {
+
+	@Override
+	public void add(List<Note> list) {
+		// just replace the whole list
+		ConcurrentHashMap<String, Note> newStore = new ConcurrentHashMap<String, Note>();
+		for (Note l : list) {
+			newStore.put((long)l.getInternalId(), l);
+		}
+		_store.set(newStore);
+		
+	}
+
+}

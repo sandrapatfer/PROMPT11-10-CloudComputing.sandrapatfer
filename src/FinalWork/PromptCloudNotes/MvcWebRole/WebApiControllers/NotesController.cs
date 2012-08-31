@@ -10,36 +10,39 @@ using PromptCloudNotes.Model;
 using System.Net.Http;
 using System.Globalization;
 using Exceptions;
+using Server.Utils;
 
 namespace Server.WebApiControllers
 {
     [Authorize]
     public class NotesController : ApiController
     {
-        private IUserManager _userManager;
         private INoteManager _manager;
 
         public NotesController()
         {
-            //_userManager = userManager;
-            //_manager = manager;
+            _manager = ObjectFactory.GetInstance<INoteManager>();
         }
 
         // GET /api/notes
         public IEnumerable<WebApiModel.Note> Get()
         {
-            // TODO get user info
-            var user = Request.GetUserPrincipal() as User;
-            //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
-            return _manager.GetAllNotes(user.UniqueId).Select(n => new WebApiModel.Note() { title = n.Name, id = n.Id });
+            var userId = (Request.GetUserPrincipal().Identity as UserIdentity).UserId;
+            return _manager.GetAllNotes(userId).Select(n => new WebApiModel.Note() { title = n.Name, id = n.Id });
         }
 
-        // GET /api/notes/{nid}
+        // GET /api/lists/{lid}/notes
+        public IEnumerable<WebApiModel.Note> Get(string lid)
+        {
+            var userId = (Request.GetUserPrincipal().Identity as UserIdentity).UserId;
+            return _manager.GetAllNotes(userId, lid).Select(n => new WebApiModel.Note() { title = n.Name, id = n.Id });
+        }
+
+        // GET /api/lists/{lid}/notes/{nid}
         public WebApiModel.Note Get(string lid, string nid)
         {
-            var user = Request.GetUserPrincipal() as User;
-            //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
-            var note = _manager.GetNote(user.UniqueId, lid, nid);
+            var userId = (Request.GetUserPrincipal().Identity as UserIdentity).UserId;
+            var note = _manager.GetNote(userId, lid, nid);
             if (note == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -50,21 +53,16 @@ namespace Server.WebApiControllers
         // POST /api/lists/{lid}/notes
         public HttpResponseMessage Post(string lid, WebApiModel.Note note)
         {
-            var user = Request.GetUserPrincipal() as User;
-            //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+            var userId = (Request.GetUserPrincipal().Identity as UserIdentity).UserId;
             var noteData = new Note() { Name = note.title };
-            // TODO get creator id!!!
-            _manager.CreateNote(user, lid, user.UniqueId, noteData);
-            note.id = noteData.Id;
+            _manager.CreateNote(new User { UniqueId = userId }, lid, string.IsNullOrEmpty(note.listCreatorId) ? userId : note.listCreatorId, noteData);
 
             var response = new HttpResponseMessage<WebApiModel.Note>(note)
             {
                 StatusCode = HttpStatusCode.Created
             };
             response.Headers.Location = new Uri(Request.RequestUri,
-                string.Format("/api/lists/{0}/notes/{1}",
-                lid.ToString(CultureInfo.InvariantCulture),
-                noteData.Id.ToString(CultureInfo.InvariantCulture)));
+                string.Format("/api/lists/{0}/notes/{1}", lid, noteData.Id));
             return response;
         }
 
@@ -73,10 +71,9 @@ namespace Server.WebApiControllers
         {
             try
             {
-                var user = Request.GetUserPrincipal() as User;
-                //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+                var userId = (Request.GetUserPrincipal().Identity as UserIdentity).UserId;
                 var noteData = new Note() { Name = note.title };
-                _manager.UpdateNote(user.UniqueId, lid, nid, noteData);
+                _manager.UpdateNote(userId, lid, nid, noteData);
             }
             catch (ObjectNotFoundException)
             {
@@ -89,9 +86,9 @@ namespace Server.WebApiControllers
         {
             try
             {
-                var user = Request.GetUserPrincipal() as User;
-                //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
-                _manager.DeleteNote(user.UniqueId, lid, user.UniqueId, nid);
+                var userId = (Request.GetUserPrincipal().Identity as UserIdentity).UserId;
+                // TODO get list creator id
+                _manager.DeleteNote(userId, lid, userId, nid);
             }
             catch (ObjectNotFoundException)
             {

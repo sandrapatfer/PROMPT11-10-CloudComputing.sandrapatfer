@@ -18,7 +18,7 @@ public abstract class TStore<T> implements Iterable<T> {
 		return _store.get().values().iterator();
 	}
 
-	public T get(long id) {
+	public T get(String id) {
 		return _store.get().get(id);
 	}
 

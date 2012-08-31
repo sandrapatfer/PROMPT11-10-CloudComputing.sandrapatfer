@@ -8,6 +8,6 @@ namespace PromptCloudNotes.Interfaces
 {
     public interface INotificationProcessor
     {
-        void Send(string userId, Notification notification);
+        bool Send(Notification notification);
     }
 }

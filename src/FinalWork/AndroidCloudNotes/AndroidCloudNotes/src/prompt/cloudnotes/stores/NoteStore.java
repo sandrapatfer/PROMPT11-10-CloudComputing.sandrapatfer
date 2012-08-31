@@ -12,7 +12,7 @@ public class NoteStore extends TStore<Note> {
 		// just replace the whole list
 		ConcurrentHashMap<Long, Note> newStore = new ConcurrentHashMap<Long, Note>();
 		for (Note l : list) {
-			newStore.put((long) l.getId(), l);
+			newStore.put((long)l.getInternalId(), l);
 		}
 		_store.set(newStore);
 		

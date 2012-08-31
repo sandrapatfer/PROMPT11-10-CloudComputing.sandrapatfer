@@ -9,7 +9,7 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            Tests.TestingQueues8();
+            Tests.TestingQueues5();
 
             Console.ReadKey();
         }

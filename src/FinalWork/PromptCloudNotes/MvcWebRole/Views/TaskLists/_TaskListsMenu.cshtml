@@ -10,7 +10,7 @@
     @foreach (var item in Model.Lists)
     {
         <li
-            @if (item == Model.SelectedList)
+            @if (item.Id == Model.SelectedList.Id)
             { @:class="active dropdown"
             }
             else

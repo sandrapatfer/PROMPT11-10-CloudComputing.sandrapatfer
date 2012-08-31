@@ -131,7 +131,7 @@ namespace Server.Controllers
                     {
                         access_token = refreshedToken.Token,
                         token_type = refreshedToken.TokenType,
-                        expires_in = TimeSpan.FromHours(1).Seconds,
+                        expires_in = TimeSpan.FromHours(1).TotalSeconds,
                         refresh_token = refreshedToken.RefreshToken
                     }
                 };

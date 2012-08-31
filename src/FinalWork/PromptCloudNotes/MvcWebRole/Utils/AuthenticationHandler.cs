@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Web.Http.Hosting;
 using System.Security.Principal;
+using StructureMap;
+using PromptCloudNotes.Interfaces.Repositories;
+using System.Net;
 
 namespace Server.Utils
 {
@@ -15,14 +18,23 @@ namespace Server.Utils
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var authHeader = request.Headers.Authorization;
-            if (authHeader != null && authHeader.Scheme == "Bearer" && authHeader.Parameter == "456")
+            if (authHeader != null && authHeader.Scheme == "Bearer")
             {
-                var identity = new GenericIdentity("Sandra Fernandes");
-                if (request.Properties.Keys.Contains(HttpPropertyKeys.UserPrincipalKey))
+                var oAuthTokenRepo = ObjectFactory.GetInstance<IOAuthTokenRepository>();
+                var token = oAuthTokenRepo.Get("Bearer", authHeader.Parameter);
+
+                /* testing
+                if ((DateTime.Now - token.CreatedAt) > TimeSpan.FromHours(1))
                 {
-                    request.Properties.Remove(HttpPropertyKeys.UserPrincipalKey);
-                }
-                request.Properties.Add(HttpPropertyKeys.UserPrincipalKey, new GenericPrincipal(identity, null));
+                    return Task.Factory.StartNew<HttpResponseMessage>(()=>
+                        new HttpResponseMessage(HttpStatusCode.BadRequest)
+                        {
+                            Content = new StringContent("Token expired")
+                        });
+                }*/
+
+                var identity = new UserIdentity() { UserId = token.User };
+                request.Properties[HttpPropertyKeys.UserPrincipalKey] = new GenericPrincipal(identity, null);
             }
             return base.SendAsync(request, cancellationToken);
         }

@@ -38,7 +38,7 @@ namespace PromptCloudNotes.BusinessLayer.Managers
             foreach (var u in list.Users)
             {
                 var notif = new Notification() { Task = noteData, User = u, Type = Notification.NotificationType.Insert };
-                _noticationMgr.CreateNoteNotification(u.UniqueId, noteData.Id, notif);
+                _noticationMgr.CreateNotification(user.UniqueId, notif);
             }
         }
 
@@ -135,7 +135,6 @@ namespace PromptCloudNotes.BusinessLayer.Managers
 
         public void ShareNote(string userId, string listId, string noteId, string shareUserId)
         {
-            // TODO !!!
             var note = _repository.Get(listId, noteId);
             if (note == null)
             {
@@ -148,10 +147,11 @@ namespace PromptCloudNotes.BusinessLayer.Managers
                 return;
             }
 
+            /* TODO
             //_repository.ShareNote(listId, noteId, shareUserId);
 
-            var notif = new Notification() { Type = Notification.NotificationType.Share };
-            _noticationMgr.CreateNoteNotification(shareUserId, noteId, notif);
+            var notif = new Notification() { Type = Notification.NotificationType.Share, User = new User() { UniqueId = shareUserId }, Task=note };
+            _noticationMgr.CreateNotification(userId, notif);*/
         }
 
         public void ChangeOrder(string userId, string noteId, int order)

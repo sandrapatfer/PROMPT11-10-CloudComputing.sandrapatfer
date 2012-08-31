@@ -1,0 +1,78 @@
+package prompt.cloudnotes.services;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import prompt.cloudnotes.CloudNotesApp;
+import prompt.cloudnotes.Utils;
+import prompt.cloudnotes.providers.TaskListProviderContract;
+import android.app.IntentService;
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
+
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.HttpResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class GetInfoService extends IntentService {
+
+	private CloudNotesApp _application;
+	
+	public GetInfoService() {
+		super("Get Info Service");		
+	}
+	
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		_application = (CloudNotesApp)getApplication();
+	}
+
+
+	@Override
+	protected void onHandleIntent(Intent intent) {
+				
+		Log.d(CloudNotesApp.TAG, "GetInfoService.onHandleIntent");
+		
+		DefaultHttpClient client = new DefaultHttpClient();
+		HttpGet getRequest = new HttpGet(CloudNotesApp.WEB_APP_URL + "/api/lists");
+		getRequest.addHeader("accept", "aplication/json");
+		getRequest.addHeader("authorization", "Bearer " + _application.Token);
+		
+		try {
+			HttpResponse response = client.execute(getRequest);
+			if (response.getStatusLine().getStatusCode() != 200) {
+				
+			}
+			
+			String output = Utils.ConvertStreamToString(response.getEntity().getContent());
+			Log.d(CloudNotesApp.TAG, "Output from Server ...." + output);
+
+			JSONArray lists = new JSONArray(output);
+			_application.Store.FillFromJson(lists);
+			_application.getContentResolver().notifyChange(Uri.parse(TaskListProviderContract.URI), null);
+			
+			client.getConnectionManager().shutdown();
+
+	
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+
+}

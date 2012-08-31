@@ -1,0 +1,40 @@
+package prompt.cloudnotes.model;
+
+import prompt.cloudnotes.stores.NoteStore;
+
+public class TaskList {
+	private String _id;
+	private String _name;
+	private String _description;
+	private NoteStore _notes;
+	
+	public int getId() {
+		return _id;
+	}
+	public void setId(String string) {
+		_id = string;
+	}
+
+	public String getName() {
+		return _name;
+	}
+	public void setName(String name) {
+		_name = name;
+	}
+	
+	public String getDescription() {
+		return _description;
+	}
+	public void setDescription(String description) {
+		_description = description;
+	}
+
+	public NoteStore getNotes() {
+		return _notes;
+	}
+	public void setNotes(NoteStore notes) {
+		_notes = notes;
+	}
+
+}
+

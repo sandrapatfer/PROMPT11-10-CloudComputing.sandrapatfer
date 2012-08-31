@@ -9,7 +9,7 @@ namespace PromptCloudNotes.AzureRepo
 {
     using Model;
 
-    public class UserRepository : AzureRepository<User, UserEntity>, IUserRepository
+    public class UserRepository : AzureTable<User, UserEntity>, IUserRepository
     {
         private const string TABLE_NAME = "UserTable";
 

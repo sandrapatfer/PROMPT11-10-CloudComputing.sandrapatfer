@@ -74,7 +74,7 @@ namespace PromptCloudNotes.BusinessLayer.Managers
             foreach (var user in listUsers)
             {
                 var notif = new Notification() { Task = listData, User = user, Type = Notification.NotificationType.Update };
-                _noticationMgr.CreateTaskListNotification(user.UniqueId, listId, notif);
+                _noticationMgr.CreateNotification(userId, notif);
             }
         }
 
@@ -103,7 +103,7 @@ namespace PromptCloudNotes.BusinessLayer.Managers
             foreach (var user in listUsers)
             {
                 var notif = new Notification() { User = user, Task = list, Type = Notification.NotificationType.Delete };
-                _noticationMgr.CreateTaskListNotification(user.UniqueId, listId, notif);
+                _noticationMgr.CreateNotification(userId, notif);
             }
         }
 
@@ -124,8 +124,8 @@ namespace PromptCloudNotes.BusinessLayer.Managers
             _userListsRepo.Create(shareUserId, listId, creatorId);
             _listUsersRepo.Create(listId, shareUserId, ""); // TODO see later, really add name, need to check existance?
 
-            var notif = new Notification() { Type = Notification.NotificationType.Share };
-            _noticationMgr.CreateTaskListNotification(shareUserId, listId, notif);
+            var notif = new Notification() { Type = Notification.NotificationType.Share, Task = list, User = new User() { UniqueId = shareUserId } };
+            _noticationMgr.CreateNotification(userId, notif);
         }
 
         #endregion

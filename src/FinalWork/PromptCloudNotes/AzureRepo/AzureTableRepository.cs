@@ -6,13 +6,13 @@ using Microsoft.WindowsAzure.StorageClient;
 
 namespace PromptCloudNotes.AzureRepo
 {
-    public class AzureRepository<ModelEntity, AzureEntity>
+    public class AzureTable<ModelEntity, AzureEntity>
         where AzureEntity : TableServiceEntity
     {
         private string TABLE_NAME;
         private AzureUtils.Table _tableUtils;
 
-        public AzureRepository(string tableName)
+        public AzureTable(string tableName)
         {
             TABLE_NAME = tableName;
 

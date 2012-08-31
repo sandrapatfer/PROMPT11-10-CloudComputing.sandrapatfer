@@ -58,8 +58,7 @@ public class TaskListProvider extends ContentProvider {
 		MatrixCursor cursor = new MatrixCursor(projection);
 		if (match == INDEX_LIST_ITEM) {
 			String itemId = uri.getLastPathSegment();
-			long itemId2 = Long.parseLong(itemId);
-			TaskList tl = _application.Store.get(itemId2);
+			TaskList tl = _application.Store.get(itemId);
 			RowBuilder newRow = cursor.newRow();			
 			for (String col : projection) {
 				newRow.add(getTaskListColumn(tl, col));
@@ -99,7 +98,7 @@ public class TaskListProvider extends ContentProvider {
 	
 	private Object getTaskListColumn(TaskList list, String colName) {
 		if (colName == TaskListProviderContract.COL_ID) {
-			return list.getId();
+			return list.getInternalId();
 		}
 		if (colName == TaskListProviderContract.COL_NAME) {
 			return list.getName();

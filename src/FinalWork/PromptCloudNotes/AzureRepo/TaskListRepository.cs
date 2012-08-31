@@ -11,7 +11,7 @@ namespace PromptCloudNotes.AzureRepo
     using Model;
     using Exceptions;
 
-    public class TaskListRepository : AzureRepository<TaskList, TaskListEntity>, ITaskListRepository
+    public class TaskListRepository : AzureTable<TaskList, TaskListEntity>, ITaskListRepository
     {
         private const string TABLE_NAME = "TaskListTable";
 

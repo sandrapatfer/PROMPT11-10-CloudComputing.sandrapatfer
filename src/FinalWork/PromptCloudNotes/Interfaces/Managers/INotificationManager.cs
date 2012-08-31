@@ -8,14 +8,9 @@ namespace PromptCloudNotes.Interfaces.Managers
 {
     public interface INotificationManager
     {
-        void CreateTaskListNotification(string userId, string listId, Notification notificationData);
-
-        void CreateNoteNotification(string userId, string noteId, Notification notificationData);
+        void CreateNotification(string userId, Notification notificationData);
 
         IEnumerable<Notification> GetAllNotifications(string userId);
 
-//        Notification GetNotification(string notificationId);
-
-//        void DeleteNotification(string notificationId);
     }
 }

@@ -64,14 +64,12 @@ public class NoteProvider extends ContentProvider {
 			return null;
 		}
 		String strListId = matcher.group(1);
-		long listId = Long.parseLong(strListId);
-		TaskList list = _application.Store.get(listId);
+		TaskList list = _application.Store.get(strListId);
 
 		MatrixCursor cursor = new MatrixCursor(projection);
 		if (match == INDEX_LIST_ITEM) {
 			String itemId = uri.getLastPathSegment();
-			long itemId2 = Long.parseLong(itemId);
-			Note n = list.getNotes().get(itemId2);
+			Note n = list.getNotes().get(itemId);
 			RowBuilder newRow = cursor.newRow();			
 			for (String col : projection) {
 				newRow.add(getNoteColumn(n, col));
@@ -112,7 +110,7 @@ public class NoteProvider extends ContentProvider {
 	
 	private Object getNoteColumn(Note note, String colName) {
 		if (colName == NoteProviderContract.COL_ID) {
-			return note.getId();
+			return note.getInternalId();
 		}
 		if (colName == NoteProviderContract.COL_NAME) {
 			return note.getName();

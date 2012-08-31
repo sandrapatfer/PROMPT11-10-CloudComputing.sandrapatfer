@@ -8,7 +8,7 @@ using PromptCloudNotes.AzureRepo.Model;
 
 namespace PromptCloudNotes.AzureRepo
 {
-    public class UserListsRepository : AzureRepository<TaskList, UserListEntity>, IUserListsRepository
+    public class UserListsRepository : AzureTable<TaskList, UserListEntity>, IUserListsRepository
     {
         private const string TABLE_NAME = "UserListTable";
 

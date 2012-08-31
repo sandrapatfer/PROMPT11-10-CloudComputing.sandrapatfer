@@ -11,8 +11,8 @@ namespace PromptCloudNotes.Model
         public DateTime At { get; set; }
         public NotificationType Type { get; set; }
 
-        public Task Task { get; set; }
         public User User { get; set; }
+        public Task Task { get; set; }
 
         public enum NotificationType
         {

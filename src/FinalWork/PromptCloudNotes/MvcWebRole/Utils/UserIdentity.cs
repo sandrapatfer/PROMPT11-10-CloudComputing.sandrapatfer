@@ -8,6 +8,10 @@ namespace Server.Utils
 {
     public class UserIdentity : GenericIdentity
     {
-        public PromptCloudNotes.Model.User User { get; set; }
+        public UserIdentity()
+            : base("")
+        { }
+
+        public string UserId { get; set; }
     }
 }

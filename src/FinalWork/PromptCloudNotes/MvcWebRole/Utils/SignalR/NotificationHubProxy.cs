@@ -10,13 +10,10 @@ namespace Server.Utils.SignalR
 {
     public class NotificationHubProxy : INotificationProcessor
     {
-        public void Send(string userId, PromptCloudNotes.Model.Notification notification)
+        public bool Send(PromptCloudNotes.Model.Notification notification)
         {
-            
-            string notificationData = null;
             if (notification.Task is PromptCloudNotes.Model.TaskList)
             {
-                //notificationData = new MvcModel.TaskListNotification(notification);
             }
             else
             {
@@ -32,14 +29,11 @@ namespace Server.Utils.SignalR
                             name = notification.Task.Name,
                             description = notification.Task.Description
                         });
+                    return true;
                 }
             }
 
-            if (notificationData != null)
-            {
-                var context = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-                context.Clients.Send(userId, notificationData);
-            }
+            return false;
         }
     }
 }

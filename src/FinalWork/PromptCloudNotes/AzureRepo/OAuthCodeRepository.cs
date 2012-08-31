@@ -6,7 +6,7 @@ using PromptCloudNotes.Interfaces.Repositories;
 
 namespace PromptCloudNotes.AzureRepo
 {
-    public class OAuthTokenRepository : AzureRepository<PromptCloudNotes.Model.OAuthToken, PromptCloudNotes.AzureRepo.Model.OAuthTokenEntity>, IOAuthTokenRepository
+    public class OAuthTokenRepository : AzureTable<PromptCloudNotes.Model.OAuthToken, PromptCloudNotes.AzureRepo.Model.OAuthTokenEntity>, IOAuthTokenRepository
     {
         private const string TABLE_NAME = "OAuthTokenTable";
 

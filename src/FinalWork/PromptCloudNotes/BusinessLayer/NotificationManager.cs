@@ -6,36 +6,46 @@ using PromptCloudNotes.Interfaces;
 using PromptCloudNotes.Interfaces.Managers;
 using PromptCloudNotes.Interfaces.Repositories;
 using PromptCloudNotes.Model;
+using PromptCloudNotes.Interfaces.Queues;
 
 namespace PromptCloudNotes.BusinessLayer.Managers
 {
     public class NotificationManager : INotificationManager
     {
+        private INotificationQueue _queue;
         private INotificationRepository _repository;
-        private INotificationProcessor _notifProcessor;
+        private INotificationProcessor _onlineProcessor;
 
-        public NotificationManager(INotificationRepository repo, INotificationProcessor proc)
+        public NotificationManager(INotificationQueue queue, INotificationRepository repo, INotificationProcessor proc)
         {
+            _queue = queue;
             _repository = repo;
-            _notifProcessor = proc;
+            _onlineProcessor = proc;
         }
 
         #region INotificationManager Members
 
-        public void CreateTaskListNotification(string userId, string listId, Notification notificationData)
+        public void CreateNotification(string userId, Notification notificationData)
         {
+            // dont notify the user that made the change
+            if (userId == notificationData.User.UniqueId)
+            {
+                return;
+            }
+
             notificationData.At = DateTime.Now;
 
-            _notifProcessor.Send(userId, notificationData);
-            _repository.Create(notificationData);
-        }
-
-        public void CreateNoteNotification(string userId, string noteId, Notification notificationData)
-        {
-            notificationData.At = DateTime.Now;
-
-            _notifProcessor.Send(userId, notificationData);
-            _repository.Create(notificationData);
+            if (!_onlineProcessor.Send(notificationData))
+            {
+                if (ProcessToEmail(notificationData))
+                {
+                    _queue.SendMessage(notificationData);
+                }
+                if (ProcessToRepository(notificationData))
+                {
+                    _repository.Create(notificationData);
+                }
+            }
         }
 
         public IEnumerable<Notification> GetAllNotifications(string userId)
@@ -43,16 +53,19 @@ namespace PromptCloudNotes.BusinessLayer.Managers
             return _repository.GetAll(userId);
         }
 
-/*        public Notification GetNotification(string notificationId)
+        #endregion
+
+        private bool ProcessToEmail(Notification notificationData)
         {
-            return _repository.Get(notificationId);
+            // TODO read notifications configurations for user
+
+            return notificationData.Type == Notification.NotificationType.Share;
         }
 
-        public void DeleteNotification(string notificationId)
+        private bool ProcessToRepository(Notification notificationData)
         {
-            _repository.Delete(notificationId);
-        }*/
-
-        #endregion
+            // saving all notifications in database when the user is not online
+            return true;
+        }
     }
 }

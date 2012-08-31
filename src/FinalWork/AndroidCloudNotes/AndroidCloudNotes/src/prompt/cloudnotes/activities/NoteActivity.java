@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 public class NoteActivity extends Activity {
 
-	private int noteId = -1;
+	private int noteId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +58,8 @@ public class NoteActivity extends Activity {
 			public void onClick(View v) {
 				Intent msg = new Intent(NoteActivity.this, SaveChangesService.class);
 				Note n = new Note();
-				n.setId(noteId);
-				msg.putExtra(SaveChangesService.NoteKey, n);
+				n.setInternalId(noteId);
+				msg.putExtra(SaveChangesService.NoteKey, noteId);
 				btnNotes.setEnabled(true);
 			}
 		});

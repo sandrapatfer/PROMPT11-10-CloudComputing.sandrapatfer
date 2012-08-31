@@ -9,7 +9,7 @@ namespace PromptCloudNotes.AzureRepo
 {
     using Model;
 
-    public class NotificationRepository : AzureRepository<Notification, NotificationEntity>, INotificationRepository
+    public class NotificationRepository : AzureTable<Notification, NotificationEntity>, INotificationRepository
     {
         private const string TABLE_NAME = "NotificationTable";
 
@@ -17,24 +17,25 @@ namespace PromptCloudNotes.AzureRepo
             : base(TABLE_NAME)
         { }
 
-        public IEnumerable<Notification> GetAll()
+        public void Create(Notification newEntity)
         {
-            return GetAll(n => n.GetNotification());
+            newEntity.Id = Guid.NewGuid().ToString();
+            Create(new NotificationEntity(newEntity));
         }
 
-        public new IEnumerable<Notification> GetAll(string partitionKey)
+        public IEnumerable<Notification> GetAll()
         {
-            return GetAll(partitionKey, n => n.GetNotification());
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<Notification> IRepository<Notification>.GetAll(string partitionKey)
+        {
+            throw new NotImplementedException();
         }
 
         public new Notification Get(string partitionKey, string rowKey)
         {
-            return Get(partitionKey, rowKey, e => e.GetNotification());
-        }
-
-        public void Create(Notification newEntity)
-        {
-            Create(new NotificationEntity(newEntity));
+            throw new NotImplementedException();
         }
 
         public void Update(string partitionKey, string rowKey, Notification changedEntity)

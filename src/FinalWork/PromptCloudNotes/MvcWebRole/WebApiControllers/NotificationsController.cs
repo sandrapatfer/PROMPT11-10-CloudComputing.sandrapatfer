@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Net;
 using Exceptions;
 using PromptCloudNotes.Model;
+using Server.Utils;
 
 namespace Server.WebApiControllers
 {
@@ -15,32 +16,17 @@ namespace Server.WebApiControllers
     public class NotificationsController : ApiController
     {
         private INotificationManager _manager;
-        private IUserManager _userManager;
 
         public NotificationsController()
         {
-            //_manager = ObjectFactory.GetInstance<INotificationManager>();
-            //_userManager = userManager;
+            _manager = ObjectFactory.GetInstance<INotificationManager>();
         }
 
         // GET /api/notifications
         public IEnumerable<WebApiModel.Notification> Get()
         {
-            var user = Request.GetUserPrincipal() as User;
-            //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
-            return _manager.GetAllNotifications(user.UniqueId).Select(n => new WebApiModel.Notification() { id = n.Id, taskId = n.Task.Id });
-        }
-
-        // GET /api/notifications/{id}
-        public WebApiModel.Notification Get(string id)
-        {
-/*            var notification = _manager.GetNotification(id);
-            if (notification == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-            return new WebApiModel.Notification() { id = notification.Id, taskId = notification.Task.Id };*/
-            return null;
+            var userId = (Request.GetUserPrincipal().Identity as UserIdentity).UserId;
+            return _manager.GetAllNotifications(userId).Select(n => new WebApiModel.Notification() { id = n.Id, taskId = n.Task.Id });
         }
 
         // DELETE /api/notifications/{id}

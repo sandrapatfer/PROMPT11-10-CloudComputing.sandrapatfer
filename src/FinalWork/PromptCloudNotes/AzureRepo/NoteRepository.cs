@@ -10,7 +10,7 @@ namespace PromptCloudNotes.AzureRepo
 {
     using Model;
 
-    public class NoteRepository : AzureRepository<Note, NoteEntity>, INoteRepository
+    public class NoteRepository : AzureTable<Note, NoteEntity>, INoteRepository
     {
         private const string TABLE_NAME = "NoteTable";
 

@@ -164,6 +164,7 @@
     <Compile Include="Utils\SignalR\NotificationHub.cs" />
     <Compile Include="Utils\IoC\SmDependencyResolver.cs" />
     <Compile Include="Utils\SignalR\NotificationHubProxy.cs" />
+    <Compile Include="Utils\UserIdentity.cs" />
     <Compile Include="WebApiControllers\ListsController.cs" />
     <Compile Include="WebApiControllers\NotesController.cs" />
     <Compile Include="WebApiControllers\NotificationsController.cs" />

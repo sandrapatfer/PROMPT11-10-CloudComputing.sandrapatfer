@@ -1,19 +1,24 @@
 package prompt.cloudnotes.model;
 
-import java.io.Serializable;
-
-public class Note implements Serializable {
+public class Note {
 	
-	private int _id;
+	private int _internalId;
+	private String _serverId;
 	private String _name;
 	private String _description;
 	
-	public int getId() {
-		return _id;
+	public int getInternalId() {
+		return _internalId;
+	}
+	public void setInternalId(int id) {
+		_internalId = id;
 	}
 
-	public void setId(int id) {
-		_id = id;
+	public String getServerId() {
+		return _serverId;
+	}
+	public void setServerId(String string) {
+		_serverId = string;
 	}
 
 	public String getName() {

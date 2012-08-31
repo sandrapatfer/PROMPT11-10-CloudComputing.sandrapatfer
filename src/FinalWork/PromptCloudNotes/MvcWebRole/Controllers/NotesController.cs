@@ -25,7 +25,6 @@ namespace Server.Controllers
 
         public JsonResult Index(string listId)
         {
-            ViewBag.SelectedList = listId;
             var listNotes = _notesManager.GetAllNotes(User.UniqueId, listId);
             if (listNotes != null)
             {

@@ -34,7 +34,8 @@ public class SaveChangesService extends IntentService {
 			return;
 		}
 		if (extras.containsKey(NoteKey)) {
-			Note note = (Note)extras.get(NoteKey);
+			int noteId = extras.getInt(NoteKey);
+			Note note;
 			Log.d(CloudNotesApp.TAG, "saving note changes");
 		}
 	}

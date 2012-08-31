@@ -6,8 +6,10 @@ import java.io.InputStreamReader;
 
 import prompt.cloudnotes.CloudNotesApp;
 import prompt.cloudnotes.Utils;
+import prompt.cloudnotes.providers.TaskListProviderContract;
 import android.app.IntentService;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
 import org.apache.http.client.ClientProtocolException;
@@ -39,21 +41,34 @@ public class GetInfoService extends IntentService {
 		Log.d(CloudNotesApp.TAG, "GetInfoService.onHandleIntent");
 		
 		DefaultHttpClient client = new DefaultHttpClient();
-		HttpGet getRequest = new HttpGet("http://10.0.2.2:53484/api/lists");
+		HttpGet getRequest = new HttpGet(CloudNotesApp.WEB_APP_URL + "/api/lists");
 		getRequest.addHeader("accept", "aplication/json");
 		getRequest.addHeader("authorization", "Bearer " + _application.Token);
 		
 		try {
 			HttpResponse response = client.execute(getRequest);
 			if (response.getStatusLine().getStatusCode() != 200) {
-				
 			}
 			
 			String output = Utils.ConvertStreamToString(response.getEntity().getContent());
-			Log.d(CloudNotesApp.TAG, "Output from Server ...." + output);
+			Log.d(CloudNotesApp.TAG, "Getting lists: ok");
 
 			JSONArray lists = new JSONArray(output);
-			Log.d(CloudNotesApp.TAG, "json from Server ...." + lists.length());
+			_application.Store.FillFromJson(lists);
+			_application.getContentResolver().notifyChange(Uri.parse(TaskListProviderContract.URI), null);
+			
+			for (int i = 0; i < lists.length(); i++ ) {
+				JSONObject list = lists.getJSONObject(i);
+			
+				getRequest = new HttpGet(CloudNotesApp.WEB_APP_URL + "/api/lists/" + list.getString("id") + "/notes");
+				getRequest.addHeader("accept", "aplication/json");
+				getRequest.addHeader("authorization", "Bearer " + _application.Token);
+				response = client.execute(getRequest);
+				if (response.getStatusLine().getStatusCode() != 200) {
+				}
+				output = Utils.ConvertStreamToString(response.getEntity().getContent());
+				Log.d(CloudNotesApp.TAG, "Output from Server ...." + output);
+			}
 			
 			client.getConnectionManager().shutdown();
 

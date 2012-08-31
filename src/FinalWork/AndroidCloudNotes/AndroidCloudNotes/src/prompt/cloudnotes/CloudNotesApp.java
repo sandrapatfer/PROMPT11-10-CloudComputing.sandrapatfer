@@ -37,7 +37,8 @@ public class CloudNotesApp extends Application
 	public static final String CLIENT_ID = "androidcloudnotes";
 	public static final String CLIENT_SECRET = "prompt";
 	
-	public static final String WEB_APP_URL = "http://10.0.2.2:53484";
+//	public static final String WEB_APP_URL = "http://10.0.2.2:53484";
+	public static final String WEB_APP_URL = "http://promptcloudnotes.cloudapp.net";
 	
 	public static final String PREFS_NAME = "CloudAppInternalPrefs";
 	public static final String PREFS_TOKEN = "token";
