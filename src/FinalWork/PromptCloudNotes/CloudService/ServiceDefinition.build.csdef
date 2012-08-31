@@ -27,4 +27,9 @@
       <Setting name="CloudNotesConnectionString" />
     </ConfigurationSettings>
   </WebRole>
+  <WorkerRole name="NotificationsWorkerRole" vmsize="Small">
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+  </WorkerRole>
 </ServiceDefinition>

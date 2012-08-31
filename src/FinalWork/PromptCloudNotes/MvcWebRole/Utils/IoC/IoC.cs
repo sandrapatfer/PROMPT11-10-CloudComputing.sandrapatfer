@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using PromptCloudNotes.Interfaces;
 using PromptCloudNotes.Interfaces.Managers;
 using PromptCloudNotes.Interfaces.Repositories;
+using PromptCloudNotes.Interfaces.Queues;
 using PromptCloudNotes.Model;
 using Server.Utils.SignalR;
 
@@ -35,6 +36,7 @@ namespace Server.Utils
                 ex.For<INotificationRepository>().Use<PromptCloudNotes.AzureRepo.NotificationRepository>();
                 ex.For<IOAuthCodeRepository>().Use<PromptCloudNotes.AzureRepo.OAuthCodeRepository>();
                 ex.For<IOAuthTokenRepository>().Use<PromptCloudNotes.AzureRepo.OAuthTokenRepository>();
+                ex.For<INotificationQueue>().Use<PromptCloudNotes.AzureRepo.NotificationQueue>();
 
                 ex.For<IUserManager>().HttpContextScoped().Use<UserManager>();
                 ex.For<ITaskListManager>().HttpContextScoped().Use<TaskListManager>();

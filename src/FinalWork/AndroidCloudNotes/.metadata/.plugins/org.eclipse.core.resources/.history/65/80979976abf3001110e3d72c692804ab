@@ -37,8 +37,8 @@ public class CloudNotesApp extends Application
 	public static final String CLIENT_ID = "androidcloudnotes";
 	public static final String CLIENT_SECRET = "prompt";
 	
-	public static final String WEB_APP_URL = "http://10.0.2.2:53484";
-//	public static final String WEB_APP_URL = "http://promptcloudnotes.cloudapp.net";
+//	public static final String WEB_APP_URL = "http://10.0.2.2:53484";
+	public static final String WEB_APP_URL = "http://promptcloudnotes.cloudapp.net";
 	
 	public static final String PREFS_NAME = "CloudAppInternalPrefs";
 	public static final String PREFS_TOKEN = "token";
@@ -91,7 +91,15 @@ public class CloudNotesApp extends Application
 			JSONObject jsonResponse = new JSONObject(output);
 			String token = jsonResponse.getString("access_token");
 			String refreshToken = jsonResponse.getString("refresh_token");
-			SaveToken(token, refreshToken);
+			Log.d(CloudNotesApp.TAG, "Token: " + token);
+			Token = token;
+			RefreshToken = refreshToken;
+
+			SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+			SharedPreferences.Editor editor = settings.edit();
+			editor.putString(PREFS_TOKEN, Token);
+			editor.putString(PREFS_REFRESH_TOKEN, RefreshToken);
+			editor.commit();
 			
 			LaunchRefreshService();
 			
@@ -104,18 +112,6 @@ public class CloudNotesApp extends Application
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void SaveToken(String token, String refreshToken) {
-		Log.d(CloudNotesApp.TAG, "Token: " + token);
-		Token = token;
-		RefreshToken = refreshToken;
-
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putString(PREFS_TOKEN, Token);
-		editor.putString(PREFS_REFRESH_TOKEN, RefreshToken);
-		editor.commit();
 	}
 	
 	public void LaunchRefreshService(){

@@ -102,8 +102,8 @@ public class AuthActivity extends Activity {
 				// TODO show a pop up error to the user
 				Log.d(CloudNotesApp.TAG, "ERROR authenticating, closing activity");
 				Intent result = new Intent();
-				setResult(RESULT_CANCELED, result);
-				finish();
+//				setResult(RESULT_CANCELED, result);
+				//finish();
 			}
         });		
 	}

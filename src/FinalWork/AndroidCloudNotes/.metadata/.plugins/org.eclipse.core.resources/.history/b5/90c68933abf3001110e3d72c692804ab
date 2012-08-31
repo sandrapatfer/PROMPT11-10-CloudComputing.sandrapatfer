@@ -47,15 +47,7 @@ public class GetInfoService extends IntentService {
 		
 		try {
 			HttpResponse response = client.execute(getRequest);
-			int code = response.getStatusLine().getStatusCode(); 
-			if (code != 200) {
-				if (code == 401) {
-					// revoke the token
-					_application.SaveToken("", "");
-				}
-				
-				// TODO ask the user if he wants to the redo login, start activity to do it
-				return;
+			if (response.getStatusLine().getStatusCode() != 200) {
 			}
 			
 			String output = Utils.ConvertStreamToString(response.getEntity().getContent());

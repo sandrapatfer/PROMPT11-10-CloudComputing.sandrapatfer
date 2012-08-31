@@ -23,8 +23,15 @@ namespace AzureUtils
 
         public bool CreateQueue(string queueName)
         {
-            var queue = _client.GetQueueReference(queueName);
-            return queue.CreateIfNotExist();
+            try
+            {
+                var queue = _client.GetQueueReference(queueName);
+                return queue.CreateIfNotExist();
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool ListQueues(out List<CloudQueue> queues)

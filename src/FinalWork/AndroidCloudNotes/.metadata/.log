@@ -10785,3 +10785,6 @@ org.eclipse.jdi.TimeoutException: Timeout occurred while waiting for packet 3126
 	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:142)
 	at org.eclipse.jdt.internal.ui.text.java.hover.JavaEditorTextHoverProxy.getHoverInfo2(JavaEditorTextHoverProxy.java:85)
 	at org.eclipse.jface.text.TextViewerHoverManager$4.run(TextViewerHoverManager.java:166)
+
+!ENTRY org.eclipse.ui 4 4 2012-08-31 22:41:11.942
+!MESSAGE Invalid preference page path: XML Syntax

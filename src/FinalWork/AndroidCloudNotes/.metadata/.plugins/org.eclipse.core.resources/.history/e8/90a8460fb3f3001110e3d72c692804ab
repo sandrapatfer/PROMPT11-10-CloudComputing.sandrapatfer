@@ -84,6 +84,7 @@ public class AuthActivity extends Activity {
 					Intent result = new Intent();
 					setResult(RESULT_CANCELED, result);
 					finish();
+					return;
 				}
 			}
 
@@ -104,6 +105,7 @@ public class AuthActivity extends Activity {
 				Intent result = new Intent();
 				setResult(RESULT_CANCELED, result);
 				finish();
+				return;
 			}
         });		
 	}
