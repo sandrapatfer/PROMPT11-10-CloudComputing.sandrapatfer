@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Http;
-using PromptCloudNotes.Interfaces;
 using StructureMap;
 using Server.Utils;
 

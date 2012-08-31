@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PromptCloudNotes.Model;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Managers;
 using StructureMap;
 
 namespace BLTests

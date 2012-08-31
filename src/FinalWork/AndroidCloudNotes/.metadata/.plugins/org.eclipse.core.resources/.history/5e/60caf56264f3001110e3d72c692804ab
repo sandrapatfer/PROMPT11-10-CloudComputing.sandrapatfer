@@ -23,19 +23,18 @@ public class GetInfoService extends IntentService {
 	private CloudNotesApp _application;
 	
 	public GetInfoService() {
-		super("Get Info Service");		
-	}
-	
-	@Override
-	public void onCreate() {
-		super.onCreate();
+		super("Get Info Service");
+		
 		_application = (CloudNotesApp)getApplication();
 	}
 
-
 	@Override
 	protected void onHandleIntent(Intent intent) {
-				
+		
+		if (_application == null) {
+			_application = (CloudNotesApp)getApplication();
+		}
+		
 		Log.d(CloudNotesApp.TAG, "GetInfoService.onHandleIntent");
 		
 		DefaultHttpClient client = new DefaultHttpClient();
@@ -70,6 +69,5 @@ public class GetInfoService extends IntentService {
 		}
 		
 	}
-
 
 }

@@ -8,7 +8,7 @@
     <ProjectGuid>{1C0E6556-12DE-43CB-9CE8-4D080B9BB385}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PromptCloudNotes.gersInterfaces</RootNamespace>
+    <RootNamespace>PromptCloudNotes.Interfaces</RootNamespace>
     <AssemblyName>PromptCloudNotes.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class1.cs" />
     <Compile Include="Managers\INoteManager.cs" />
     <Compile Include="Managers\INotificationManager.cs" />
     <Compile Include="Managers\ITaskListManager.cs" />

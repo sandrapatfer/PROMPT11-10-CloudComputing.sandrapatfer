@@ -19,10 +19,10 @@ namespace Server.WebApiControllers
         private IUserManager _userManager;
         private INoteManager _manager;
 
-        public NotesController(IUserManager userManager, INoteManager manager)
+        public NotesController()
         {
-            _userManager = userManager;
-            _manager = manager;
+            //_userManager = userManager;
+            //_manager = manager;
         }
 
         // GET /api/notes

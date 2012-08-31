@@ -100,7 +100,10 @@ public class CloudNotesApp extends Application
 			editor.putString(PREFS_REFRESH_TOKEN, RefreshToken);
 			editor.commit();
 			
-			LaunchRefreshService();
+			Log.d(CloudNotesApp.TAG, "Starting refresh service");
+			Intent msg = new Intent();
+			msg.setClass(this, GetInfoService.class);
+			startService(msg);
 			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -113,13 +116,6 @@ public class CloudNotesApp extends Application
 		}
 	}
 	
-	public void LaunchRefreshService(){
-		Log.d(CloudNotesApp.TAG, "Starting refresh service");
-		Intent msg = new Intent();
-		msg.setClass(this, GetInfoService.class);
-		startService(msg);		
-	}
-	
 	private void Init() {
 		
 		Store = new TaskListStore();
@@ -128,5 +124,4 @@ public class CloudNotesApp extends Application
 		Token = settings.getString(PREFS_TOKEN, "");
 		RefreshToken = null;
 	}
-	
 }

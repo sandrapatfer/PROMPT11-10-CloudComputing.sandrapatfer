@@ -79,7 +79,7 @@ public class TaskListsActivity extends Activity
 		}
 	}
 
-	private void ActivityLayout() {
+	private void ActivityLayout(){
         setContentView(R.layout.tasklist_list_view);
         
         Button btn = (Button)findViewById(R.id.btn_tasklist_create);

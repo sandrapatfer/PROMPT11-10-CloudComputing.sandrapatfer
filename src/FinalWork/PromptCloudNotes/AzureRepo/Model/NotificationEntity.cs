@@ -15,6 +15,13 @@ namespace PromptCloudNotes.AzureRepo.Model
             : base(userId, notificationId)
         { }
 
+        public NotificationEntity(Notification n)
+            : base(n.User.UniqueId, n.Id)
+        {
+            TaskId = n.Task.Id;
+            IsList = (n.Task is TaskList);
+        }
+
         public string TaskId { get; set; }
         public bool IsList { get; set; }
 

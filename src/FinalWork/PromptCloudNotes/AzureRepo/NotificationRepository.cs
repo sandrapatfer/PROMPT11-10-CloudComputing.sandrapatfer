@@ -29,11 +29,12 @@ namespace PromptCloudNotes.AzureRepo
 
         public new Notification Get(string partitionKey, string rowKey)
         {
-            throw new NotImplementedException();
+            return Get(partitionKey, rowKey, e => e.GetNotification());
         }
 
         public void Create(Notification newEntity)
         {
+            Create(new NotificationEntity(newEntity));
         }
 
         public void Update(string partitionKey, string rowKey, Notification changedEntity)
@@ -45,60 +46,5 @@ namespace PromptCloudNotes.AzureRepo
         {
             throw new NotImplementedException();
         }
-
-
-/*        private AzureUtils.Table _tableUtils;
-
-        public NotificationRepository()
-        {
-            //var connectionString = CloudStorageAccount.FromConfigurationSetting("DataConnectionString");
-            var connectionString = "DefaultEndpointsProtocol=http;AccountName=spfcloudnotes;AccountKey=Gdi0M+gd1mO7a183WgRP8zxag5Fh2t0NNnh8Qvmz47V4vVDBe7JIXjdQS3wH0aLqRlpqNUqfzfuSC3TCgjVkLg==";
-            _tableUtils = new AzureUtils.Table(connectionString);
-
-            // ensure the table is created
-            _tableUtils.CreateTable(TABLE_NAME);
-        }
-
-        public void CreateTaskListNotification(string userId, string listId, PromptCloudNotes.Model.Notification notificationData)
-        {
-            var newEntity = new NotificationEntity(userId, Guid.NewGuid().ToString()) { TaskId = listId, IsList = true };
-            if (_tableUtils.Insert(TABLE_NAME, newEntity))
-            {
-                return;
-            }
-            throw new InvalidOperationException();
-        }
-
-        public void CreateNoteNotification(string userId, string noteId, PromptCloudNotes.Model.Notification notificationData)
-        {
-            var newEntity = new NotificationEntity(userId, Guid.NewGuid().ToString()) { TaskId = noteId, IsList = false };
-            if (_tableUtils.Insert(TABLE_NAME, newEntity))
-            {
-                return;
-            }
-            throw new InvalidOperationException();
-        }
-
-        public IEnumerable<PromptCloudNotes.Model.Notification> GetAll(string userId)
-        {
-            return _tableUtils.GetEntitiesInPartition<NotificationEntity>(TABLE_NAME, userId.ToString()).Select(e =>
-                new Notification()
-                {
-                    Id = e.RowKey,
-                    Task = e.IsList? (Task) new TaskList() { Id = e.TaskId } :
-                    new Note() { Id = e.TaskId }
-                });
-        }
-
-        public PromptCloudNotes.Model.Notification Get(string notificationId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(string notificationId)
-        {
-            throw new NotImplementedException();
-        }*/
-
     }
 }

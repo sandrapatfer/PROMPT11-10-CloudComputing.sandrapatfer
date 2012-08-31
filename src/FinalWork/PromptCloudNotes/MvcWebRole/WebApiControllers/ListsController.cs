@@ -14,7 +14,7 @@ using Exceptions;
 
 namespace Server.WebApiControllers
 {
-    [Authorize]
+    //[Authorize]
     public class ListsController : ApiController
     {
         private ITaskListManager _manager;
@@ -22,22 +22,23 @@ namespace Server.WebApiControllers
 
         public ListsController()
         {
-            _manager = ObjectFactory.GetInstance<ITaskListManager>();
-            _userManager = ObjectFactory.GetInstance<IUserManager>();
+            //_manager = ObjectFactory.GetInstance<ITaskListManager>();
+            //_userManager = ObjectFactory.GetInstance<IUserManager>();
         }
 
         // GET /api/lists
         public IEnumerable<WebApiModel.TaskList> Get()
         {
-            var user = Request.GetUserPrincipal() as User;
+/*            var user = Request.GetUserPrincipal() as User;
             //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
-            return _manager.GetAllLists(user.UniqueId).Select(l => new WebApiModel.TaskList() { id = l.Id, name = l.Name });
+            return _manager.GetAllLists(user.UniqueId).Select(l => new WebApiModel.TaskList() { id = l.Id, name = l.Name });*/
+            return _manager.GetAllLists().Select(l => new WebApiModel.TaskList() { id = l.Id, name = l.Name });*/
         }
 
         // GET /api/lists/{id}
         public WebApiModel.TaskList Get(string id)
         {
-            var user = Request.GetUserPrincipal() as User;
+/*            var user = Request.GetUserPrincipal() as User;
             //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
             var list = _manager.GetTaskList(user.UniqueId, id, user.UniqueId);
             if (list == null) // TODO is it null or exception?
@@ -46,13 +47,15 @@ namespace Server.WebApiControllers
                 // see http://www.asp.net/web-api/overview/web-api-routing-and-actions/exception-handling
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            return new WebApiModel.TaskList() { id = list.Id, name = list.Name };
+            return new WebApiModel.TaskList() { id = list.Id, name = list.Name };*/
+            return null;
+
         }
 
         // POST /api/lists
         public HttpResponseMessage Post(WebApiModel.TaskList list)
         {
-            var user = Request.GetUserPrincipal() as User;
+/*            var user = Request.GetUserPrincipal() as User;
             //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
 
             var listData = new TaskList() { Name = list.name };
@@ -66,13 +69,14 @@ namespace Server.WebApiControllers
             response.Headers.Location = new Uri(Request.RequestUri,
                 "/api/lists/" + listData.Id.ToString(CultureInfo.InvariantCulture));
 
-            return response;
+            return response;*/
+            return null;
         }
 
         // PUT /api/lists/{id}
         public void Put(string id, WebApiModel.TaskList list)
         {
-            try
+/*            try
             {
                 var user = Request.GetUserPrincipal() as User;
                 //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
@@ -82,13 +86,13 @@ namespace Server.WebApiControllers
             catch (ObjectNotFoundException)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+            }*/
         }
 
         // DELETE /api/lists/{id}
         public void Delete(string id)
         {
-            try
+/*            try
             {
                 var user = Request.GetUserPrincipal() as User;
                 //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
@@ -97,7 +101,7 @@ namespace Server.WebApiControllers
             catch (ObjectNotFoundException)
             {
                 // operation Delete must always work
-            }
+            }*/
         }
     }
 }

@@ -115,7 +115,7 @@ namespace Server.Controllers
             {
                 var oAuthTokenRepo = ObjectFactory.GetInstance<IOAuthTokenRepository>();
 
-                // requests to resend the token (in code param) to use in query
+                // the token has to be resent (in code param) to use in query
                 var token = oAuthTokenRepo.Get("Bearer", code);
                 if (token.RefreshToken != refresh_token)
                 {
@@ -131,7 +131,7 @@ namespace Server.Controllers
                     {
                         access_token = refreshedToken.Token,
                         token_type = refreshedToken.TokenType,
-                        expires_in = 3600,
+                        expires_in = TimeSpan.FromHours(1).Seconds,
                         refresh_token = refreshedToken.RefreshToken
                     }
                 };

@@ -17,10 +17,10 @@ namespace Server.WebApiControllers
         private INotificationManager _manager;
         private IUserManager _userManager;
 
-        public NotificationsController(IUserManager userManager)
+        public NotificationsController()
         {
-            _manager = ObjectFactory.GetInstance<INotificationManager>();
-            _userManager = userManager;
+            //_manager = ObjectFactory.GetInstance<INotificationManager>();
+            //_userManager = userManager;
         }
 
         // GET /api/notifications

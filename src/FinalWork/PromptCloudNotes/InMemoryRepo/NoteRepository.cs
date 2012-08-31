@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Repositories;
 using PromptCloudNotes.Model;
 
 namespace PromptCloudNotes.InMemoryRepo
@@ -23,7 +23,7 @@ namespace PromptCloudNotes.InMemoryRepo
 
         public IEnumerable<Note> GetAll(string userId, string listId)
         {
-            var list = _listRepository.Get(listId);
+            var list = _listRepository.Get(userId, listId);
             if (list == null || list.Tasks == null)
             {
                 return null;
@@ -42,21 +42,25 @@ namespace PromptCloudNotes.InMemoryRepo
                 Where(t => (t.Creator.UniqueId == userId || t.Users.Any(u => u.UniqueId == userId)) && t is Note).Cast<Note>();
         }
 
-        public Note Create(string userId, string listId, Note noteData)
+        public IEnumerable<Note> GetAll()
+        {
+            return null;
+        }
+
+        public void Create(Note noteData)
         {
             noteData.Id = (++_noteId).ToString();
 
             noteData.Users = new List<User>();
             noteData.Users.Add(noteData.Creator);
 
-            noteData.ParentList = _listRepository.Get(listId);
+            noteData.ParentList = _listRepository.Get(noteData.ParentList.Id, noteData.ParentList.Creator.UniqueId);
             if (noteData.ParentList.Tasks == null)
             {
                 noteData.ParentList.Tasks = new List<Task>();
             }
             noteData.ListOrder = noteData.ParentList.Tasks.Count;
             noteData.ParentList.Tasks.Add(noteData);
-            return noteData;
         }
 
         public Note Get(string noteId)
@@ -102,14 +106,8 @@ namespace PromptCloudNotes.InMemoryRepo
             return null;
         }
 
-        public Note Update(string noteId, Note noteData)
+        public void Update(string listId, string noteId, Note noteData)
         {
-            return noteData;
-        }
-
-        public Note Update(string listId, string noteId, Note noteData)
-        {
-            return noteData;
         }
 
         public void Delete(string noteId)
@@ -172,16 +170,14 @@ namespace PromptCloudNotes.InMemoryRepo
 
         public void ShareNote(string noteId, string userId)
         {
-            var memoryRepo = _userRepository as UserRepository;
-            var user = memoryRepo.GetById(userId);
+            var user = _userRepository.GetAll().FirstOrDefault(u => u.UniqueId == userId);
             var note = Get(noteId);
             note.Users.Add(user);
         }
 
         public void ShareNote(string listId, string noteId, string userId)
         {
-            var memoryRepo = _userRepository as UserRepository;
-            var user = memoryRepo.GetById(userId);
+            var user = _userRepository.GetAll().FirstOrDefault(u => u.UniqueId == userId);
             var note = Get(listId, noteId);
             note.Users.Add(user);
         }

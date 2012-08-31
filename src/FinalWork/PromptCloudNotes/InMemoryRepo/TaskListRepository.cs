@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Repositories;
 using PromptCloudNotes.Model;
 
 namespace PromptCloudNotes.InMemoryRepo
@@ -18,26 +18,25 @@ namespace PromptCloudNotes.InMemoryRepo
             _userRepository = userRepo;
         }
 
-        #region ITaskListRepository Members
+        public IEnumerable<TaskList> GetAll()
+        {
+            return null;
+        }
 
         public IEnumerable<TaskList> GetAll(string userId)
         {
             return _lists.Where(t => (t.Creator.UniqueId == userId || t.Users.Any(u => u.UniqueId == userId)));
         }
 
-        public TaskList Create(User user, TaskList list)
+        public void Create(TaskList list)
         {
             list.Id = (++_listId).ToString();
-            list.Users = new List<User>();
-            list.Users.Add(user);
-            list.Creator = user;
             _lists.Add(list);
-            return list;
         }
 
-        public TaskList Get(string id)
+        public TaskList Get(string user, string list)
         {
-            return _lists.FirstOrDefault(l => l.Id == id);
+            return _lists.FirstOrDefault(l => l.Id == list);
         }
 
         public TaskList GetWithUsers(string id)
@@ -45,14 +44,11 @@ namespace PromptCloudNotes.InMemoryRepo
             return _lists.FirstOrDefault(l => l.Id == id);
         }
 
-        public void Update(string listId, TaskList listData)
+        public void Update(string user, string list, TaskList listData)
         {
-            var list = _lists.First(l => l.Id == listId);
-            list.Name = listData.Name;
-            list.Description = listData.Description;
         }
 
-        public void Delete(string listId)
+        public void Delete(string userId, string listId)
         {
             var list = _lists.First(l => l.Id == listId);
             _lists.Remove(list);
@@ -63,7 +59,5 @@ namespace PromptCloudNotes.InMemoryRepo
             var list = _lists.First(l => l.Id == listId);
             list.Users.Add(user);
         }
-
-        #endregion
     }
 }
