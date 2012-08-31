@@ -1,0 +1,14 @@
+﻿@model Server.MvcModel.ListViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@section Javascript
+{
+    <script src="@Url.Content("~/Scripts/Model/TaskList.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Model/Note.js")" type="text/javascript"></script>
+}
+
+@Html.Partial("_Details", Model)
+

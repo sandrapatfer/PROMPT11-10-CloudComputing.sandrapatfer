@@ -27,7 +27,7 @@ namespace BLTests
 
             _taskList = new TaskList() { Name = "new list", Creator = _user };
             _taskListManager = ObjectFactory.GetInstance<ITaskListManager>();
-            _taskListManager.CreateTaskList(_user.Id, _taskList);
+            _taskListManager.CreateTaskList(_user, _taskList);
 
             _noteManager = ObjectFactory.GetInstance<INoteManager>();
         }
@@ -36,21 +36,21 @@ namespace BLTests
         public void CreateNoteTest()
         {
             Note n = new Note() { Name = "new note" };
-            var n2 = _noteManager.CreateNote(_user.Id, _taskList.Id, n);
+            var n2 = _noteManager.CreateNote(_user.UniqueId, _taskList.Id, n);
             Assert.IsNotNull(n2.Id);
         }
 
         Note CreateNote()
         {
             Note n = new Note() { Name = "new note", Creator = _user };
-            return _noteManager.CreateNote(_user.Id, _taskList.Id, n);
+            return _noteManager.CreateNote(_user.UniqueId, _taskList.Id, n);
         }
 
         [TestMethod]
         public void GetNoteTest()
         {
             var n = CreateNote();
-            var n2 = _noteManager.GetNote(_user.Id, _taskList.Id, n.Id);
+            var n2 = _noteManager.GetNote(_user.UniqueId, _taskList.Id, n.Id);
             Assert.IsNotNull(n2);
         }
 
@@ -59,8 +59,8 @@ namespace BLTests
         {
             var n = CreateNote();
             n.Name = "New name";
-            _noteManager.UpdateNote(_user.Id, _taskList.Id, n.Id, n);
-            var n2 = _noteManager.GetNote(_user.Id, _taskList.Id, n.Id);
+            _noteManager.UpdateNote(_user.UniqueId, _taskList.Id, n.Id, n);
+            var n2 = _noteManager.GetNote(_user.UniqueId, _taskList.Id, n.Id);
             Assert.AreEqual(n.Name, n2.Name);
         }
 
@@ -69,8 +69,8 @@ namespace BLTests
         public void DeleteNoteTest()
         {
             var n = CreateNote();
-            _noteManager.DeleteNote(_user.Id, _taskList.Id, n.Id);
-            var n2 = _noteManager.GetNote(_user.Id, _taskList.Id, n.Id);
+            _noteManager.DeleteNote(_user.UniqueId, n.ParentList.Id, n.Id);
+            var n2 = _noteManager.GetNote(_user.UniqueId, _taskList.Id, n.Id);
         }
 
         [TestMethod]
@@ -82,9 +82,9 @@ namespace BLTests
             IUserManager um = ObjectFactory.GetInstance<IUserManager>();
             um.CreateUser(user);
 
-            _noteManager.ShareNote(_user.Id, _taskList.Id, n.Id, user.Id);
+            _noteManager.ShareNote(_user.UniqueId, _taskList.Id, n.Id, user.UniqueId);
 
-            var n2 = _noteManager.GetNote(_user.Id, _taskList.Id, n.Id);
+            var n2 = _noteManager.GetNote(_user.UniqueId, _taskList.Id, n.Id);
             Assert.IsTrue(n2.Users.Contains(user));
         }
 
@@ -95,7 +95,7 @@ namespace BLTests
             var n2 = CreateNote();
             var n3 = CreateNote();
 
-            _noteManager.ChangeOrder(_user.Id, _taskList.Id, n3.Id, 0);
+            _noteManager.ChangeOrder(_user.UniqueId, n3.Id, 0);
 
             Assert.AreEqual(n1.ListOrder, 1);
             Assert.AreEqual(n2.ListOrder, 2);
@@ -109,7 +109,7 @@ namespace BLTests
             var n2 = CreateNote();
             var n3 = CreateNote();
 
-            _noteManager.DeleteNote(_user.Id, _taskList.Id, n2.Id);
+            _noteManager.DeleteNote(_user.UniqueId, n1.ParentList.Id, n2.Id);
 
             Assert.AreEqual(n1.ListOrder, 0);
             Assert.AreEqual(n3.ListOrder, 1);

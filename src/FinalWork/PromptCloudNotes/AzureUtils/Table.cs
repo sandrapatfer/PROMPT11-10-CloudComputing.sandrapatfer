@@ -41,10 +41,13 @@ namespace AzureUtils
             }
         }
 
-        public bool Insert(string tableName, object entity)
+        public bool Insert(string tableName, TableServiceEntity entity)
         {
             try
             {
+                entity.PartitionKey = RemoveNotAcceptedChars(entity.PartitionKey);
+                entity.RowKey = RemoveNotAcceptedChars(entity.RowKey);
+
                 _context.AddObject(tableName, entity);
                 _context.SaveChanges();
                 return true;
@@ -112,29 +115,63 @@ namespace AzureUtils
         public T GetEntity<T>(string tableName, string partitionKey, string rowKey)
         {
             // the pair of keys can not be repeated, so a query with both should only return one value
-
-            return _context.CreateQuery<TableServiceEntity>(tableName).
-                Where(e => e.PartitionKey == partitionKey && e.RowKey == rowKey).
-                Cast<T>().FirstOrDefault();
+            try
+            {
+                return _context.CreateQuery<TableServiceEntity>(tableName).
+                    Where(e => e.PartitionKey == RemoveNotAcceptedChars(partitionKey) && e.RowKey == RemoveNotAcceptedChars(rowKey)).
+                    Cast<T>().FirstOrDefault();
+            }
+            catch (DataServiceClientException)
+            {
+                // resource does not exist
+                return default(T);
+            }
+            catch (DataServiceQueryException)
+            {
+                // resource does not exist
+                return default(T);
+            }
         }
 
         public IEnumerable<T> GetAllEntities<T>(string tableName)
+            where T : TableServiceEntity
         {
-            return _context.CreateQuery<TableServiceEntity>(tableName).Cast<T>();
+            return _context.CreateQuery<T>(tableName).ToList();
         }
 
         public IEnumerable<T> GetEntitiesInPartition<T>(string tableName, string partitionKey)
+            where T : TableServiceEntity
         {
-            return _context.CreateQuery<TableServiceEntity>(tableName).
-                Where(e => e.PartitionKey == partitionKey).
-                Cast<T>();
+            var query = _context.CreateQuery<T>(tableName).
+                Where(e => e.PartitionKey == partitionKey);
+            return query.ToList();
         }
 
         public IEnumerable<T> GetEntitiesInRow<T>(string tableName, string rowKey)
+            where T : TableServiceEntity
         {
-            return _context.CreateQuery<TableServiceEntity>(tableName).
-                Where(e => e.RowKey == rowKey).
-                Cast<T>();
+            return _context.CreateQuery<T>(tableName).
+                Where(e => e.RowKey == rowKey).ToList();
+        }
+
+        public void DeleteEntity(string tableName, TableServiceEntity entity)
+        {
+            _context.DeleteObject(entity);
+            _context.SaveChanges();
+        }
+
+        public void DeleteEntities(string tableName, ICollection<TableServiceEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                _context.DeleteObject(entity);
+            }
+            _context.SaveChanges();
+        }
+
+        private string RemoveNotAcceptedChars(string key)
+        {
+            return new string(key.Where(c => c != '\\' && c!= '/' && c!= '#' && c!= '?').ToArray());
         }
     }
 }

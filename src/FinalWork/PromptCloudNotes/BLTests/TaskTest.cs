@@ -36,9 +36,9 @@ namespace BLTests
         Note CreateNote()
         {
             var taskList = new TaskList() { Name = "new list" };
-            _taskListManager.CreateTaskList(_user.Id, taskList);
+            _taskListManager.CreateTaskList(_user, taskList);
             Note n = new Note() { Name = "new note" };
-            return _noteManager.CreateNote(_user.Id, taskList.Id, n);
+            return _noteManager.CreateNote(_user.UniqueId, taskList.Id, n);
         }
 
         [TestMethod]
@@ -47,9 +47,9 @@ namespace BLTests
             var n1 = CreateNote();
 
             var tl2 = new TaskList() { Name = "second list" };
-            _taskListManager.CreateTaskList(_user.Id, tl2);
+            _taskListManager.CreateTaskList(_user, tl2);
 
-            var n2 = _taskManager.CopyNote(_user.Id, tl2.Id, n1);
+            var n2 = _taskManager.CopyNote(_user.UniqueId, tl2.Id, n1);
 
             Assert.AreEqual(tl2.Id, n2.ParentList.Id);
         }
@@ -58,19 +58,19 @@ namespace BLTests
         public void MoveNoteTest()
         {
             var n1 = CreateNote();
-            int originalId = n1.Id;
-            int originalList = n1.ParentList.Id;
+            string originalId = n1.Id;
+            string originalList = n1.ParentList.Id;
 
             var tl2 = new TaskList() { Name = "second list" };
-            _taskListManager.CreateTaskList(_user.Id, tl2);
+            _taskListManager.CreateTaskList(_user, tl2);
 
-            var n2 = _taskManager.MoveNote(_user.Id, tl2.Id, n1.ParentList.Id, n1);
+            var n2 = _taskManager.MoveNote(_user.UniqueId, tl2.Id, n1.ParentList.Id, n1);
 
             Assert.AreEqual(tl2.Id, n2.ParentList.Id);
 
             try
             {
-                var n3 = _noteManager.GetNote(_user.Id, originalList, originalId);
+                var n3 = _noteManager.GetNote(_user.UniqueId, originalList, originalId);
                 Assert.Fail();
             }
             catch (InvalidOperationException) // TODO set the correct exception

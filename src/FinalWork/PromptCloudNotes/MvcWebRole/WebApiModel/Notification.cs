@@ -7,7 +7,7 @@ namespace Server.WebApiModel
 {
     public class Notification
     {
-        public int id { get; set; }
-        public int taskId { get; set; }
+        public string id { get; set; }
+        public string taskId { get; set; }
     }
 }

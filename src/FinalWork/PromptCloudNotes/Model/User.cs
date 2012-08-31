@@ -7,15 +7,13 @@ namespace PromptCloudNotes.Model
 {
     public class User
     {
-        public int Id { get; set; }
-        public string UserName { get; set; }
+        public string UniqueId { get; set; }
+        public string Name { get; set; }
+        public string Provider { get; set; }
+        public string NameIdentifier { get; set; }
+        public string Email { get; set; }
 
+        public ICollection<TaskList> Lists { get; set; }
         public ICollection<Notification> Notifications;
-
-        public override bool Equals(object obj)
-        {
-            // todo resharper???
-            return base.Equals(obj);
-        }
     }
 }

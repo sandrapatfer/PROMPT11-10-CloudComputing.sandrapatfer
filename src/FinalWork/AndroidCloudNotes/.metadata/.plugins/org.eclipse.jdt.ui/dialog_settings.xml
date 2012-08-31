@@ -36,16 +36,16 @@
 	<section name="JavaSearchPage">
 		<item value="false" key="CASE_SENSITIVE"/>
 		<item value="11" key="INCLUDE_MASK"/>
-		<item value="4" key="HISTORY_SIZE"/>
+		<item value="7" key="HISTORY_SIZE"/>
 		<section name="HISTORY2">
 			<item value="11" key="includeMask"/>
 			<item value="2" key="limitTo"/>
 			<item value="0" key="scope"/>
-			<item value="tasklist_view_item" key="pattern"/>
-			<item value="" key="javaElement"/>
-			<item value="4" key="searchFor"/>
+			<item value="=AndroidCloudNotes/src&lt;prompt.cloudnotes.activities{AuthActivity.java[AuthActivity" key="javaElement"/>
+			<item value="prompt.cloudnotes.activities.AuthActivity" key="pattern"/>
 			<item value="0" key="matchLocations"/>
-			<item value="false" key="isCaseSensitive"/>
+			<item value="0" key="searchFor"/>
+			<item value="true" key="isCaseSensitive"/>
 			<list key="workingSets">
 			</list>
 		</section>
@@ -53,10 +53,10 @@
 			<item value="11" key="includeMask"/>
 			<item value="2" key="limitTo"/>
 			<item value="0" key="scope"/>
-			<item value="prompt.cloudnotes.R.layout.tasklist_view_item" key="pattern"/>
-			<item value="" key="javaElement"/>
-			<item value="4" key="searchFor"/>
+			<item value="=AndroidCloudNotes/src&lt;prompt.cloudnotes.services{GetInfoService.java[GetInfoService" key="javaElement"/>
+			<item value="prompt.cloudnotes.services.GetInfoService" key="pattern"/>
 			<item value="0" key="matchLocations"/>
+			<item value="0" key="searchFor"/>
 			<item value="true" key="isCaseSensitive"/>
 			<list key="workingSets">
 			</list>
@@ -65,11 +65,11 @@
 			<item value="11" key="includeMask"/>
 			<item value="2" key="limitTo"/>
 			<item value="0" key="scope"/>
-			<item value="prompt.cloudnotes.services.GetInfoService" key="pattern"/>
-			<item value="=AndroidCloudNotes/src&lt;prompt.cloudnotes.services{GetInfoService.java[GetInfoService" key="javaElement"/>
-			<item value="0" key="searchFor"/>
+			<item value="" key="javaElement"/>
+			<item value="localhost" key="pattern"/>
 			<item value="0" key="matchLocations"/>
-			<item value="true" key="isCaseSensitive"/>
+			<item value="0" key="searchFor"/>
+			<item value="false" key="isCaseSensitive"/>
 			<list key="workingSets">
 			</list>
 		</section>
@@ -77,10 +77,46 @@
 			<item value="11" key="includeMask"/>
 			<item value="2" key="limitTo"/>
 			<item value="0" key="scope"/>
-			<item value="prompt.cloudnotes.stores.TaskListStore.fillTestValue()" key="pattern"/>
-			<item value="=AndroidCloudNotes/src&lt;prompt.cloudnotes.stores{TaskListStore.java[TaskListStore~fillTestValue" key="javaElement"/>
-			<item value="1" key="searchFor"/>
+			<item value="" key="javaElement"/>
+			<item value="response_type" key="pattern"/>
 			<item value="0" key="matchLocations"/>
+			<item value="0" key="searchFor"/>
+			<item value="false" key="isCaseSensitive"/>
+			<list key="workingSets">
+			</list>
+		</section>
+		<section name="HISTORY5">
+			<item value="11" key="includeMask"/>
+			<item value="2" key="limitTo"/>
+			<item value="0" key="scope"/>
+			<item value="" key="javaElement"/>
+			<item value="tasklist_view_item" key="pattern"/>
+			<item value="0" key="matchLocations"/>
+			<item value="4" key="searchFor"/>
+			<item value="false" key="isCaseSensitive"/>
+			<list key="workingSets">
+			</list>
+		</section>
+		<section name="HISTORY4">
+			<item value="11" key="includeMask"/>
+			<item value="2" key="limitTo"/>
+			<item value="0" key="scope"/>
+			<item value="=AndroidCloudNotes/src&lt;prompt.cloudnotes.stores{TaskListStore.java[TaskListStore~fillTestValue" key="javaElement"/>
+			<item value="prompt.cloudnotes.stores.TaskListStore.fillTestValue()" key="pattern"/>
+			<item value="0" key="matchLocations"/>
+			<item value="1" key="searchFor"/>
+			<item value="true" key="isCaseSensitive"/>
+			<list key="workingSets">
+			</list>
+		</section>
+		<section name="HISTORY6">
+			<item value="11" key="includeMask"/>
+			<item value="2" key="limitTo"/>
+			<item value="0" key="scope"/>
+			<item value="" key="javaElement"/>
+			<item value="prompt.cloudnotes.R.layout.tasklist_view_item" key="pattern"/>
+			<item value="0" key="matchLocations"/>
+			<item value="4" key="searchFor"/>
 			<item value="true" key="isCaseSensitive"/>
 			<list key="workingSets">
 			</list>

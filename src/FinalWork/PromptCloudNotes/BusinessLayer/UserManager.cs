@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Managers;
+using PromptCloudNotes.Interfaces.Repositories;
 using PromptCloudNotes.Model;
 
 namespace PromptCloudNotes.BusinessLayer.Managers
@@ -23,16 +24,16 @@ namespace PromptCloudNotes.BusinessLayer.Managers
             return _repository.GetAll();
         }
 
-        public User GetUser(string name)
+        public User GetUserByClaims(string provider, string nameIdentifier)
         {
-            return _repository.Get(name);
+            return _repository.Get(provider, nameIdentifier);
         }
 
-        public User CreateUser(User userData)
+        public void CreateUser(User userData)
         {
             // validate user, example, check if the username is used, or the email address
 
-            return _repository.Create(userData);
+            _repository.Create(userData);
         }
 
         #endregion

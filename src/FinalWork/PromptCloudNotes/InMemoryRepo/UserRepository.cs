@@ -22,18 +22,18 @@ namespace PromptCloudNotes.InMemoryRepo
         public User Create(User user)
         {
             _users.Add(user);
-            user.Id = ++_userId;
+            user.UniqueId = (++_userId).ToString();
             return user;
         }
 
-        public User Get(int userId)
+        public User GetById(string userId)
         {
-            return _users.First(u => u.Id == userId);
+            return _users.First(u => u.UniqueId == userId);
         }
 
-        public User Get(string name)
+        public User GetByClaims(string provider, string nameIdentifier)
         {
-            return _users.FirstOrDefault(u => u.UserName == name);
+            return _users.FirstOrDefault(u => u.Provider == provider && u.NameIdentifier == nameIdentifier);
         }
 
         #endregion

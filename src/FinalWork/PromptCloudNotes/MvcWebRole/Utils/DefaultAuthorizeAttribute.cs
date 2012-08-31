@@ -14,7 +14,18 @@ namespace Server.Utils
         {
             if (!filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), false))
             {
-                base.OnAuthorization(filterContext);
+                // the request requires authorization
+                if (!filterContext.HttpContext.Request.IsAuthenticated)
+                {
+                    // the request has not been authorized
+                    filterContext.Result = new ViewResult()
+                    {
+                        ViewName = "Authorize",
+                        ViewData = filterContext.Controller.ViewData,
+                        MasterName = "_BasicLayout",
+                        TempData = filterContext.Controller.TempData
+                    };
+                }
             }
         }
             

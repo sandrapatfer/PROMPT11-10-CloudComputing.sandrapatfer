@@ -23,11 +23,12 @@ namespace PromptCloudNotes.InMemoryRepo
 
         #region INotificationRepository Members
 
-        public void CreateTaskListNotification(int userId, int listId, Notification notificationData)
+        public void CreateTaskListNotification(string userId, string listId, Notification notificationData)
         {
-            notificationData.Id = ++_notificationId;
-            
-            var user = _userRepository.Get(userId);
+            notificationData.Id = (++_notificationId).ToString();
+
+            var memoryRepo = _userRepository as UserRepository;
+            var user = memoryRepo.GetById(userId);
             if (user.Notifications == null)
             {
                 user.Notifications = new List<Notification>();
@@ -43,11 +44,12 @@ namespace PromptCloudNotes.InMemoryRepo
             }
         }
 
-        public void CreateNoteNotification(int userId, int listId, int noteId, Notification notificationData)
+        public void CreateNoteNotification(string userId, string noteId, Notification notificationData)
         {
-            notificationData.Id = ++_notificationId;
+            notificationData.Id = (++_notificationId).ToString();
 
-            var user = _userRepository.Get(userId);
+            var memoryRepo = _userRepository as UserRepository;
+            var user = memoryRepo.GetById(userId);
             if (user.Notifications == null)
             {
                 user.Notifications = new List<Notification>();
@@ -57,19 +59,21 @@ namespace PromptCloudNotes.InMemoryRepo
             notificationData.User = user;
             if (notificationData.Task == null)
             {
+                // TODO fix!
                 // this can not be always done, because in delete notifications,
                 // at this moment the repository does not have the list anymore
-                notificationData.Task = _noteRepository.Get(listId, noteId);
+                notificationData.Task = _noteRepository.Get(noteId);
             }
         }
 
-        public IEnumerable<Notification> GetAll(int userId)
+        public IEnumerable<Notification> GetAll(string userId)
         {
-            var user = _userRepository.Get(userId);
+            var memoryRepo = _userRepository as UserRepository;
+            var user = memoryRepo.GetById(userId);
             return user.Notifications;
         }
 
-        public Notification Get(int notificationId)
+        public Notification Get(string notificationId)
         {
             var users = _userRepository.GetAll();
             foreach (var user in users)
@@ -83,16 +87,12 @@ namespace PromptCloudNotes.InMemoryRepo
             return null;
         }
 
-        public void Delete(int notificationId)
+        public void Delete(string notificationId)
         {
-            var users = _userRepository.GetAll();
-            foreach (var user in users)
+            var notif = Get(notificationId);
+            if (notif != null)
             {
-                var notification = user.Notifications.FirstOrDefault(n => n.Id == notificationId);
-                if (notification != null)
-                {
-                    user.Notifications.Remove(notification);
-                }
+                notif.User.Notifications.Remove(notif);
             }
         }
 

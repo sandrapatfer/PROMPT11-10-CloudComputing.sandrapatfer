@@ -2,17 +2,52 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Repositories;
 using PromptCloudNotes.Model;
 
 namespace PromptCloudNotes.AzureRepo
 {
     using Model;
 
-    public class NotificationRepository : INotificationRepository
+    public class NotificationRepository : AzureRepository<Notification, NotificationEntity>, INotificationRepository
     {
         private const string TABLE_NAME = "NotificationTable";
-        private AzureUtils.Table _tableUtils;
+
+        public NotificationRepository()
+            : base(TABLE_NAME)
+        { }
+
+        public IEnumerable<Notification> GetAll()
+        {
+            return GetAll(n => n.GetNotification());
+        }
+
+        public new IEnumerable<Notification> GetAll(string partitionKey)
+        {
+            return GetAll(partitionKey, n => n.GetNotification());
+        }
+
+        public new Notification Get(string partitionKey, string rowKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Create(Notification newEntity)
+        {
+        }
+
+        public void Update(string partitionKey, string rowKey, Notification changedEntity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(string partitionKey, string rowKey)
+        {
+            throw new NotImplementedException();
+        }
+
+
+/*        private AzureUtils.Table _tableUtils;
 
         public NotificationRepository()
         {
@@ -24,15 +59,9 @@ namespace PromptCloudNotes.AzureRepo
             _tableUtils.CreateTable(TABLE_NAME);
         }
 
-        public void CreateTaskListNotification(int userId, int listId, PromptCloudNotes.Model.Notification notificationData)
+        public void CreateTaskListNotification(string userId, string listId, PromptCloudNotes.Model.Notification notificationData)
         {
-            var allUserNotifications = _tableUtils.GetEntitiesInPartition<NotificationEntity>(TABLE_NAME, userId.ToString());
-            int max = -1;
-            if (allUserNotifications != null && allUserNotifications.Count() > 0)
-            {
-                max = allUserNotifications.Max(e => Convert.ToInt32(e.RowKey));
-            }
-            var newEntity = new NotificationEntity(userId, ++max) { ListId = listId, NoteId = -1 };
+            var newEntity = new NotificationEntity(userId, Guid.NewGuid().ToString()) { TaskId = listId, IsList = true };
             if (_tableUtils.Insert(TABLE_NAME, newEntity))
             {
                 return;
@@ -40,15 +69,9 @@ namespace PromptCloudNotes.AzureRepo
             throw new InvalidOperationException();
         }
 
-        public void CreateNoteNotification(int userId, int listId, int noteId, PromptCloudNotes.Model.Notification notificationData)
+        public void CreateNoteNotification(string userId, string noteId, PromptCloudNotes.Model.Notification notificationData)
         {
-            var allUserNotifications = _tableUtils.GetEntitiesInPartition<NotificationEntity>(TABLE_NAME, userId.ToString());
-            int max = -1;
-            if (allUserNotifications != null && allUserNotifications.Count() > 0)
-            {
-                max = allUserNotifications.Max(e => Convert.ToInt32(e.RowKey));
-            }
-            var newEntity = new NotificationEntity(userId, ++max) { ListId = listId, NoteId = noteId };
+            var newEntity = new NotificationEntity(userId, Guid.NewGuid().ToString()) { TaskId = noteId, IsList = false };
             if (_tableUtils.Insert(TABLE_NAME, newEntity))
             {
                 return;
@@ -56,25 +79,26 @@ namespace PromptCloudNotes.AzureRepo
             throw new InvalidOperationException();
         }
 
-        public IEnumerable<PromptCloudNotes.Model.Notification> GetAll(int userId)
+        public IEnumerable<PromptCloudNotes.Model.Notification> GetAll(string userId)
         {
             return _tableUtils.GetEntitiesInPartition<NotificationEntity>(TABLE_NAME, userId.ToString()).Select(e =>
                 new Notification()
                 {
-                    Id = Convert.ToInt32(e.RowKey),
-                    Task = e.NoteId == -1 ? (Task) new TaskList() { Id = e.ListId } :
-                    new Note() { Id = e.NoteId, ParentList = new TaskList() { Id = e.ListId } }
+                    Id = e.RowKey,
+                    Task = e.IsList? (Task) new TaskList() { Id = e.TaskId } :
+                    new Note() { Id = e.TaskId }
                 });
         }
 
-        public PromptCloudNotes.Model.Notification Get(int notificationId)
+        public PromptCloudNotes.Model.Notification Get(string notificationId)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(int notificationId)
+        public void Delete(string notificationId)
         {
             throw new NotImplementedException();
-        }
+        }*/
+
     }
 }

@@ -1,0 +1,17 @@
+﻿@model Server.MvcModel.ListViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+            <!--Sidebar content-->
+            @Html.Partial("_TaskListsMenu", Model)
+        </div>
+        <div class="span10">
+            @Html.Partial("_Notes", Model.SelectedList)
+        </div>
+    </div>
+</div>

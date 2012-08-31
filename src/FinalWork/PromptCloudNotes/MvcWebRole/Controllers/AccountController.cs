@@ -6,7 +6,10 @@ using System.Web.Mvc;
 using Microsoft.IdentityModel.Web;
 using Server.Utils;
 using Microsoft.IdentityModel.Protocols.WSFederation;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Managers;
+using Server.MvcModel;
+using Server.Utils.Hrd;
+using Microsoft.IdentityModel.Claims;
 
 namespace Server.Controllers
 {
@@ -25,44 +28,82 @@ namespace Server.Controllers
         [HttpGet]
         public ActionResult LogOn()
         {
-            if (!Request.IsAuthenticated)
-            {
-                var signin = FederatedAuthentication.WSFederationAuthenticationModule.CreateSignInRequest("1",
-                    Request.Url.AbsoluteUri, false);
-                return Redirect(signin.WriteQueryString());
-            }
-            else
-            {
-                ValidateUser();
-                var listMgr = DependencyResolver.Current.GetService<ITaskListManager>();
-                var lists = listMgr.GetAllLists(_userManager.GetUser(User.Identity.Name).Id);
-                if (lists.Count() > 0)
-                {
-                    return RedirectToAction("Index", "Notes", new { listId = lists.First().Id });
-                }
-                else
-                {
-                    return RedirectToAction("Create", "TaskLists");
-                }
-            }
+            return View();
+        }
+
+        //
+        // GET: /Account/LogOnPartial
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult LogOnPartial()
+        {
+            HrdClient hrdClient = new HrdClient();
+
+            WSFederationAuthenticationModule fam = FederatedAuthentication.WSFederationAuthenticationModule;
+            HrdRequest request = new HrdRequest(fam.Issuer, fam.Realm, context: Request.Url.AbsoluteUri);
+
+            IEnumerable<HrdIdentityProvider> hrdIdentityProviders = hrdClient.GetHrdResponse(request);
+
+            return PartialView("_LogOnPartial", hrdIdentityProviders);
         }
 
         // POST: /Account/LogOnToken
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult LogOnToken()
-
-            // TODO - ver porque é q o POST nao é chamado e é redireccionado para o GET!!!! Este é o return URL no ACS :(
+        public ActionResult LogOnToken(FormCollection form)
         {
-            return RedirectToAction("Index", "TaskLists");
+            // We use return url as context
+            WSFederationMessage message = WSFederationMessage.CreateFromNameValueCollection(new Uri("http://www.notused.com"), form);
+            string returnUrl = message != null ? message.Context : null;
+
+            var claimsPrincipal = User as IClaimsPrincipal;
+            if (claimsPrincipal != null)
+            {
+                var claimsIdentity = claimsPrincipal.Identities[0];
+                var nameIdentifierClaim = claimsIdentity.Claims.FirstOrDefault(c => c.ClaimType == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+                var emailAddressClaim = claimsIdentity.Claims.FirstOrDefault(c => c.ClaimType == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress");
+                var identityProviderClaim = claimsIdentity.Claims.FirstOrDefault(c => c.ClaimType == "http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider");
+                var nameClaim = claimsIdentity.Claims.FirstOrDefault(c => c.ClaimType == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name");
+
+                var userClaims = new UserClaims
+                {
+                    Name = nameClaim != null ? nameClaim.Value : null,
+                    Email = emailAddressClaim != null ? emailAddressClaim.Value : null,
+                    Provider = identityProviderClaim != null ? identityProviderClaim.Value : null,
+                    NameIdentifier = nameIdentifierClaim != null ? nameIdentifierClaim.Value : null
+                };
+
+                if (string.IsNullOrEmpty(userClaims.Name) || string.IsNullOrEmpty(userClaims.Email))
+                {
+                    var user = _userManager.GetUserByClaims(userClaims.Provider, userClaims.NameIdentifier);
+                    if (user == null)
+                    {
+                        return View("Register", userClaims);
+                    }
+                    else
+                    {
+                        Session.Add("user", user);
+                    }
+                }
+                else
+                {
+                    ValidateLogin(userClaims);
+                }
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "TaskLists");
+                }
+            }
+            else
+            {
+                throw new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "Unauthorized request");
+            }
         }
  
-/*        [HttpPost, ActionName("LogOn")]
-        public ActionResult PostLogOn()
-        {
-            return RedirectToAction("Index", "TaskLists");
-        }*/
-
         //
         // GET: /Account/LogOff
         public ActionResult LogOff()
@@ -74,16 +115,39 @@ namespace Server.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private bool ValidateUser()
+        //
+        // POST: /Account/Register
+        public ActionResult Register(UserClaims userClaims)
         {
-            var user = _userManager.GetUser(User.Identity.Name);
+            if (ModelState.IsValid)
+            {
+                var claimsPrincipal = User as IClaimsPrincipal;
+                var nameIdentifierClaim = claimsPrincipal.Identities[0].Claims.FirstOrDefault(c => c.ClaimType == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+                userClaims.NameIdentifier = nameIdentifierClaim.Value;
+                var identityProviderClaim = claimsPrincipal.Identities[0].Claims.FirstOrDefault(c => c.ClaimType == "http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider");
+                userClaims.Provider = identityProviderClaim.Value;
+
+                var user = ValidateLogin(userClaims);
+                return RedirectToAction("Index", "TaskLists");
+            }
+            else
+            {
+                return View(userClaims);
+            }
+        }
+
+        private PromptCloudNotes.Model.User ValidateLogin(UserClaims userClaims)
+        {
+            var user = _userManager.GetUserByClaims(userClaims.Provider, userClaims.NameIdentifier);
             if (user == null)
             {
-                // TODO create a sign up action?
-                _userManager.CreateUser(new PromptCloudNotes.Model.User() { UserName = User.Identity.Name });
+                user = new PromptCloudNotes.Model.User() { Provider = userClaims.Provider, NameIdentifier = userClaims.NameIdentifier, Name = userClaims.Name, Email = userClaims.Email };
+                _userManager.CreateUser(user);
             }
 
-            return true;
+            Session.Add("user", user);
+
+            return user;
         }
     }
 }

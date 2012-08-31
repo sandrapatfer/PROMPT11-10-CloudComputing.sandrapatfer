@@ -7,7 +7,7 @@ namespace PromptCloudNotes.Model
 {
     public class Notification
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public DateTime At { get; set; }
         public NotificationType Type { get; set; }
 

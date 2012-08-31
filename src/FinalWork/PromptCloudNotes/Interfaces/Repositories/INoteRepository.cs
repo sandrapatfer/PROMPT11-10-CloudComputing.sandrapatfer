@@ -4,20 +4,28 @@ using System.Linq;
 using System.Text;
 using PromptCloudNotes.Model;
 
-namespace PromptCloudNotes.Interfaces
+namespace PromptCloudNotes.Interfaces.Repositories
 {
-    public interface INoteRepository
+    public interface INoteRepository : IRepository<Note>
     {
-        IEnumerable<Note> GetAll(int userId, int listId);
-        IEnumerable<Note> GetAll(int userId);
+/*        //IEnumerable<Note> GetAll(string userId);
+        IQueryable<Note> GetAll(string userId, string listId);
 
-        Note Create(int userId, int listId, Note noteData);
-        Note Get(int listId, int noteId);
-        Note Update(int listId, int noteId, Note noteData);
-        void Delete(int listId, int noteId);
+        Note Create(string userId, string listId, Note noteData);
 
-        void ChangeOrder(int list, int noteId, int order);
+        //Note Get(string noteId);
+        Note Get(string listId, string noteId);
 
-        void ShareNote(int list, int noteId, int userId);
+        //Note Update(string noteId, Note noteData);
+        Note Update(string listId, string noteId, Note noteData);
+
+        //void Delete(string noteId);
+        void Delete(string listId, string noteId);
+
+        //void ChangeOrder(string noteId, int order);
+        void ChangeOrder(string listId, string noteId, int order);
+
+        //void ShareNote(string noteId, string userId);
+        void ShareNote(string listId, string noteId, string userId);*/
     }
 }

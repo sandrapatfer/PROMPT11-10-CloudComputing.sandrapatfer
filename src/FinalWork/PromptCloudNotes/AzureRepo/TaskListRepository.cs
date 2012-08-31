@@ -2,18 +2,61 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Repositories;
 using PromptCloudNotes.Model;
 using Microsoft.WindowsAzure;
 
 namespace PromptCloudNotes.AzureRepo
 {
     using Model;
+    using Exceptions;
 
-    public class TaskListRepository : ITaskListRepository
+    public class TaskListRepository : AzureRepository<TaskList, TaskListEntity>, ITaskListRepository
     {
         private const string TABLE_NAME = "TaskListTable";
-        private const string SHARE_TABLE_NAME = "ShareTaskListTable";
+
+        public TaskListRepository()
+            : base(TABLE_NAME)
+        { }
+
+        public IEnumerable<TaskList> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public new IEnumerable<TaskList> GetAll(string partitionKey)
+        {
+            return GetAll(partitionKey, l => l.GetTaskList());
+        }
+
+        public new TaskList Get(string partitionKey, string rowKey)
+        {
+            return Get(partitionKey, rowKey, l => l.GetTaskList());
+        }
+
+        public void Create(TaskList newEntity)
+        {
+            newEntity.Id = Guid.NewGuid().ToString();
+            Create(new TaskListEntity(newEntity));
+        }
+
+        public void Update(string partitionKey, string rowKey, TaskList changedEntity)
+        {
+            var list = base.Get(partitionKey, rowKey);
+            if (list == null)
+            {
+                throw new ObjectNotFoundException();
+            }
+            list.Update(changedEntity);
+            Update(list);
+        }
+
+        public void Delete(string partitionKey, string rowKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        /*private const string SHARE_TABLE_NAME = "ShareTaskListTable";
         private AzureUtils.Table _tableUtils;
 
         public TaskListRepository()
@@ -27,29 +70,20 @@ namespace PromptCloudNotes.AzureRepo
             _tableUtils.CreateTable(SHARE_TABLE_NAME);
         }
 
-        public IEnumerable<TaskList> GetAll(int userId)
+        public IEnumerable<TaskList> GetAll(string userId)
         {
-            // TODO preencher os outros atributos como futuros para serem preenchidos se forem necessarios
-
-            return _tableUtils.GetEntitiesInPartition<TaskListEntity>(TABLE_NAME, userId.ToString()).
-                Select(e => new TaskList() { Id = Convert.ToInt32(e.RowKey), Name = e.Name, Description = e.Description });
+            return _tableUtils.GetEntitiesInPartition<TaskListEntity>(TABLE_NAME, userId).
+                Select(e => new TaskList() { Id = e.RowKey, Name = e.Name, Description = e.Description });
         }
 
         public TaskList Create(User user, TaskList listData)
         {
-            var allLists = _tableUtils.GetAllEntities<TaskListEntity>(TABLE_NAME);
-            int max = -1;
-            if (allLists != null && allLists.Count() > 0)
-            {
-                max = allLists.Max(e => Convert.ToInt32(e.RowKey));
-            }
-            var newEntity = new TaskListEntity(user.Id, ++max) { Name = listData.Name, Description = listData.Description };
+            listData.Id = Guid.NewGuid().ToString();
+            var newEntity = new TaskListEntity(user.UniqueId, listData.Id) { Name = listData.Name, Description = listData.Description };
             if (_tableUtils.Insert(TABLE_NAME, newEntity))
             {
-                listData.Id = Convert.ToInt32(newEntity.RowKey);
 
-                var newShareEntity = new ShareTaskListEntity(listData.Id, user.Id);
-                newShareEntity.UserName = user.UserName;
+                var newShareEntity = new ShareTaskListEntity(listData.Id, user.UniqueId);
                 if (_tableUtils.Insert(SHARE_TABLE_NAME, newShareEntity))
                 {
                     return listData;
@@ -60,9 +94,9 @@ namespace PromptCloudNotes.AzureRepo
             throw new InvalidOperationException();
         }
 
-        public TaskList Get(int listId)
+        public TaskList Get(string creatorId, string listId)
         {
-            var entity = _tableUtils.GetEntitiesInRow<TaskListEntity>(TABLE_NAME, listId.ToString()).FirstOrDefault();
+            var entity = _tableUtils.GetEntity<TaskListEntity>(TABLE_NAME, creatorId, listId);
             if (entity != null)
             {
                 return new TaskList()
@@ -71,32 +105,32 @@ namespace PromptCloudNotes.AzureRepo
                     Name = entity.Name,
                     Description = entity.Description
                     /*,
-                    Creator = user*/
+                    Creator = user*//*
                 };
             }
 
             return null;
         }
 
-        public TaskList GetWithUsers(int listId)
+        public TaskList GetWithUsers(string creatorId, string listId)
         {
-            var entity = _tableUtils.GetEntitiesInRow<TaskListEntity>(TABLE_NAME, listId.ToString()).FirstOrDefault();
+            var entity = _tableUtils.GetEntity<TaskListEntity>(TABLE_NAME, creatorId, listId);
             if (entity != null)
             {
                 var users = _tableUtils.GetEntitiesInPartition<ShareTaskListEntity>(SHARE_TABLE_NAME, listId.ToString());
                 return new TaskList() { Id = listId, Name = entity.Name, Description = entity.Description,
-                    Users = users.Select( u => new User() { Id = u.Id, UserName = u.UserName }).ToList()
+                    Users = users.Select( u => new User() { UniqueId = u.PartitionKey }).ToList()
                     /*,
-                    Creator = user*/
+                    Creator = user*//*
                 };
             }
 
             return null;
         }
 
-        public void Update(int listId, TaskList listData)
+        public void Update(string creatorId, string listId, TaskList listData)
         {
-            var entity = _tableUtils.GetEntitiesInRow<TaskListEntity>(TABLE_NAME, listId.ToString()).FirstOrDefault();
+            var entity = _tableUtils.GetEntity<TaskListEntity>(TABLE_NAME, creatorId, listId);
             if (entity != null)
             {
                 entity.Name = listData.Name;
@@ -105,20 +139,20 @@ namespace PromptCloudNotes.AzureRepo
             }
         }
 
-        public void Delete(int listId)
+        public void Delete(string listId)
         {
             throw new NotImplementedException();
         }
 
-        public void Share(int listId, User user)
+        public void Share(string listId, string userId)
         {
-            var newEntity = new ShareTaskListEntity(listId, user.Id);
-            newEntity.UserName = user.UserName;
+            var newEntity = new ShareTaskListEntity(listId, userId);
             if (!_tableUtils.Insert(SHARE_TABLE_NAME, newEntity))
             {
                 // TODO excepcao nova
                 throw new InvalidOperationException();
             }
-        }
+        }*/
+
     }
 }

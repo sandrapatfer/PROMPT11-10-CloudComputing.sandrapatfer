@@ -67,7 +67,7 @@ namespace BLTests
             User user1 = new User();
             User user2 = m.CreateUser(user1);
             Assert.AreEqual(user1, user2);
-            Assert.IsNotNull(user2.Id);
+            Assert.IsNotNull(user2.UniqueId);
         }
 
     }

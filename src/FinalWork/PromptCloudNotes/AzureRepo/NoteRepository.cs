@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Repositories;
 using PromptCloudNotes.Model;
 using Microsoft.WindowsAzure;
 
@@ -10,9 +10,49 @@ namespace PromptCloudNotes.AzureRepo
 {
     using Model;
 
-    public class NoteRepository : INoteRepository
+    public class NoteRepository : AzureRepository<Note, NoteEntity>, INoteRepository
     {
         private const string TABLE_NAME = "NoteTable";
+
+        public NoteRepository()
+            : base(TABLE_NAME)
+        { }
+
+        public IEnumerable<Note> GetAll()
+        {
+            return GetAll(e => e.GetNote());
+        }
+
+        public new IEnumerable<Note> GetAll(string partitionKey)
+        {
+            return GetAll(partitionKey, e => e.GetNote());
+        }
+
+        public new Note Get(string partitionKey, string rowKey)
+        {
+            return Get(partitionKey, rowKey, e => e.GetNote());
+        }
+
+        public void Create(Note newEntity)
+        {
+            newEntity.Id = Guid.NewGuid().ToString();
+            Create(new NoteEntity(newEntity));
+        }
+
+        public void Update(string partitionKey, string rowKey, Note changedEntity)
+        {
+            var entity = base.Get(partitionKey, rowKey); 
+            entity.UpdateData(changedEntity);
+            Update(entity);
+        }
+
+        public void Delete(string partitionKey, string rowKey)
+        {
+            var entity = base.Get(partitionKey, rowKey);
+            DeleteEntity(entity);
+        }
+
+/*        private const string TABLE_NAME = "NoteTable";
         private const string LIST_TABLE_NAME = "TaskListTable";
         private AzureUtils.Table _tableUtils;
 
@@ -26,63 +66,53 @@ namespace PromptCloudNotes.AzureRepo
             _tableUtils.CreateTable(TABLE_NAME);
         }
 
-        public IEnumerable<Note> GetAll(int userId, int listId)
+        public IQueryable<Note> GetAll(string userId, string listId)
         {
             // TODO validate the list for the user (remember it is used in next function passing -1)
 
             var list = new TaskList() { Id = listId };
             return _tableUtils.GetEntitiesInPartition<NoteEntity>(TABLE_NAME, listId.ToString()).
-                Select(e => new Note() { Id = Convert.ToInt32(e.RowKey), Name = e.Name, Description = e.Description, ParentList = list });
+                Select(e => new Note() { Id = e.RowKey, Name = e.Name, Description = e.Description, ParentList = list });
         }
 
-        IEnumerable<Note> INoteRepository.GetAll(int userId)
+        public IQueryable<Note> GetAll(string userId)
         {
             var userLists = _tableUtils.GetEntitiesInPartition<TaskListEntity>(LIST_TABLE_NAME, userId.ToString());
-            return userLists.Aggregate(new List<Note>(), (l, e) =>
+            return userLists.Aggregate(new List<Note>(), (Func<List<Note>, TaskListEntity, List<Note>>)((l, e) =>
             {
-                l.AddRange(GetAll(-1, Convert.ToInt32(e.RowKey)));
+                l.AddRange(GetAll(userId, e.RowKey));
                 return l;
-            });
+            })).AsQueryable<Note>();
         }
 
-        public Note Create(int userId, int listId, Note noteData)
+        public Note Create(string userId, string listId, Note noteData)
         {
-            // TODO validate user and list
-
-            // TODO see how to improve this query...
-            var allNotes = _tableUtils.GetAllEntities<NoteEntity>(TABLE_NAME);
-            int max = -1;
-            if (allNotes != null && allNotes.Count() > 0)
-            {
-                max = allNotes.Max(e => Convert.ToInt32(e.RowKey));
-            }
-            var newEntity = new NoteEntity(listId, ++max) { Name = noteData.Name, Description = noteData.Description };
+            noteData.Id = Guid.NewGuid().ToString();
+            var newEntity = new NoteEntity(listId, noteData.Id) { Name = noteData.Name, Description = noteData.Description, CreatorId = userId };
             if (_tableUtils.Insert(TABLE_NAME, newEntity))
             {
-                noteData.Id = Convert.ToInt32(newEntity.RowKey);
                 return noteData;
             }
             // TODO excepcao nova
             throw new InvalidOperationException();
         }
 
-        public Note Get(int listId, int noteId)
+        public Note Get(string listId, string noteId)
         {
             var entity = _tableUtils.GetEntity<NoteEntity>(TABLE_NAME, listId.ToString(), noteId.ToString());
             if (entity != null)
             {
-                return new Note() { Id = noteId, Name = entity.Name, Description = entity.Description };
+                return entity.GetNote();
             }
             return null;
         }
 
-        public Note Update(int listId, int noteId, Note noteData)
+        public Note Update(string listId, string noteId, Note noteData)
         {
             var entity = _tableUtils.GetEntity<NoteEntity>(TABLE_NAME, listId.ToString(), noteId.ToString());
             if (entity != null)
             {
-                entity.Name = noteData.Name;
-                entity.Description = noteData.Description;
+                entity.UpdateData(noteData);
                 if (!_tableUtils.MergeUpdate(TABLE_NAME, entity))
                 {
                     // TODO exception?
@@ -92,19 +122,20 @@ namespace PromptCloudNotes.AzureRepo
             return noteData;
         }
 
-        public void Delete(int listId, int noteId)
+        public void Delete(string listId, string noteId)
         {
             throw new NotImplementedException();
         }
 
-        public void ChangeOrder(int list, int noteId, int order)
+        public void ChangeOrder(string listId, string noteId, int order)
         {
             throw new NotImplementedException();
         }
 
-        public void ShareNote(int list, int noteId, int userId)
+        public void ShareNote(string listId, string noteId, string userId)
         {
             throw new NotImplementedException();
-        }
+        }*/
+
     }
 }

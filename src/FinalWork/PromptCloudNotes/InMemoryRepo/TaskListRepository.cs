@@ -20,14 +20,14 @@ namespace PromptCloudNotes.InMemoryRepo
 
         #region ITaskListRepository Members
 
-        public IEnumerable<TaskList> GetAll(int userId)
+        public IEnumerable<TaskList> GetAll(string userId)
         {
-            return _lists.Where(t => (t.Creator.Id == userId || t.Users.Any(u => u.Id == userId)));
+            return _lists.Where(t => (t.Creator.UniqueId == userId || t.Users.Any(u => u.UniqueId == userId)));
         }
 
         public TaskList Create(User user, TaskList list)
         {
-            list.Id = ++_listId;
+            list.Id = (++_listId).ToString();
             list.Users = new List<User>();
             list.Users.Add(user);
             list.Creator = user;
@@ -35,30 +35,30 @@ namespace PromptCloudNotes.InMemoryRepo
             return list;
         }
 
-        public TaskList Get(int id)
+        public TaskList Get(string id)
         {
             return _lists.FirstOrDefault(l => l.Id == id);
         }
 
-        public TaskList GetWithUsers(int id)
+        public TaskList GetWithUsers(string id)
         {
             return _lists.FirstOrDefault(l => l.Id == id);
         }
 
-        public void Update(int listId, TaskList listData)
+        public void Update(string listId, TaskList listData)
         {
             var list = _lists.First(l => l.Id == listId);
             list.Name = listData.Name;
             list.Description = listData.Description;
         }
 
-        public void Delete(int listId)
+        public void Delete(string listId)
         {
             var list = _lists.First(l => l.Id == listId);
             _lists.Remove(list);
         }
 
-        public void Share(int listId, User user)
+        public void Share(string listId, User user)
         {
             var list = _lists.First(l => l.Id == listId);
             list.Users.Add(user);

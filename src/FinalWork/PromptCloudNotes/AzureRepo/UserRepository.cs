@@ -2,17 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Repositories;
 using PromptCloudNotes.Model;
 
 namespace PromptCloudNotes.AzureRepo
 {
     using Model;
 
-    public class UserRepository : IUserRepository
+    public class UserRepository : AzureRepository<User, UserEntity>, IUserRepository
     {
         private const string TABLE_NAME = "UserTable";
-        private AzureUtils.Table _tableUtils;
+
+        public UserRepository()
+            : base(TABLE_NAME)
+        { }
+
+        public IEnumerable<User> GetAll()
+        {
+            return GetAll(u => u.GetUser());
+        }
+
+        public new IEnumerable<User> GetAll(string partitionKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public new User Get(string partitionKey, string rowKey)
+        {
+            return Get(partitionKey, rowKey, u => u.GetUser());
+        }
+
+        public void Create(User newEntity)
+        {
+            newEntity.UniqueId = Guid.NewGuid().ToString();
+            Create(new UserEntity(newEntity));
+        }
+
+        public void Update(string partitionKey, string rowKey, User changedEntity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(string partitionKey, string rowKey)
+        {
+            throw new NotImplementedException();
+        }
+
+/*        private AzureUtils.Table _tableUtils;
 
         public UserRepository()
         {
@@ -26,44 +62,28 @@ namespace PromptCloudNotes.AzureRepo
 
         public IEnumerable<User> GetAll()
         {
-            return _tableUtils.GetAllEntities<UserEntity>(TABLE_NAME).Select(e => new User() { Id = Convert.ToInt32(e.PartitionKey), UserName = e.Name });
+            return _tableUtils.GetAllEntities<UserEntity>(TABLE_NAME).Select(e => e.GetUser());
         }
 
         public User Create(User user)
         {
-            var allUsers = _tableUtils.GetAllEntities<UserEntity>(TABLE_NAME);
-            int max = -1;
-            if (allUsers != null && allUsers.Count() > 0)
-            {
-                max = allUsers.Max(e => Convert.ToInt32(e.PartitionKey));
-            }
-            var newEntity = new UserEntity(++max, user.UserName) { Name = user.UserName };
+            var newEntity = new UserEntity(user.Provider, user.NameIdentifier) { UniqueId = Guid.NewGuid().ToString(), Name = user.Name, Email = user.Email };
             if (_tableUtils.Insert(TABLE_NAME, newEntity))
             {
-                user.Id = Convert.ToInt32(newEntity.PartitionKey);
+                user.UniqueId = newEntity.PartitionKey;
                 return user;
             }
             throw new InvalidOperationException();
         }
 
-        public User Get(int userId)
+        public User GetByClaims(string provider, string nameIdentifier)
         {
-            var entity = _tableUtils.GetEntitiesInPartition<UserEntity>(TABLE_NAME, userId.ToString()).FirstOrDefault();
+            var entity = _tableUtils.GetEntity<UserEntity>(TABLE_NAME, provider, nameIdentifier);
             if (entity != null)
             {
-                return new User() { Id = userId, UserName = entity.Name };
+                return entity.GetUser();
             }
             return null;
-        }
-
-        public User Get(string name)
-        {
-            var entity = _tableUtils.GetAllEntities<UserEntity>(TABLE_NAME).Where(e => e.Name == name).FirstOrDefault();
-            if (entity != null)
-            {
-                return new User() { Id = Convert.ToInt32(entity.PartitionKey), UserName = entity.Name };
-            }
-            return null;
-        }
+        }*/
     }
 }

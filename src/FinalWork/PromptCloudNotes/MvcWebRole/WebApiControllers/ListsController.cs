@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Net.Http;
 using System.Collections;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Managers;
 using StructureMap;
 using PromptCloudNotes.Model;
 using System.Net;
@@ -29,15 +29,17 @@ namespace Server.WebApiControllers
         // GET /api/lists
         public IEnumerable<WebApiModel.TaskList> Get()
         {
-            var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
-            return _manager.GetAllLists(user.Id).Select(l => new WebApiModel.TaskList() { id = l.Id, name = l.Name });
+            var user = Request.GetUserPrincipal() as User;
+            //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+            return _manager.GetAllLists(user.UniqueId).Select(l => new WebApiModel.TaskList() { id = l.Id, name = l.Name });
         }
 
         // GET /api/lists/{id}
-        public WebApiModel.TaskList Get(int id)
+        public WebApiModel.TaskList Get(string id)
         {
-            var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
-            var list = _manager.GetTaskList(user.Id, id);
+            var user = Request.GetUserPrincipal() as User;
+            //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+            var list = _manager.GetTaskList(user.UniqueId, id, user.UniqueId);
             if (list == null) // TODO is it null or exception?
             {
                 // TODO create a better response
@@ -50,10 +52,11 @@ namespace Server.WebApiControllers
         // POST /api/lists
         public HttpResponseMessage Post(WebApiModel.TaskList list)
         {
-            var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+            var user = Request.GetUserPrincipal() as User;
+            //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
 
             var listData = new TaskList() { Name = list.name };
-            listData = _manager.CreateTaskList(user, listData);
+            _manager.CreateTaskList(user, listData);
             list.id = listData.Id;
 
             var response = new HttpResponseMessage<WebApiModel.TaskList>(list)
@@ -67,13 +70,14 @@ namespace Server.WebApiControllers
         }
 
         // PUT /api/lists/{id}
-        public void Put(int id, WebApiModel.TaskList list)
+        public void Put(string id, WebApiModel.TaskList list)
         {
             try
             {
-                var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+                var user = Request.GetUserPrincipal() as User;
+                //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
                 var listData = new TaskList() { Name = list.name };
-                _manager.UpdateTaskList(user.Id, id, listData);
+                _manager.UpdateTaskList(user.UniqueId, id, user.UniqueId, listData);
             }
             catch (ObjectNotFoundException)
             {
@@ -82,12 +86,13 @@ namespace Server.WebApiControllers
         }
 
         // DELETE /api/lists/{id}
-        public void Delete(int id)
+        public void Delete(string id)
         {
             try
             {
-                var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
-                _manager.DeleteTaskList(user.Id, id);
+                var user = Request.GetUserPrincipal() as User;
+                //var user = _userManager.GetUser(Request.GetUserPrincipal().Identity.Name);
+                _manager.DeleteTaskList(user.UniqueId, id, user.UniqueId);
             }
             catch (ObjectNotFoundException)
             {

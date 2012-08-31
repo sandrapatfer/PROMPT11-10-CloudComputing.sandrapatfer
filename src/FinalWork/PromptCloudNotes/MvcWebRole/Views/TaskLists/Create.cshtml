@@ -8,10 +8,10 @@
 }
 
 <p>
-    <a data-toggle="modal" href="#createListModal">Create New List</a>
+    <a data-toggle="modal" href="#createEditListModal">Create New List</a>
 </p>
 
-<div class="modal hide fade" id="createListModal">
+<div class="modal hide fade" id="createEditListModal">
     <button type="button" class="close" data-dismiss="modal">×</button>
     <div class="modal-body">
         @using (Html.BeginForm("Create", "TaskLists", FormMethod.Post, new { @class = "form-horizontal", @id ="formTaskList" } )) {

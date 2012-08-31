@@ -47,21 +47,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureRepository.cs" />
+    <Compile Include="Model\OAuthTokenEntity.cs" />
+    <Compile Include="OAuthTokenRepository.cs" />
+    <Compile Include="ListUsersRepository.cs" />
+    <Compile Include="Model\ListUserEntity.cs" />
     <Compile Include="Model\NotificationEntity.cs" />
-    <Compile Include="Model\ShareEntity.cs" />
+    <Compile Include="Model\UserListEntity.cs" />
     <Compile Include="Model\UserEntity.cs" />
     <Compile Include="NoteRepository.cs" />
     <Compile Include="Model\NoteEntity.cs" />
     <Compile Include="Model\TaskListEntity.cs" />
     <Compile Include="NotificationRepository.cs" />
+    <Compile Include="Model\OAuthCodeEntity.cs" />
+    <Compile Include="OAuthCodeRepository.cs" />
     <Compile Include="TaskListRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserRepository.cs" />
+    <Compile Include="UserListsRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AzureUtils\AzureUtils.csproj">
       <Project>{462122A5-C5E9-484F-AD4A-7400FE17E6D6}</Project>
       <Name>AzureUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Exceptions\Exceptions.csproj">
+      <Project>{E4811E97-F5C1-4645-B329-6164CD43952D}</Project>
+      <Name>Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{1C0E6556-12DE-43CB-9CE8-4D080B9BB385}</Project>

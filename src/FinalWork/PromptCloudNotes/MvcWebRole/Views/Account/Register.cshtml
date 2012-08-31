@@ -1,0 +1,42 @@
+﻿@model Server.MvcModel.UserClaims
+@using Server.Utils;
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_BasicLayout.cshtml";
+}
+
+<div class = "container">
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <legend>Please complete your login information</legend>
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <div class="control-group">
+            @{
+    var attrs = new Dictionary<string, object>();
+    attrs.Add("class", "control-label");
+            }
+            @Html.LabelFor(model => model.Name, attrs)
+            <div class="controls">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Email, attrs)
+            <div class="controls">
+                @Html.EditorFor(model => model.Email, new { type = "email", pattern = "[^ @]*@[^ @]*" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+
+        <p>
+            <input type="submit" value="Save" class="btn" />
+        </p>
+    </fieldset>
+}
+
+</div>

@@ -7,7 +7,7 @@ namespace Server.WebApiModel
 {
     public class Note
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public string title { get; set; }
     }
 }

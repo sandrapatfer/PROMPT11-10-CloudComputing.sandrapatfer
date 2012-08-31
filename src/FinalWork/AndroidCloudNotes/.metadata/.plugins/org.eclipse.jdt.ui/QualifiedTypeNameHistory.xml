@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="prompt.cloudnotes.adapters.TaskListAdapter"/>
-<fullyQualifiedTypeName name="prompt.cloudnotes.activities.AndroidCloudNotesActivity"/>
-<fullyQualifiedTypeName name="android.R"/>
 <fullyQualifiedTypeName name="android.R.layout"/>
 <fullyQualifiedTypeName name="android.content.UriMatcher"/>
 <fullyQualifiedTypeName name="android.database.MatrixCursor"/>
@@ -27,7 +24,6 @@
 <fullyQualifiedTypeName name="prompt.cloudnotes.providers.NoteProviderContract"/>
 <fullyQualifiedTypeName name="android.app.IntentService"/>
 <fullyQualifiedTypeName name="prompt.cloudnotes.services.SaveChangesService"/>
-<fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="android.os.Bundle"/>
 <fullyQualifiedTypeName name="prompt.cloudnotes.model.Note"/>
 <fullyQualifiedTypeName name="java.io.Serializable"/>
@@ -59,5 +55,9 @@
 <fullyQualifiedTypeName name="prompt.cloudnotes.Utils"/>
 <fullyQualifiedTypeName name="org.json.JSONObject"/>
 <fullyQualifiedTypeName name="prompt.cloudnotes.activities.TaskListsActivity"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="prompt.cloudnotes.services.GetLocalInfoService"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="prompt.cloudnotes.CloudNotesApp"/>
+<fullyQualifiedTypeName name="android.content.SharedPreferences"/>
 </qualifiedTypeNameHistroy>

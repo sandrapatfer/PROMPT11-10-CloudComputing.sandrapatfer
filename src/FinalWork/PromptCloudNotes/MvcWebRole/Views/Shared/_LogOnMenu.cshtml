@@ -1,0 +1,10 @@
+﻿<li>
+@if(Request.IsAuthenticated) {
+    var user = Session["user"] as PromptCloudNotes.Model.User;
+    <text>Welcome <strong>@user.Name</strong>!
+    @Html.ActionLink("Log Off", "LogOff", "Account")</text>
+}
+else {
+    @Html.ActionLink("Log On", "LogOn", "Account")
+}
+</li>

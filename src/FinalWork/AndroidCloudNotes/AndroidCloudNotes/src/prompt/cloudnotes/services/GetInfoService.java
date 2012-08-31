@@ -20,18 +20,27 @@ import org.json.JSONObject;
 
 public class GetInfoService extends IntentService {
 
+	private CloudNotesApp _application;
+	
 	public GetInfoService() {
 		super("Get Info Service");
+		
+		_application = (CloudNotesApp)getApplication();
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		
+		if (_application == null) {
+			_application = (CloudNotesApp)getApplication();
+		}
+		
 		Log.d(CloudNotesApp.TAG, "GetInfoService.onHandleIntent");
 		
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpGet getRequest = new HttpGet("http://10.0.2.2:53484/api/lists");
 		getRequest.addHeader("accept", "aplication/json");
-		getRequest.addHeader("authorization", "Bearer " + CloudNotesApp.Token);
+		getRequest.addHeader("authorization", "Bearer " + _application.Token);
 		
 		try {
 			HttpResponse response = client.execute(getRequest);

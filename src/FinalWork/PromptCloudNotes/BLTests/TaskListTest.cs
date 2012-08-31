@@ -31,21 +31,21 @@ namespace BLTests
         public void CreateListTest()
         {
             TaskList tl = new TaskList() { Name = "new list" };
-            var tl2 = _taskListManager.CreateTaskList(_user.Id, tl);
+            var tl2 = _taskListManager.CreateTaskList(_user, tl);
             Assert.IsNotNull(tl2.Id);
         }
 
         TaskList CreateTaskList()
         {
             TaskList tl = new TaskList() { Name = "new list" };
-            return _taskListManager.CreateTaskList(_user.Id, tl);
+            return _taskListManager.CreateTaskList(_user, tl);
         }
 
         [TestMethod]
         public void GetListTest()
         {
             var tl = CreateTaskList();
-            var tl2 = _taskListManager.GetTaskList(_user.Id, tl.Id);
+            var tl2 = _taskListManager.GetTaskList(_user.UniqueId, tl.Id);
             Assert.IsNotNull(tl2);
             Assert.AreEqual(tl.Id, tl2.Id);
         }
@@ -55,8 +55,8 @@ namespace BLTests
         {
             var tl = CreateTaskList();
             tl.Name = "New name";
-            _taskListManager.UpdateTaskList(_user.Id, tl.Id, tl);
-            var tl2 = _taskListManager.GetTaskList(_user.Id, tl.Id);
+            _taskListManager.UpdateTaskList(_user.UniqueId, tl.Id, tl);
+            var tl2 = _taskListManager.GetTaskList(_user.UniqueId, tl.Id);
             Assert.AreEqual(tl.Name, tl2.Name);
         }
 
@@ -65,8 +65,8 @@ namespace BLTests
         public void DeleteListTest()
         {
             var tl = CreateTaskList();
-            _taskListManager.DeleteTaskList(_user.Id, tl.Id);
-            var tl2 = _taskListManager.GetTaskList(_user.Id, tl.Id);
+            _taskListManager.DeleteTaskList(_user.UniqueId, tl.Id);
+            var tl2 = _taskListManager.GetTaskList(_user.UniqueId, tl.Id);
         }
 
         [TestMethod]
@@ -78,12 +78,12 @@ namespace BLTests
             IUserManager um = ObjectFactory.GetInstance<IUserManager>();
             um.CreateUser(user);
 
-            _taskListManager.ShareTaskList(_user.Id, tl.Id, user.Id);
+            _taskListManager.ShareTaskList(_user.UniqueId, tl.Id, user.UniqueId);
 
-            var tl2 = _taskListManager.GetTaskList(_user.Id, tl.Id);
+            var tl2 = _taskListManager.GetTaskList(_user.UniqueId, tl.Id);
             Assert.IsTrue(tl2.Users.Contains(user));
 
-            var tl3 = _taskListManager.GetTaskList(user.Id, tl.Id);
+            var tl3 = _taskListManager.GetTaskList(user.UniqueId, tl.Id);
             Assert.IsNotNull(tl3);
         }
     }

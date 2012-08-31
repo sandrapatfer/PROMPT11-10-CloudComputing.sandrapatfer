@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using PromptCloudNotes.Model;
 
-namespace PromptCloudNotes.Interfaces
+namespace PromptCloudNotes.Interfaces.Repositories
 {
-    public interface INotificationRepository
+    public interface INotificationRepository : IRepository<Notification>
     {
-        void CreateTaskListNotification(int userId, int listId, Notification notificationData);
+/*        void CreateTaskListNotification(string userId, string listId, Notification notificationData);
 
-        void CreateNoteNotification(int userId, int listId, int noteId, Notification notificationData);
+        void CreateNoteNotification(string userId, string noteId, Notification notificationData);
 
-        IEnumerable<Notification> GetAll(int userId);
-        Notification Get(int notificationId);
-        void Delete(int notificationId);
+        IEnumerable<Notification> GetAll(string userId);
+        Notification Get(string notificationId);
+        void Delete(string notificationId);*/
     }
 }

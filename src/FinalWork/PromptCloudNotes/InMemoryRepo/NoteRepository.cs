@@ -21,17 +21,17 @@ namespace PromptCloudNotes.InMemoryRepo
 
         #region INoteRepository Members
 
-        public IEnumerable<Note> GetAll(int userId, int listId)
+        public IEnumerable<Note> GetAll(string userId, string listId)
         {
             var list = _listRepository.Get(listId);
             if (list == null || list.Tasks == null)
             {
                 return null;
             }
-            return list.Tasks.Where(t => (t.Creator.Id == userId || t.Users.Any(u => u.Id == userId)) && t is Note).Cast<Note>();
+            return list.Tasks.Where(t => (t.Creator.UniqueId == userId || t.Users.Any(u => u.UniqueId == userId)) && t is Note).Cast<Note>();
         }
 
-        public IEnumerable<Note> GetAll(int userId)
+        public IEnumerable<Note> GetAll(string userId)
         {
             var lists = _listRepository.GetAll(userId);
             if (lists == null)
@@ -39,18 +39,15 @@ namespace PromptCloudNotes.InMemoryRepo
                 return null;
             }
             return lists.Where(l => l.Tasks != null).Select(l => l.Tasks).Aggregate((l1, l2) => l1.Concat(l2).ToList()).
-                Where(t => (t.Creator.Id == userId || t.Users.Any(u => u.Id == userId)) && t is Note).Cast<Note>();
+                Where(t => (t.Creator.UniqueId == userId || t.Users.Any(u => u.UniqueId == userId)) && t is Note).Cast<Note>();
         }
 
-        public Note Create(int userId, int listId, Note noteData)
+        public Note Create(string userId, string listId, Note noteData)
         {
-            var parentList = _listRepository.Get(listId);
-            noteData.Id = ++_noteId;
+            noteData.Id = (++_noteId).ToString();
 
             noteData.Users = new List<User>();
-            var user = _userRepository.Get(userId);
-            noteData.Creator = user;
-            noteData.Users.Add(user);
+            noteData.Users.Add(noteData.Creator);
 
             noteData.ParentList = _listRepository.Get(listId);
             if (noteData.ParentList.Tasks == null)
@@ -62,48 +59,130 @@ namespace PromptCloudNotes.InMemoryRepo
             return noteData;
         }
 
-        public Note Get(int list, int id)
+        public Note Get(string noteId)
         {
-            var taskList = _listRepository.Get(list);
-            return taskList.Tasks.First(t => t.Id == id && t is Note) as Note;
+            var users = _userRepository.GetAll();
+            foreach (var user in users)
+            {
+                var lists = _listRepository.GetAll(user.UniqueId);
+                if (lists != null)
+                {
+                    foreach (var list in lists)
+                    {
+                        var note = list.Tasks.FirstOrDefault(t => t.Id == noteId);
+                        if (note != null)
+                        {
+                            return note as Note;
+                        }
+                    }
+                }
+            }
+            return null;
         }
 
-        public Note Update(int listId, int noteId, Note noteData)
+        public Note Get(string listId, string noteId)
+        {
+            var users = _userRepository.GetAll();
+            foreach (var user in users)
+            {
+                var lists = _listRepository.GetAll(user.UniqueId);
+                if (lists != null)
+                {
+                    var list = lists.FirstOrDefault(l => l.Id == listId);
+                    if (list != null)
+                    {
+                        var note = list.Tasks.FirstOrDefault(t => t.Id == noteId);
+                        if (note != null)
+                        {
+                            return note as Note;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public Note Update(string noteId, Note noteData)
         {
             return noteData;
         }
 
-        public void Delete(int listId, int noteId)
+        public Note Update(string listId, string noteId, Note noteData)
         {
-            var taskList = _listRepository.Get(listId);
-            var note = taskList.Tasks.First(t => t.Id == noteId);
-            foreach (var task in taskList.Tasks)
-            {
-                if (task.ListOrder > note.ListOrder)
-                {
-                    task.ListOrder--;
-                }
-            }
-            taskList.Tasks.Remove(note);
+            return noteData;
         }
 
-        public void ChangeOrder(int list, int noteId, int order)
+        public void Delete(string noteId)
         {
-            var taskList = _listRepository.Get(list);
-            foreach (var task in taskList.Tasks)
+            var note = Get(noteId);
+            if (note != null)
+            {
+                foreach (var task in note.ParentList.Tasks)
+                {
+                    if (task.ListOrder > note.ListOrder)
+                    {
+                        task.ListOrder--;
+                    }
+                }
+                note.ParentList.Tasks.Remove(note);
+            }
+        }
+
+        public void Delete(string listId, string noteId)
+        {
+            var note = Get(listId, noteId);
+            if (note != null)
+            {
+                foreach (var task in note.ParentList.Tasks)
+                {
+                    if (task.ListOrder > note.ListOrder)
+                    {
+                        task.ListOrder--;
+                    }
+                }
+                note.ParentList.Tasks.Remove(note);
+            }
+        }
+
+        public void ChangeOrder(string noteId, int order)
+        {
+            var note = Get(noteId);
+            foreach (var task in note.ParentList.Tasks)
             {
                 if (task.ListOrder >= order)
                 {
                     task.ListOrder++;
                 }
             }
-            taskList.Tasks.First(t => t.Id == noteId).ListOrder = order;
+            note.ListOrder = order;
         }
 
-        public void ShareNote(int listId, int noteId, int userId)
+        public void ChangeOrder(string listId, string noteId, int order)
         {
-            var user = _userRepository.Get(userId);
-            var note = _listRepository.Get(listId).Tasks.First(t => t.Id == noteId);
+            var note = Get(listId, noteId);
+            foreach (var task in note.ParentList.Tasks)
+            {
+                if (task.ListOrder >= order)
+                {
+                    task.ListOrder++;
+                }
+            }
+            note.ListOrder = order;
+        }
+
+        public void ShareNote(string noteId, string userId)
+        {
+            var memoryRepo = _userRepository as UserRepository;
+            var user = memoryRepo.GetById(userId);
+            var note = Get(noteId);
+            note.Users.Add(user);
+        }
+
+        public void ShareNote(string listId, string noteId, string userId)
+        {
+            var memoryRepo = _userRepository as UserRepository;
+            var user = memoryRepo.GetById(userId);
+            var note = Get(listId, noteId);
             note.Users.Add(user);
         }
 

@@ -9,9 +9,9 @@ namespace Server.Utils
 {
     public class RedirectJsonResult : JsonResult
     {
-        public RedirectJsonResult(string action, string controller, int listId)
+        public RedirectJsonResult(string action, string controller, string id)
         {
-            Data = new { redirect = string.Format("/{0}/{1}?listId={2}", controller, action, listId) };
+            Data = new { redirect = string.Format("/{0}/{1}/{2}", controller, action, id) };
         }
 
         public RedirectJsonResult(string action, string controller, object routeValues)

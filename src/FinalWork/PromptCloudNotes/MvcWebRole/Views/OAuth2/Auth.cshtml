@@ -1,18 +1,19 @@
-﻿@{
+﻿@model string
+
+@{
+    Layout = "~/Views/Shared/_BasicLayout.cshtml";
     ViewBag.Title = "Index";
 }
 
-<h2>Application is requesting permission to manage your notes</h2>
+<h2>Android Cloud Notes is requesting permission to manage your notes</h2>
 
 @using (Html.BeginForm("Approval", "OAuth2")) {
-    <fieldset>
-        <label class="control-label" for="client_id">Client Id</label>
-        <input type="text" id="client_id"/>
-    </fieldset>
-
-    <input type="submit" value="Allow access" />
-
-    <!-- TODO add a cancel button -->
+    
+    <input type="hidden" value="@Model" name="client_id" />
+    
+    <input type="submit" value="Allow access" class="btn" />
+    
+    @Html.ActionLink("No thanks", "NotApproved");
 }
 
 

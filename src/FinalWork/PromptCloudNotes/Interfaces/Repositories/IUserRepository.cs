@@ -4,14 +4,9 @@ using System.Linq;
 using System.Text;
 using PromptCloudNotes.Model;
 
-namespace PromptCloudNotes.Interfaces
+namespace PromptCloudNotes.Interfaces.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
-        IEnumerable<User> GetAll();
-
-        User Create(User user);
-        User Get(int userId);
-        User Get(string name);
     }
 }

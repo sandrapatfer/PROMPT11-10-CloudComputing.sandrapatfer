@@ -1,0 +1,59 @@
+﻿@model PromptCloudNotes.Model.TaskList
+
+@{
+    var user = Session["user"] as PromptCloudNotes.Model.User;
+    var userId = user.UniqueId;
+}
+
+<div class="well" id="list-notes" data-list-id="@Model.Id" data-list-creatorId="@Model.Creator.UniqueId" data-user="@userId">
+    <div>
+        <ul class="nav nav-pills">
+            <li>
+                <a class="link-create-note" data-url="/Notes/Create">Create New Note</a>
+            </li>
+        </ul>
+    </div>
+    <ul class="thumbnails" data-bind="template: { name: 'noteTemplate', foreach: notes }">
+            
+    </ul>
+
+    <script type="text/html" id="noteTemplate">
+        <li class="span3">
+            <div class="thumbnail">
+                <h5 data-bind="text: name"></h5>
+                <p data-bind="text: description"></p>
+                <ul class="nav nav-pills">
+                    <li><a href="#" data-bind="click: $parent.editNoteClicked">Edit</a></li>
+                </ul>
+            </div>
+        </li>
+    </script>
+
+    <div class="modal hide fade" id="createNoteModal">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <div class="modal-body">
+            @using (Html.BeginForm("Create", "Notes", FormMethod.Post, new { @class = "form-horizontal" })) {
+                <fieldset>
+                    <legend>Note</legend>
+                    <div class="control-group">
+                        <label class="control-label" for="name">Name</label>
+                        <div class="controls">
+                            <input type="text" class="input-xlarge" id="name" data-bind="value: name" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="description">Description</label>
+                        <div class="controls">
+                            <textarea class="input-xlarge" id="description" data-bind="value: description" rows="3"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <a href="#" class="btn btn-primary" data-bind="click: addNote">Save</a>
+        </div>
+    </div>
+
+</div>

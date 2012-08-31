@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using PromptCloudNotes.Interfaces;
-using PromptCloudNotes.Model;
+using PromptCloudNotes.Interfaces.Managers;
 using Server.Utils;
+using Microsoft.IdentityModel.Claims;
+using Exceptions;
+using SignalR;
+using Server.Utils.SignalR;
 
 namespace Server.Controllers
 {
-    public class TaskListsController : Controller
+    public class TaskListsController : BaseController
     {
         private ITaskListManager _manager;
-        private IUserManager _userManager;
 
         public TaskListsController(IUserManager userManager, ITaskListManager manager)
+            : base(userManager)
         {
-            _userManager = userManager;
             _manager = manager;
         }
 
@@ -25,16 +27,39 @@ namespace Server.Controllers
 
         public ActionResult Index()
         {
-            var user = _userManager.GetUser(User.Identity.Name);
-            return View(_manager.GetAllLists(user.Id).Select(l => new MvcModel.TaskList() { id = l.Id, name = l.Name, description = l.Description }));
+            var lists = _manager.GetAllLists(User.UniqueId);
+            if (lists != null && lists.Count() > 0)
+            {
+                var selectedList = lists.First();
+                var model = new Server.MvcModel.ListViewModel()
+                {
+                    Lists = lists,
+                    SelectedList = selectedList
+                };
+                return View(model);
+            }
+
+            return RedirectToAction("Create", "TaskLists");
         }
 
         //
-        // GET: /TaskLists/Details/5
+        // GET: /TaskLists/Details/{id}?creatorId={creatorId}
 
-        public ActionResult Details(int id)
+        public ActionResult Details(string id, string creatorId)
         {
-            return View();
+            var lists = _manager.GetAllLists(User.UniqueId);
+            if (lists == null || lists.Count() == 0 || !lists.Any(l => l.Id == id))
+            {
+                throw new HttpException(404, "List not found");
+            }
+
+            var selectedList = lists.First(l => l.Id == id);
+            var model = new Server.MvcModel.ListViewModel()
+                {
+                    Lists = lists,
+                    SelectedList = selectedList
+                };
+            return View(model);
         }
 
         //
@@ -44,7 +69,7 @@ namespace Server.Controllers
         {
             return View();
         }
-        
+
         //
         // POST: /TaskLists/Create
 
@@ -53,10 +78,9 @@ namespace Server.Controllers
         {
             try
             {
-                var user = _userManager.GetUser(User.Identity.Name);
-                var newList = _manager.CreateTaskList(user, new TaskList() { Name = list.name, Description = list.name, Creator = user });
-                return new RedirectJsonResult("Index", "Notes", newList.Id);
-//                return new RedirectJsonResult("Index", "Notes", new { listId = newList.Id });
+                var newList = new PromptCloudNotes.Model.TaskList() { Name = list.name, Description = list.name, Creator = User };
+                _manager.CreateTaskList(User, newList);
+                return new RedirectJsonResult("Details", "TaskLists", newList.Id);
             }
             catch
             {
@@ -65,45 +89,26 @@ namespace Server.Controllers
         }
         
         //
-        // GET: /TaskLists/Edit/5
-        public PartialViewResult Edit(int id)
-        {
-            var user = _userManager.GetUser(User.Identity.Name);
-            var list = _manager.GetTaskList(user.Id, id);
-            if (list == null)
-            {
-                throw new HttpException(404, "TaskList not found");
-            }
-            return PartialView("_ModalEdit", new MvcModel.TaskList() { id = list.Id, name = list.Name, description = list.Description });
-        }
-
-        //
-        // POST: /TaskLists/Edit/5
+        // POST: /TaskLists/Edit/{id}
         [HttpPost]
-        public ActionResult Edit(int id, MvcModel.TaskList listData)
+        public JsonResult Edit(string id, MvcModel.TaskList listData)
         {
-            var user = _userManager.GetUser(User.Identity.Name);
-            var list = _manager.GetTaskList(user.Id, id);
+            var creator = string.IsNullOrEmpty(listData.creatorId) ? User.UniqueId : listData.creatorId;
+            var list = _manager.GetTaskList(User.UniqueId, id, creator);
             if (list == null)
             {
                 throw new HttpException(404, "TaskList not found");
             }
             try
             {
-                _manager.UpdateTaskList(user.Id, id, new TaskList() { Name = listData.name, Description = listData.description });
-                return new RedirectJsonResult("Index", "Notes", id);
+                _manager.UpdateTaskList(User.UniqueId, id, creator,
+                    new PromptCloudNotes.Model.TaskList() { Name = listData.name, Description = listData.description });
+                return new RedirectJsonResult("Details", "TaskLists", id);
             }
             catch
             {
                 throw new HttpException(500, "Error editing TaskList");
             }
-        }
-
-        //
-        // GET: /TaskLists/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
         }
 
         //
@@ -124,27 +129,28 @@ namespace Server.Controllers
         }
 
         //
-        // GET: /TaskLists/Share/5
+        // GET: /TaskLists/Share/{id}
+        
         public PartialViewResult Share(int id)
         {
             return PartialView("_Share", id);
         }
 
         //
-        // POST: /TaskLists/Share/5
+        // POST: /TaskLists/Share/{id}
+
         [HttpPost]
-        public ActionResult Share(int id, int userId)
+        public JsonResult Share(string listId, string creatorId, string userId)
         {
-            var user = _userManager.GetUser(User.Identity.Name);
-            var list = _manager.GetTaskList(user.Id, id);
-            if (list == null)
-            {
-                throw new HttpException(404, "TaskList not found");
-            }
+            var creator = string.IsNullOrEmpty(creatorId) ? User.UniqueId : creatorId;
             try
             {
-                _manager.ShareTaskList(user.Id, id, userId);
-                return new RedirectJsonResult("Index", "Notes", id);
+                _manager.ShareTaskList(User.UniqueId, listId, creator, userId);
+                return null;
+            }
+            catch (ObjectNotFoundException)
+            {
+                throw new HttpException(404, "TaskList not found");
             }
             catch
             {

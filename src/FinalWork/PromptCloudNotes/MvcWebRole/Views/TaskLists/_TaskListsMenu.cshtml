@@ -1,0 +1,99 @@
+﻿    @model Server.MvcModel.ListViewModel
+@using Server.Utils;
+           
+@{ var user = Session["user"] as PromptCloudNotes.Model.User; }
+
+<ul class="nav nav-pills nav-stacked">
+    <li class="nav-header">
+        Lists
+    </li>
+    @foreach (var item in Model.Lists)
+    {
+        <li
+            @if (item == Model.SelectedList)
+            { @:class="active dropdown"
+            }
+            else
+            { @:class="dropdown"
+            } >
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                @item.Name
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>@if (user.UniqueId == item.Creator.UniqueId) {
+                    @Html.ActionLinkWithHtml("<i class=\"icon-book\"></i> Notes", "Details", "TaskLists", new { id = item.Id }, null)
+                } else {
+                    @Html.ActionLinkWithHtml("<i class=\"icon-book\"></i> Notes", "Details", "TaskLists", new { id = item.Id, creatorId = item.Creator.UniqueId }, null)
+                }</li>
+                <li><a class="link-edit-tasklist" data-edit-list-url="/TaskLists/Edit/@item.Id"
+                data-list-creatorId="@item.Creator.UniqueId"
+                data-list-name="@item.Name" data-list-description="@item.Description"><i class="icon-pencil"></i> Edit List</a></li>
+                <li><a class="link-share-tasklist" data-share-list-url="/TaskLists/Share/@item.Id"
+                data-list-id="@item.Id" data-list-creatorId="@item.Creator.UniqueId"><i class="icon-user"></i> Share List</a></li>
+            </ul>
+        </li>
+    }
+    <li class="nav-header">
+        Operations
+    </li>   
+    <li>
+        <a class="link-create-tasklist">Create New</a>
+    </li>
+</ul>
+
+<div class="modal hide fade" id="createEditListModal">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <div class="modal-body">
+        @using (Html.BeginForm("Create", "TaskLists", FormMethod.Post,
+            new { @class = "form-horizontal" }))
+        {
+            <fieldset>
+                <legend>Note List</legend>
+                <div class="control-group">
+                    <label class="control-label" for="name">Name</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="name" data-bind="value: name" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="description">Description</label>
+                    <div class="controls">
+                        <textarea class="input-xlarge" id="description" data-bind="value: description" rows="3"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        }
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" class="btn btn-primary" data-bind="click: doActionTaskList">Save</a>
+  </div>
+</div>
+
+<div class="modal hide fade" id="shareListModal">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <div class="modal-body">
+        @using (Html.BeginForm("Share", "TaskLists",
+            FormMethod.Post, new { @class = "form-horizontal" } ))
+        {
+            <fieldset>
+                <legend>Share List</legend>
+                <div class="control-group">
+                    <label class="control-label" for="name">User</label>
+                    <div class="controls">
+                        <select data-bind="options: users,
+                                           optionsCaption: 'Choose...',
+                                           optionsText: 'name',
+                                           value: selectedUser"></select>
+                    </div>
+                </div>
+            </fieldset>
+        }
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" class="btn btn-primary" data-bind="click: doActionTaskList">Save</a>
+  </div>
+</div>
+    

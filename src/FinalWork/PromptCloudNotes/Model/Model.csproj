@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Note.cs" />
     <Compile Include="Notification.cs" />
+    <Compile Include="OAuthCode.cs" />
+    <Compile Include="OAuthToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="TaskList.cs" />

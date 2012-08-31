@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Managers;
+using PromptCloudNotes.Interfaces.Repositories;
 using PromptCloudNotes.Model;
 
 namespace PromptCloudNotes.BusinessLayer.Managers
@@ -20,16 +21,33 @@ namespace PromptCloudNotes.BusinessLayer.Managers
 
         #region ITaskManager Members
 
-        public Note CopyNote(int userId, int destListId, Note noteData)
+        public Note CopyNote(User user, string destListId, string destListCreatorId, Note noteData)
         {
-            return _noteManager.CreateNote(userId, destListId, noteData);
+            var newNote = new Note()
+            {
+                Name = noteData.Name,
+                Description = noteData.Description,
+                Creator = user,
+                ParentList = new TaskList() { Id = destListId, Creator = new User() { UniqueId = destListCreatorId } }
+            };
+            _noteManager.CreateNote(user, destListId, destListCreatorId, newNote);
+            return newNote;
         }
 
-        public Note MoveNote(int userId, int destListId, int sourceListId, Note noteData)
+        public void MoveNote(User user, string destListId, string destListCreatorId, 
+            string sourceListId, string sourceListCreatorId, Note noteData)
         {
-            _noteManager.DeleteNote(userId, sourceListId, noteData.Id);
-            Note newNote = _noteManager.CreateNote(userId, destListId, noteData);
-            return newNote;
+            var newList = _taskListManager.GetTaskList(user.UniqueId, destListId, destListCreatorId);
+            if (newList == null)
+            {
+                // TODO exception
+            }
+
+            // TODO para simular uma transacao isto devia ser feito directamente nos repos
+            _noteManager.DeleteNote(user.UniqueId, sourceListId, sourceListCreatorId, noteData.Id);
+
+            // TODO nao pode ser um create porque senao muda-se o id
+            _noteManager.CreateNote(user, destListId, destListCreatorId, noteData);
         }
 
         #endregion

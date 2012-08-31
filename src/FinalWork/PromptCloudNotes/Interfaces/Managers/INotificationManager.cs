@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using PromptCloudNotes.Model;
 
-namespace PromptCloudNotes.Interfaces
+namespace PromptCloudNotes.Interfaces.Managers
 {
     public interface INotificationManager
     {
-        void CreateTaskListNotification(int userId, int listId, Notification notificationData);
+        void CreateTaskListNotification(string userId, string listId, Notification notificationData);
 
-        void CreateNoteNotification(int userId, int listId, int noteId, Notification notificationData);
+        void CreateNoteNotification(string userId, string noteId, Notification notificationData);
 
-        IEnumerable<Notification> GetAllNotifications(int userId);
+        IEnumerable<Notification> GetAllNotifications(string userId);
 
-        Notification GetNotification(int notificationId);
+//        Notification GetNotification(string notificationId);
 
-        void DeleteNotification(int notificationId);
+//        void DeleteNotification(string notificationId);
     }
 }

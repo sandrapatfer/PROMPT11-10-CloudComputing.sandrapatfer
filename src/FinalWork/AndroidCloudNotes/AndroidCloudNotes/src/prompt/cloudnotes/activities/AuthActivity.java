@@ -34,7 +34,7 @@ public class AuthActivity extends Activity {
         webView.getSettings().setJavaScriptEnabled(true);
         
         // TODO read from preferences
-        webView.loadUrl("http://10.0.2.2:53484/OAuth2/Auth");
+        webView.loadUrl("http://10.0.2.2:53484/OAuth2/Auth?response_type=code&client_id=androidcloudnotes");
         
         webView.setWebChromeClient(new WebChromeClient() {
         	
@@ -68,7 +68,7 @@ public class AuthActivity extends Activity {
 								Log.d(CloudNotesApp.TAG, "code: " + parts[1]);
 								
 								Intent result = new Intent();
-								result.putExtra(LoginActivity.CODE_TAG, parts[1].trim());
+								result.putExtra(CloudNotesApp.CODE_TAG, parts[1].trim());
 								setResult(RESULT_OK, result);
 								finish();
 								return;
@@ -78,6 +78,14 @@ public class AuthActivity extends Activity {
 					
 					Log.e(CloudNotesApp.TAG, "Cookie not found in URL");
 				}
+				else if (url.toLowerCase().contains("notapproved")) {
+					// TODO show a pop up error to the user
+					Log.d(CloudNotesApp.TAG, "ERROR authenticating, closing activity");
+					Intent result = new Intent();
+					setResult(RESULT_CANCELED, result);
+					finish();
+					return;
+				}
 			}
 
 			@Override
@@ -86,30 +94,19 @@ public class AuthActivity extends Activity {
 	
 				setTitle(url);
 			}
-		
-/*		@Override
-		public void onPageStarted(WebView view, String url, Bitmap favicon) {
-			
-			// TODO remove!!!
-			if (url.contains("localhost:53484")) {
-				url = url.replace("localhost:53484", "10.0.2.2:53484");
+        
+			@Override
+			public void onReceivedError(WebView view, int errorCode,
+					String description, String failingUrl) {
+				super.onReceivedError(view, errorCode, description, failingUrl);
+	
+				// TODO show a pop up error to the user
+				Log.d(CloudNotesApp.TAG, "ERROR authenticating, closing activity");
+				Intent result = new Intent();
+				setResult(RESULT_CANCELED, result);
+				finish();
+				return;
 			}
-				
-			super.onPageStarted(view, url, favicon);
-		}*/
-
-		@Override
-		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-			// TODO remove!!!
-			if (url.contains("localhost:53484")) {
-				url = url.replace("localhost:53484", "10.0.2.2:53484");
-				view.loadUrl(url);
-				return true;
-			}
-			
-			return super.shouldOverrideUrlLoading(view, url);
-		}
         });		
 	}
 

@@ -4,20 +4,19 @@ using System.Linq;
 using System.Text;
 using PromptCloudNotes.Model;
 
-namespace PromptCloudNotes.Interfaces
+namespace PromptCloudNotes.Interfaces.Managers
 {
     public interface ITaskListManager
     {
-        IEnumerable<TaskList> GetAllLists(int userId);
+        IEnumerable<TaskList> GetAllLists(string userId);
+        TaskList GetTaskList(string userId, string listId, string creatorId);
 
-        TaskList CreateTaskList(User user, TaskList listData);
+        void CreateTaskList(User creatorUser, TaskList listData);
 
-        TaskList GetTaskList(int userId, int listId);
+        void UpdateTaskList(string userId, string listId, string creatorId, TaskList listData);
 
-        void UpdateTaskList(int userId, int listId, TaskList listData);
+        void DeleteTaskList(string userId, string listId, string creatorId);
 
-        void DeleteTaskList(int userId, int listId);
-
-        void ShareTaskList(int userId, int listId, int shareUserId);
+        void ShareTaskList(string userId, string listId, string creatorId, string shareUserId);
     }
 }

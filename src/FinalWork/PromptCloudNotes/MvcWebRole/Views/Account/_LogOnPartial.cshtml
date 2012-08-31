@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Server.MvcModel.HrdIdentityProvider>
+
+@{
+    ViewBag.Title = "LogOn";
+}
+
+<div class = "container">
+
+<h2>Login with: </h2>
+
+<div>
+    @foreach (var identityProvider in Model)
+    {
+        <p>
+            <a class="btn btn-primary" href="@Html.Raw(identityProvider.LoginUrl)">@identityProvider.Name</a>
+        </p>
+    }
+</div>
+
+</div>

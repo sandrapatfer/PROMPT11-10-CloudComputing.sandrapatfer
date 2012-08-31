@@ -5,6 +5,7 @@ import prompt.cloudnotes.R;
 import prompt.cloudnotes.providers.NoteProviderContract;
 import prompt.cloudnotes.providers.TaskListProviderContract;
 import prompt.cloudnotes.services.GetInfoService;
+import prompt.cloudnotes.services.GetLocalInfoService;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
@@ -24,6 +25,7 @@ import android.widget.ListView;
 
 public class TaskListsActivity extends Activity
 {
+	private CloudNotesApp _application;
 	private Cursor _cursor;
 	private final int COL_INDEX_ID = 0;
 
@@ -34,11 +36,49 @@ public class TaskListsActivity extends Activity
         
         Log.d(CloudNotesApp.TAG, "TaskListsActivity.onCreate");
 
-        CloudNotesApp app = (CloudNotesApp)getBaseContext().getApplicationContext();
-        app.Store.fillTestValue();
-		app.getContentResolver().notifyChange(Uri.parse(TaskListProviderContract.URI), null);
-		app.getContentResolver().notifyChange(Uri.parse(NoteProviderContract.URI), null);
+        _application = (CloudNotesApp)getApplication();
         
+		if (_application.Token.isEmpty()) {
+
+			Log.d(CloudNotesApp.TAG, "Launching login browser");
+			Intent intent = new Intent();
+			intent.setClass(this, AuthActivity.class);
+			startActivityForResult(intent, 0);
+		}
+		else {
+			ActivityLayout();
+		}
+    }
+    
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		Log.d(CloudNotesApp.TAG, "LoginActivity.onActivityResult");
+
+		if (requestCode != 0) {
+			Log.e(CloudNotesApp.TAG, "Unexpected return from AuthActivity");
+			return;
+		}
+		
+		if (resultCode == RESULT_OK && data != null) {
+			String code = data.getStringExtra(CloudNotesApp.CODE_TAG);
+			_application.ProcessOAuthCode(code);
+		}
+		else if (resultCode == RESULT_CANCELED) {
+			Log.d(CloudNotesApp.TAG, "Starting service to get data from local storage");
+			Intent msg = new Intent();
+			msg.setClass(this, GetLocalInfoService.class);
+			startService(msg);
+
+			ActivityLayout();
+		}
+		else {
+			Log.e(CloudNotesApp.TAG, "Unexpected return from AuthActivity");
+		}
+	}
+
+	private void ActivityLayout(){
         setContentView(R.layout.tasklist_list_view);
         
         Button btn = (Button)findViewById(R.id.btn_tasklist_create);
@@ -61,8 +101,7 @@ public class TaskListsActivity extends Activity
         
         final TaskListAdapter adapter = new TaskListAdapter(this, _cursor);
         listView.setAdapter(adapter);
-
-    }
+	}
     
     private class TaskListAdapter extends CursorAdapter {
     	

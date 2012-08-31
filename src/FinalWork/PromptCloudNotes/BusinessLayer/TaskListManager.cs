@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Managers;
+using PromptCloudNotes.Interfaces.Repositories;
 using PromptCloudNotes.Model;
 using Exceptions;
 
@@ -13,102 +14,118 @@ namespace PromptCloudNotes.BusinessLayer.Managers
         private ITaskListRepository _repository;
         private IUserRepository _userRepository;
         private INotificationManager _noticationMgr;
+        private IUserListsRepository _userListsRepo;
+        private IListUsersRepository _listUsersRepo;
 
-        public TaskListManager(ITaskListRepository repo, IUserRepository userRepo, INotificationManager notify)
+        public TaskListManager(ITaskListRepository repo, IUserRepository userRepo, INotificationManager notify,
+            IUserListsRepository userListsRepo, IListUsersRepository listUsersRepo)
         {
             _repository = repo;
             _userRepository = userRepo;
             _noticationMgr = notify;
+            _userListsRepo = userListsRepo;
+            _listUsersRepo = listUsersRepo;
         }
 
         #region ITaskListManager Members
 
-        public IEnumerable<TaskList> GetAllLists(int userId)
+        public IEnumerable<TaskList> GetAllLists(string userId)
         {
-            return _repository.GetAll(userId);
+            var visibleLists = _userListsRepo.GetAll(userId);
+            return visibleLists.Select(l => _repository.Get(l.Creator.UniqueId, l.Id));
         }
 
-        public TaskList CreateTaskList(User user, TaskList listData)
+        public void CreateTaskList(User creatorUser, TaskList listData)
         {
-            return _repository.Create(user, listData);
+            listData.Creator = creatorUser;
+            _repository.Create(listData);
+            _userListsRepo.Create(creatorUser.UniqueId, listData.Id, creatorUser.UniqueId);
+            _listUsersRepo.Create(listData.Id, creatorUser.UniqueId, creatorUser.Name);
         }
 
-        public TaskList GetTaskList(int userId, int listId)
+        public TaskList GetTaskList(string userId, string listId, string creatorId)
         {
-            var list = _repository.GetWithUsers(listId);
+            var listUsers = _listUsersRepo.GetAll(listId);
+            if (!listUsers.Any(u => u.UniqueId == userId))
+            {
+                throw new NoPermissionException();
+            }
+
+            var list = _repository.Get(creatorId, listId);
             if (list == null)
             {
                 throw new ObjectNotFoundException();
             }
-            if (list.Users.Any(u => u.Id == userId))
-            {
-                return list;
-            }
-            // TODO exception for no permission?
-            return null;
+
+            list.Users = listUsers.ToList();
+            return list;
         }
 
-        public void UpdateTaskList(int userId, int listId, TaskList listData)
+        public void UpdateTaskList(string userId, string listId, string creatorId, TaskList listData)
         {
-            var list = _repository.GetWithUsers(listId);
-            if (list == null)
+            var listUsers = _listUsersRepo.GetAll(listId);
+            if (!listUsers.Any(u => u.UniqueId == userId))
             {
-                throw new ObjectNotFoundException();
+                throw new NoPermissionException();
             }
-            if (list.Users.Any(u => u.Id == userId))
-            {
-                _repository.Update(listId, listData);
 
-                foreach (var user in list.Users)
-                {
-                    var notif = new Notification() { Task = list, User = user, Type = Notification.NotificationType.Update };
-                    _noticationMgr.CreateTaskListNotification(user.Id, listId, notif);
-                }
+            _repository.Update(creatorId, listId, listData);
+
+            foreach (var user in listUsers)
+            {
+                var notif = new Notification() { Task = listData, User = user, Type = Notification.NotificationType.Update };
+                _noticationMgr.CreateTaskListNotification(user.UniqueId, listId, notif);
             }
         }
 
-        public void DeleteTaskList(int userId, int listId)
+        public void DeleteTaskList(string userId, string listId, string creatorId)
         {
-            var list = _repository.Get(listId);
-            if (list == null)
-            {
-                throw new ObjectNotFoundException();
-            }
             // only let the creator user delete a list
-            if (list.Creator.Id == userId)
+            if (userId != creatorId)
             {
-                var users = list.Users;
-                _repository.Delete(listId);
-
-                foreach (var user in users)
-                {
-                    var notif = new Notification() { User = user, Task = list, Type = Notification.NotificationType.Delete };
-                    _noticationMgr.CreateTaskListNotification(user.Id, listId, notif);
-                }
+                throw new NoPermissionException();
             }
-        }
 
-        public void ShareTaskList(int userId, int listId, int shareUserId)
-        {
-            var list = _repository.GetWithUsers(listId);
+            var listUsers = _listUsersRepo.GetAll(listId);
+            if (!listUsers.Any(u => u.UniqueId == userId))
+            {
+                throw new NoPermissionException();
+            }
+
+            var list = _repository.Get(creatorId, listId);
             if (list == null)
             {
                 throw new ObjectNotFoundException();
             }
-            if (list.Users.Any(u => u.Id == userId))
+
+            _repository.Delete(creatorId, listId);
+
+            foreach (var user in listUsers)
             {
-                var user = _userRepository.Get(shareUserId);
-                if (user == null)
-                {
-                    // TODO throw new exception
-                    throw new InvalidOperationException();
-                }
-
-                _repository.Share(listId, user);
-
-                var notif = new Notification() { Type = Notification.NotificationType.Share };
-                _noticationMgr.CreateTaskListNotification(shareUserId, listId, notif);
+                var notif = new Notification() { User = user, Task = list, Type = Notification.NotificationType.Delete };
+                _noticationMgr.CreateTaskListNotification(user.UniqueId, listId, notif);
             }
+        }
+
+        public void ShareTaskList(string userId, string listId, string creatorId, string shareUserId)
+        {
+            var listUsers = _listUsersRepo.GetAll(listId);
+            if (!listUsers.Any(u => u.UniqueId == userId))
+            {
+                throw new NoPermissionException();
+            }
+
+            var list = _repository.Get(creatorId, listId);
+            if (list == null)
+            {
+                throw new ObjectNotFoundException();
+            }
+
+            _userListsRepo.Create(shareUserId, listId, creatorId);
+            _listUsersRepo.Create(listId, shareUserId, ""); // TODO see later, really add name, need to check existance?
+
+            var notif = new Notification() { Type = Notification.NotificationType.Share };
+            _noticationMgr.CreateTaskListNotification(shareUserId, listId, notif);
         }
 
         #endregion

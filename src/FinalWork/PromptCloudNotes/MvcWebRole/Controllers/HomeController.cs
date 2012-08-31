@@ -4,7 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Server.Utils;
-using PromptCloudNotes.Interfaces;
+using PromptCloudNotes.Interfaces.Managers;
+using PromptCloudNotes.Model;
 
 namespace Server.Controllers
 {
@@ -19,8 +20,12 @@ namespace Server.Controllers
             {
                 // redirect the user to the first list of notes
                 var listMgr = DependencyResolver.Current.GetService<ITaskListManager>();
-                var userMgr = DependencyResolver.Current.GetService<IUserManager>();
-                var lists = listMgr.GetAllLists(userMgr.GetUser(User.Identity.Name).Id);
+                var user = Session["user"] as User;
+                if (user == null)
+                {
+                    return RedirectToAction("LogOff", "Account");
+                }
+                var lists = listMgr.GetAllLists(user.UniqueId);
                 if (lists.Count() > 0)
                 {
                     return RedirectToAction("Index", "Notes", new { listId = lists.First().Id });
