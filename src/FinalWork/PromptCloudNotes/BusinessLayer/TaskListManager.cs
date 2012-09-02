@@ -46,6 +46,10 @@ namespace PromptCloudNotes.BusinessLayer.Managers
         public TaskList GetTaskList(string userId, string listId, string creatorId)
         {
             var listUsers = _listUsersRepo.GetAll(listId);
+            if (listUsers == null)
+            {
+                throw new ObjectNotFoundException();
+            }
             if (!listUsers.Any(u => u.UniqueId == userId))
             {
                 throw new NoPermissionException();
@@ -64,6 +68,10 @@ namespace PromptCloudNotes.BusinessLayer.Managers
         public void UpdateTaskList(string userId, string listId, string creatorId, TaskList listData)
         {
             var listUsers = _listUsersRepo.GetAll(listId);
+            if (listUsers == null)
+            {
+                throw new ObjectNotFoundException();
+            }
             if (!listUsers.Any(u => u.UniqueId == userId))
             {
                 throw new NoPermissionException();

@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PromptCloudNotes.Model;
 using PromptCloudNotes.Interfaces.Managers;
 using StructureMap;
+using Exceptions;
 
 namespace BLTests
 {
@@ -74,7 +75,7 @@ namespace BLTests
                 var n3 = _noteManager.GetNote(_user.UniqueId, originalList, originalId);
                 Assert.Fail();
             }
-            catch (InvalidOperationException) // TODO set the correct exception
+            catch (ObjectNotFoundException) // TODO set the correct exception
             {
             }
         }

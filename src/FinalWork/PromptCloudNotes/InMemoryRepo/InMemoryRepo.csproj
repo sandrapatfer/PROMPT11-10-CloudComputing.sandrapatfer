@@ -49,6 +49,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Exceptions\Exceptions.csproj">
+      <Project>{E4811E97-F5C1-4645-B329-6164CD43952D}</Project>
+      <Name>Exceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{1C0E6556-12DE-43CB-9CE8-4D080B9BB385}</Project>
       <Name>Interfaces</Name>

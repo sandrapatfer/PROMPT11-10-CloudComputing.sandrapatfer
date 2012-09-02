@@ -22,6 +22,6 @@ namespace PromptCloudNotes.Interfaces.Managers
 
         void ShareNote(string userId, string listId, string noteId, string shareUserId);
 
-        void ChangeOrder(string userId, string noteId, int order);
+        void ChangeOrder(string userId, string listId, string noteId, int order);
     }
 }

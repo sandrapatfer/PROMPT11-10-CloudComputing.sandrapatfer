@@ -65,13 +65,14 @@ namespace BLTests
             user2.Notifications.Clear();
 
             list.Name = "Changed name";
-            _taskListManager.UpdateTaskList(_creationUser.UniqueId, list.Id, _creationUser.UniqueId, list);
+            _taskListManager.UpdateTaskList(user2.UniqueId, list.Id, _creationUser.UniqueId, list);
+
+            // the user that makes the change is not notified
+            Assert.AreEqual(0, user2.Notifications.Count);
 
             Assert.AreEqual(1, _creationUser.Notifications.Count);
-
-            Assert.AreEqual(1, user2.Notifications.Count);
-            Assert.AreEqual(Notification.NotificationType.Update, user2.Notifications.First().Type);
-            Assert.AreEqual(list.Id, user2.Notifications.First().Task.Id);
+            Assert.AreEqual(Notification.NotificationType.Update, _creationUser.Notifications.First().Type);
+            Assert.AreEqual(list.Id, _creationUser.Notifications.First().Task.Id);
         }
 
         [TestMethod]
@@ -120,7 +121,6 @@ namespace BLTests
         public void UpdateNoteNotificationTest()
         {
             var note = CreateNote();
-            _creationUser.Notifications.Clear();
 
             var user2 = new User();
             _userManager.CreateUser(user2);
@@ -131,11 +131,11 @@ namespace BLTests
             note.Name = "Changed name";
             _noteManager.UpdateNote(user2.UniqueId, note.ParentList.Id, note.Id, note);
 
+            Assert.AreEqual(0, user2.Notifications.Count);
+            
             Assert.AreEqual(1, _creationUser.Notifications.Count);
-
-            Assert.AreEqual(1, user2.Notifications.Count);
-            Assert.AreEqual(Notification.NotificationType.Update, user2.Notifications.First().Type);
-            Assert.AreEqual(note.Id, user2.Notifications.First().Task.Id);
+            Assert.AreEqual(Notification.NotificationType.Update, _creationUser.Notifications.First().Type);
+            Assert.AreEqual(note.Id, _creationUser.Notifications.First().Task.Id);
         }
 
         [TestMethod]
@@ -156,9 +156,7 @@ namespace BLTests
             Assert.AreEqual(Notification.NotificationType.Insert, _creationUser.Notifications.First().Type);
             Assert.AreEqual(note.Id, _creationUser.Notifications.First().Task.Id);
 
-            Assert.AreEqual(1, user2.Notifications.Count);
-            Assert.AreEqual(Notification.NotificationType.Insert, user2.Notifications.First().Type);
-            Assert.AreEqual(note.Id, user2.Notifications.First().Task.Id);
+            Assert.AreEqual(0, user2.Notifications.Count);
         }
 
         [TestMethod]
@@ -184,12 +182,14 @@ namespace BLTests
             _noteManager.DeleteNote(user3.UniqueId, list.Id, _creationUser.UniqueId, note.Id);
 
             Assert.AreEqual(1, user2.Notifications.Count);
-            Assert.AreEqual(Notification.NotificationType.Update, user2.Notifications.First().Type);
-            Assert.AreEqual(note.Id, user2.Notifications.First().Task.Id);
+            var first = user2.Notifications.First();
+            Assert.AreEqual(Notification.NotificationType.Update, first.Type);
+            Assert.AreEqual(note.ParentList.Id, first.Task.Id);
 
-            Assert.AreEqual(1, user3.Notifications.Count);
-            Assert.AreEqual(Notification.NotificationType.Delete, user3.Notifications.First().Type);
-            Assert.AreEqual(note.Id, user3.Notifications.First().Task.Id);
+            Assert.AreEqual(2, _creationUser.Notifications.Count);
+            first = _creationUser.Notifications.First();
+            Assert.AreEqual(Notification.NotificationType.Delete, first.Type);
+            Assert.AreEqual(note.Id, first.Task.Id);
         }
     }
 }

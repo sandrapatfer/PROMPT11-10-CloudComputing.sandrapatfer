@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PromptCloudNotes.Model;
 using StructureMap;
 using PromptCloudNotes.Interfaces.Managers;
+using Exceptions;
 
 namespace BLTests
 {
@@ -66,7 +67,7 @@ namespace BLTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))] // TODO set the correct exception
+        [ExpectedException(typeof(ObjectNotFoundException))]
         public void DeleteNoteTest()
         {
             var n = CreateNote();
@@ -96,11 +97,11 @@ namespace BLTests
             var n2 = CreateNote();
             var n3 = CreateNote();
 
-            _noteManager.ChangeOrder(_user.UniqueId, n3.Id, 0);
+            _noteManager.ChangeOrder(_user.UniqueId, n3.ParentList.Id, n3.Id, 0);
 
-            Assert.AreEqual(n1.ListOrder, 1);
-            Assert.AreEqual(n2.ListOrder, 2);
-            Assert.AreEqual(n3.ListOrder, 0);
+            Assert.AreEqual(1, n1.ListOrder);
+            Assert.AreEqual(2, n2.ListOrder);
+            Assert.AreEqual(0, n3.ListOrder);
         }
 
         [TestMethod]

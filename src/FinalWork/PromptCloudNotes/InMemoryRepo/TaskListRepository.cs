@@ -11,7 +11,6 @@ namespace PromptCloudNotes.InMemoryRepo
     {
         private IUserRepository _userRepository;
         private List<TaskList> _lists = new List<TaskList>();
-        private int _listId = 0;
 
         public TaskListRepository(IUserRepository userRepo)
         {
@@ -20,7 +19,7 @@ namespace PromptCloudNotes.InMemoryRepo
 
         public IEnumerable<TaskList> GetAll()
         {
-            return null;
+            return _lists;
         }
 
         public IEnumerable<TaskList> GetAll(string userId)
@@ -30,7 +29,7 @@ namespace PromptCloudNotes.InMemoryRepo
 
         public void Create(TaskList list)
         {
-            list.Id = (++_listId).ToString();
+            list.Id = Guid.NewGuid().ToString();
             if (!list.Users.Contains(list.Creator))
             {
                 list.Users.Add(list.Creator);

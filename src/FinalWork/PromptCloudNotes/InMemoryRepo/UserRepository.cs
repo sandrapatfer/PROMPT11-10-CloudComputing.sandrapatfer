@@ -10,7 +10,6 @@ namespace PromptCloudNotes.InMemoryRepo
     public class UserRepository : IUserRepository
     {
         private List<User> _users = new List<User>();
-        private int _userId = 0;
 
         public IEnumerable<User> GetAll()
         {
@@ -25,7 +24,7 @@ namespace PromptCloudNotes.InMemoryRepo
         public void Create(User user)
         {
             _users.Add(user);
-            user.UniqueId = (++_userId).ToString();
+            user.UniqueId = Guid.NewGuid().ToString();
         }
 
         public User Get(string provider, string nameIdentifier)
