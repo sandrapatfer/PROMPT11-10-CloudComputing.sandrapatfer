@@ -9,7 +9,7 @@
 
 @using (Html.BeginForm("Approval", "OAuth2")) {
     
-    <input type="hidden" value="@Model" name="client_id" />
+    <input type="hidden" value="@Model" name="request_info" />
     
     <input type="submit" value="Allow access" class="btn" />
     

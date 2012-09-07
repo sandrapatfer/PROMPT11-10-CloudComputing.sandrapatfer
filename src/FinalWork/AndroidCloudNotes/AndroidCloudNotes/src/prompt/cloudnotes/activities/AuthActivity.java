@@ -1,10 +1,18 @@
 package prompt.cloudnotes.activities;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+
 import prompt.cloudnotes.CloudNotesApp;
 import prompt.cloudnotes.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -33,8 +41,8 @@ public class AuthActivity extends Activity {
         
         webView.getSettings().setJavaScriptEnabled(true);
         
-        // TODO read from preferences
-        webView.loadUrl(CloudNotesApp.WEB_APP_URL + "/OAuth2/Auth?response_type=code&client_id=androidcloudnotes");
+        webView.loadUrl(CloudNotesApp.WEB_APP_URL + "/OAuth2/Auth?response_type=code&client_id="
+        + CloudNotesApp.CLIENT_ID + "&redirect_uri=" + CloudNotesApp.WEB_APP_REDIRECT_URI);
         
         webView.setWebChromeClient(new WebChromeClient() {
         	
@@ -55,28 +63,25 @@ public class AuthActivity extends Activity {
 				
 				Log.d(CloudNotesApp.TAG, "Page completed: " + url);
 				
-				if (url.toLowerCase().contains("approval")) {
-					CookieSyncManager.getInstance().sync();
-					// Get the code cookie
-					String cookie = CookieManager.getInstance().getCookie(url);
-					if (cookie != null) {
-						// Cookie is a string like NAME=VALUE [; NAME=VALUE]
-						String[] pairs = cookie.split(";");
-						for (String pair : pairs) {
-							String[] parts = pair.split("=", 2);
-							if (parts.length == 2 && parts[0].trim().equalsIgnoreCase("code")) {
-								Log.d(CloudNotesApp.TAG, "code: " + parts[1]);
-								
-								Intent result = new Intent();
-								result.putExtra(CloudNotesApp.CODE_TAG, parts[1].trim());
-								setResult(RESULT_OK, result);
-								finish();
-								return;
-							}
-						}
-					}
+				if (url.toLowerCase().startsWith(CloudNotesApp.WEB_APP_REDIRECT_URI)) {
 					
-					Log.e(CloudNotesApp.TAG, "Cookie not found in URL");
+					try {
+						List<NameValuePair> parts = URLEncodedUtils.parse(new URI(url), null);
+						String pairName = parts.get(0).getName(); 
+						if (pairName.contentEquals("code")) {
+							Log.d(CloudNotesApp.TAG, "code: " + parts.get(0).getValue());
+							
+							Intent result = new Intent();
+							result.putExtra(CloudNotesApp.CODE_TAG, parts.get(0).getValue().trim());
+							setResult(RESULT_OK, result);
+							finish();
+							return;
+							
+						}
+					} catch (URISyntaxException e) { 
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}					
 				}
 				else if (url.toLowerCase().contains("notapproved")) {
 					// TODO show a pop up error to the user
@@ -98,12 +103,11 @@ public class AuthActivity extends Activity {
 			public void onReceivedError(WebView view, int errorCode,
 					String description, String failingUrl) {
 				super.onReceivedError(view, errorCode, description, failingUrl);
-	
-				// TODO show a pop up error to the user
-				Log.d(CloudNotesApp.TAG, "ERROR authenticating, closing activity");
-				Intent result = new Intent();
-				setResult(RESULT_CANCELED, result);
-				finish();
+				
+				if (failingUrl.startsWith("http://localhost")) {
+					failingUrl = failingUrl.replace("http://localhost", "http://10.0.2.2");
+					view.loadUrl(failingUrl);
+				}
 			}
         });		
 	}

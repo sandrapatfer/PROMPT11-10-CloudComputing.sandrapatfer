@@ -8,9 +8,11 @@ namespace Server.Utils
 {
     public class UserIdentity : GenericIdentity
     {
-        public UserIdentity()
-            : base("")
-        { }
+        public UserIdentity(string userId)
+            : base(userId)
+        {
+            UserId = userId;
+        }
 
         public string UserId { get; set; }
     }

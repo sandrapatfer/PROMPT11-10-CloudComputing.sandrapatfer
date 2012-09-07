@@ -33,7 +33,7 @@ namespace Server.Utils
                         });
                 }*/
 
-                var identity = new UserIdentity() { UserId = token.User };
+                var identity = new UserIdentity(token.User);
                 request.Properties[HttpPropertyKeys.UserPrincipalKey] = new GenericPrincipal(identity, null);
             }
             return base.SendAsync(request, cancellationToken);

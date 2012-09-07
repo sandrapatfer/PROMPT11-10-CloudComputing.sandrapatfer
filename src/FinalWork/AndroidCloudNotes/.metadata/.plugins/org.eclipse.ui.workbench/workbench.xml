@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workbench progressCount="21" version="2.0">
 <workbenchAdvisor/>
-<window height="1095" width="1798" x="57" y="11">
+<window height="1095" width="1169" x="742" y="19">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -24,13 +24,13 @@
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="com.android.ide.eclipse.editors.CommonXmlEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
-<coolItem id="org.eclipse.jdt.ui.ClassFileEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.jdt.ui.ClassFileEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="com.android.ide.eclipse.editors.layout.LayoutEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
 </coolbarLayout>
-<page aggregateWorkingSetId="Aggregate for window 1338148826601" focus="true" label="Workspace - Java">
+<page aggregateWorkingSetId="Aggregate for window 1338148826601" focus="true" label="Workspace - Debug">
 <editors>
 <editorArea activeWorkbook="DefaultEditorWorkbook">
 <info part="DefaultEditorWorkbook">
@@ -66,6 +66,7 @@
 <part id="27"/>
 <part id="28"/>
 <part id="29"/>
+<part id="30"/>
 </presentation>
 </folder>
 </info>
@@ -75,7 +76,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CloudNotesApp.java" partName="CloudNotesApp.java" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/src/prompt/cloudnotes/CloudNotesApp.java" title="CloudNotesApp.java" tooltip="AndroidCloudNotes/src/prompt/cloudnotes/CloudNotesApp.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/src/prompt/cloudnotes/CloudNotesApp.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1416" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3888" selectionTopPixel="585"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TaskListsActivity.java" partName="TaskListsActivity.java" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/src/prompt/cloudnotes/activities/TaskListsActivity.java" title="TaskListsActivity.java" tooltip="AndroidCloudNotes/src/prompt/cloudnotes/activities/TaskListsActivity.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/src/prompt/cloudnotes/activities/TaskListsActivity.java"/>
@@ -131,16 +132,13 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GetInfoService.java" partName="GetInfoService.java" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/src/prompt/cloudnotes/services/GetInfoService.java" title="GetInfoService.java" tooltip="AndroidCloudNotes/src/prompt/cloudnotes/services/GetInfoService.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/src/prompt/cloudnotes/services/GetInfoService.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2638" selectionTopPixel="433"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2120" selectionTopPixel="610"/>
 </editor>
 <editor id="com.android.ide.eclipse.editors.CommonXmlEditor" name="strings.xml" partName="strings.xml" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/res/values/strings.xml" title="strings.xml" tooltip="AndroidCloudNotes/res/values/strings.xml" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/res/values/strings.xml"/>
 </editor>
 <editor id="com.android.ide.eclipse.editors.CommonXmlEditor" name="tasklist_list_view.xml" partName="tasklist_list_view.xml" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/res/layout/tasklist_list_view.xml" title="tasklist_list_view.xml" tooltip="AndroidCloudNotes/res/layout/tasklist_list_view.xml" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/res/layout/tasklist_list_view.xml"/>
-</editor>
-<editor id="com.android.ide.eclipse.editors.CommonXmlEditor" name="tasklist_list_view_item.xml" partName="tasklist_list_view_item.xml" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/res/layout/tasklist_list_view_item.xml" title="tasklist_list_view_item.xml" tooltip="AndroidCloudNotes/res/layout/tasklist_list_view_item.xml" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/res/layout/tasklist_list_view_item.xml"/>
 </editor>
 <editor id="com.android.ide.eclipse.editors.CommonXmlEditor" name="tasklist_view.xml" partName="tasklist_view.xml" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/res/layout/tasklist_view.xml" title="tasklist_view.xml" tooltip="AndroidCloudNotes/res/layout/tasklist_view.xml" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/res/layout/tasklist_view.xml"/>
@@ -162,7 +160,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AuthActivity.java" partName="AuthActivity.java" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/src/prompt/cloudnotes/activities/AuthActivity.java" title="AuthActivity.java" tooltip="AndroidCloudNotes/src/prompt/cloudnotes/activities/AuthActivity.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/src/prompt/cloudnotes/activities/AuthActivity.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3284" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2092" selectionTopPixel="570"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Utils.java" partName="Utils.java" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/src/prompt/cloudnotes/Utils.java" title="Utils.java" tooltip="AndroidCloudNotes/src/prompt/cloudnotes/Utils.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/src/prompt/cloudnotes/Utils.java"/>
@@ -179,6 +177,13 @@
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TaskListProvider.java" partName="TaskListProvider.java" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/src/prompt/cloudnotes/providers/TaskListProvider.java" title="TaskListProvider.java" tooltip="AndroidCloudNotes/src/prompt/cloudnotes/providers/TaskListProvider.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/src/prompt/cloudnotes/providers/TaskListProvider.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2900" selectionTopPixel="877"/>
+</editor>
+<editor id="com.android.ide.eclipse.editors.CommonXmlEditor" name="strings.xml" partName="strings.xml" path="H:/SPF/PROMPT11/PROMPT11-10-CloudComputing.sandrapatfer/src/FinalWork/AndroidCloudNotes/AndroidCloudNotes/res/values/strings.xml" title="strings.xml" tooltip="AndroidCloudNotes/res/values/strings.xml" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AndroidCloudNotes/res/values/strings.xml"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.ClassFileEditor" name="IntentService.class" partName="IntentService.class" title="IntentService.class" tooltip="android.app.IntentService" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" org.eclipse.jdt.ui.ClassFileIdentifier="=AndroidCloudNotes/C:\/Program Files \(x86)\/Android\/android-sdk\/platforms\/android-10\/android.jar&lt;android.app(IntentService.class"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
@@ -197,9 +202,7 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Warnings"/>
-<category IMemento.internal.id="Errors"/>
+<expanded>&#x0A;<category IMemento.internal.id="Warnings (21 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -267,7 +270,7 @@
 </view>
 <view id="org.eclipse.jdt.ui.JavadocView" partName="Javadoc"/>
 </views>
-<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.debug.ui.DebugPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jdt.internal.ui.JavaPerspectiveFactory" id="org.eclipse.jdt.ui.JavaPerspective" label="Java"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -356,7 +359,7 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info part="org.eclipse.ui.editorss" ratio="0.18915866" ratioLeft="335" ratioRight="1436" relationship="2" relative="left"/>
+<info part="org.eclipse.ui.editorss" ratio="0.2609457" ratioLeft="298" ratioRight="844" relationship="2" relative="left"/>
 <info folder="true" part="bottom" ratio="0.7662204" ratioLeft="744" ratioRight="227" relationship="4" relative="org.eclipse.ui.editorss">
 <folder activePageID="com.android.ide.eclipse.ddms.views.LogCatView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
@@ -453,7 +456,7 @@
 </folder>
 </info>
 <info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.7363543" ratioLeft="715" ratioRight="256" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="com.android.ide.eclipse.ddms.views.LogCatView" appearance="2" expanded="2">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="com.android.ide.eclipse.ddms.views.LogCatView" label="LogCat"/>
@@ -501,161 +504,160 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AndroidCloudNotes/src/prompt/cloudnotes/services/GetInfoService.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AndroidCloudNotes/src/prompt/cloudnotes/stores/TaskListStore.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AndroidCloudNotes/src/prompt/cloudnotes/activities/TaskListsActivity.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AndroidCloudNotes/src/prompt/cloudnotes/CloudNotesApp.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AndroidCloudNotes/src/prompt/cloudnotes/activities/AuthActivity.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AndroidCloudNotes/src/prompt/cloudnotes/CloudNotesApp.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AndroidCloudNotes/src/prompt/cloudnotes/services/GetInfoService.java"/>
+<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=AndroidCloudNotes/C:\/Program Files \(x86)\/Android\/android-sdk\/platforms\/android-10\/android.jar&lt;android.app(IntentService.class"/>
 </editors>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1215" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2731" y="0"/>
 </item>
-<item historyLabel="CloudNotesApp.java" index="3">
-<position info="not_deleted" x="1963" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2092" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="2248" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2630" y="0"/>
 </item>
-<item historyLabel="CloudNotesApp.java" index="3">
-<position info="not_deleted" x="1963" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2212" y="0"/>
 </item>
-<item historyLabel="TaskListStore.java" index="1">
-<position info="not_deleted" x="820" y="41"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2212" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="2248" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2543" y="0"/>
 </item>
-<item historyLabel="TaskListStore.java" index="1">
-<position info="not_deleted" x="943" y="20"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2092" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="2576" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2170" y="0"/>
 </item>
-<item historyLabel="CloudNotesApp.java" index="3">
-<position info="not_deleted" x="1564" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2630" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1851" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2683" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="2900" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="4196" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="2970" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="3391" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="2137" y="0"/>
-</item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1851" y="0"/>
-</item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="2900" y="0"/>
-</item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="2898" y="0"/>
-</item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1701" y="0"/>
-</item>
-<item historyLabel="TaskListsActivity.java" index="2">
-<position info="not_deleted" x="4566" y="0"/>
-</item>
-<item historyLabel="GetInfoService.java" index="0">
+<item historyLabel="AuthActivity.java" index="0">
 <position/>
 </item>
-<item historyLabel="CloudNotesApp.java" index="3">
-<position info="not_deleted" x="1564" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="3470" y="0"/>
 </item>
-<item historyLabel="CloudNotesApp.java" index="3">
-<position info="not_deleted" x="4211" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="3504" y="0"/>
 </item>
-<item historyLabel="CloudNotesApp.java" index="3">
-<position info="not_deleted" x="3509" y="0"/>
+<item historyLabel="CloudNotesApp.java" index="1">
+<position info="not_deleted" x="3888" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1542" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="1492" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1607" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position/>
 </item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="2406" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2092" y="0"/>
 </item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3284" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2220" y="0"/>
 </item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="1498" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position/>
 </item>
-<item historyLabel="TaskListStore.java" index="1">
-<position info="not_deleted" x="943" y="20"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2676" y="0"/>
 </item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3357" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2669" y="0"/>
 </item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="880" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2092" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1638" y="0"/>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2170" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2220" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2218" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2963" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2261" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2092" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2786" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2170" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2220" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2265" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2344" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2382" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2463" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2501" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2963" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2963" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2819" y="20"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position/>
+</item>
+<item historyLabel="GetInfoService.java" index="2">
+<position info="not_deleted" x="1205" y="0"/>
+</item>
+<item historyLabel="AuthActivity.java" index="0">
+<position info="not_deleted" x="2092" y="0"/>
+</item>
+<item historyLabel="GetInfoService.java" index="2">
 <position info="not_deleted" x="1427" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1645" y="0"/>
+<item historyLabel="GetInfoService.java" index="2">
+<position info="not_deleted" x="1407" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1485" y="0"/>
+<item historyLabel="IntentService.class" index="3">
+<position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1427" y="0"/>
-</item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1485" y="0"/>
-</item>
-<item historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1607" y="0"/>
-</item>
-<item historyLabel="CloudNotesApp.java" index="3">
-<position info="not_deleted" x="1416" y="0"/>
-</item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3284" y="0"/>
-</item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3431" y="0"/>
-</item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3284" y="0"/>
-</item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3467" y="0"/>
-</item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3284" y="0"/>
-</item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3476" y="0"/>
-</item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3284" y="0"/>
-</item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3452" y="0"/>
-</item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3284" y="0"/>
-</item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3355" y="0"/>
-</item>
-<item historyLabel="AuthActivity.java" index="4">
-<position info="not_deleted" x="3284" y="0"/>
-</item>
-<item active="true" historyLabel="GetInfoService.java" index="0">
-<position info="not_deleted" x="1607" y="0"/>
+<item active="true" historyLabel="GetInfoService.java" index="2">
+<position info="not_deleted" x="1407" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -674,6 +676,15 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="IntentService.class" tooltip="android.app.IntentService">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=AndroidCloudNotes/C:\/Program Files \(x86)\/Android\/android-sdk\/platforms\/android-10\/android.jar&lt;android.app(IntentService.class"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="Pattern.class" tooltip="java.util.regex.Pattern">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=AndroidCloudNotes/C:\/Program Files \(x86)\/Android\/android-sdk\/platforms\/android-10\/android.jar&lt;java.util.regex(Pattern.class"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.CommonXmlEditor" name="strings.xml" tooltip="AndroidCloudNotes/res/values/strings.xml">
+<persistable path="/AndroidCloudNotes/res/values/strings.xml"/>
+</file>
 <file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="ContentUris.class" tooltip="android.content.ContentUris">
 <persistable org.eclipse.jdt.ui.ClassFileIdentifier="=AndroidCloudNotes/C:\/Program Files \(x86)\/Android\/android-sdk\/platforms\/android-10\/android.jar&lt;android.content(ContentUris.class"/>
 </file>
@@ -709,15 +720,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.CommonXmlEditor" name="web_view.xml" tooltip="AndroidCloudNotes/res/layout/web_view.xml">
 <persistable path="/AndroidCloudNotes/res/layout/web_view.xml"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.CommonXmlEditor" name="note_view.xml" tooltip="AndroidCloudNotes/res/layout/note_view.xml">
-<persistable path="/AndroidCloudNotes/res/layout/note_view.xml"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.CommonXmlEditor" name="notes_list_view_item.xml" tooltip="AndroidCloudNotes/res/layout/notes_list_view_item.xml">
-<persistable path="/AndroidCloudNotes/res/layout/notes_list_view_item.xml"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.CommonXmlEditor" name="notes_list_view.xml" tooltip="AndroidCloudNotes/res/layout/notes_list_view.xml">
-<persistable path="/AndroidCloudNotes/res/layout/notes_list_view.xml"/>
 </file>
 </mruList>
 </workbench>

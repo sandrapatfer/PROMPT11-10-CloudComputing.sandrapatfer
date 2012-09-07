@@ -28,20 +28,27 @@ namespace Server.Controllers
             {
                 throw new HttpException(400, "Invalid request");
             }
-            if (client_id != "androidcloudnotes")
+            if (client_id != "androidcloudnotes" ||
+                redirect_uri != "http://androidcloudnotes.net")
             {
                 throw new HttpException(404, "Client application not found");
             }
-            // TODO save info about this user already approving the access?
 
-            return View((object)client_id);
+            // TODO save info about this user already approving the access?
+            // TODO set info in base64? 
+
+            return View((object)(client_id+"_"+redirect_uri));
         }
 
         //
         // POST: /OAuth2/Approval
         [HttpPost]
-        public ActionResult Approval(string client_id, string redirect_uri)
+        public ActionResult Approval(string request_info)
         {
+            var parts = request_info.Split(new char[] { '_' });
+            var client_id = parts[0];
+            var redirect_uri = parts[1];
+
             if (client_id != "androidcloudnotes")
             {
                 throw new HttpException(404, "Client application not found");
@@ -54,11 +61,8 @@ namespace Server.Controllers
             {
                 return new RedirectResult(string.Format("{0}?code={1}", redirect_uri, code.Code));
             }
-            else
-            {
-                Response.Cookies.Add(new HttpCookie("code", code.Code));
-                return new ContentResult();
-            }
+
+            throw new HttpException(400, "Invalid request");
         }
 
         //
